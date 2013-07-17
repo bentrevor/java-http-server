@@ -98,12 +98,29 @@ public class ServerTest {
         clientSocket.close();
     }
 
+    @Test
+    public void itReturns404ForUnknownRoutes() throws IOException {
+        connectClientToServerOnPort(5000);
+
+        PrintWriter clientOutput = new PrintWriter(clientSocket.getOutputStream(), true);
+        BufferedReader clientInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        clientOutput.println("GET /foobar HTTP/1.1");
+        myServer.respondToRequests();
+        String response = clientInput.readLine();
+
+        assertThat(response, containsString("404"));
+
+        clientOutput.close();
+        clientInput.close();
+        myServer.clientSocket.close();
+        clientSocket.close();
+    }
+
     private void connectClientToServerOnPort(int port) throws IOException {
         myServer.listenOnPort(port);
-
         clientSocket = new Socket();
         clientSocket.connect(myServer.serverSocket.getLocalSocketAddress());
-
         myServer.acceptConnections();
     }
 }

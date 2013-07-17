@@ -1,9 +1,6 @@
 package bent.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -32,6 +29,12 @@ public class Server {
     public void respondToRequests() throws IOException {
         request = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         response = new PrintWriter(clientSocket.getOutputStream(), true);
-        response.println("HTTP/1.1 200 OK");
+        String firstLine = request.readLine();
+        String path = firstLine.split(" ")[1];
+        if (path.equals("/")) {
+            response.println("HTTP/1.1 200 OK");
+        } else {
+            response.println("HTTP/1.1 404 Not Found");
+        }
     }
 }
