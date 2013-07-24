@@ -28,12 +28,8 @@ public class Server {
     }
 
     public void readRequest() throws IOException {
-        InputStream inputStream = clientConnection.getInputStream();
-
-        int length = inputStream.available();
-        for (int i = 0; i < length; i++) {
-            request += (char) inputStream.read();
-        }
+        RequestHandler handler = new RequestHandler(clientConnection);
+        request = handler.readRequest();
     }
 
     public void sendResponse(String response) throws IOException {

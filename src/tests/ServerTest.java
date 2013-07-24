@@ -2,8 +2,8 @@ package tests;
 
 import bent.server.sockets.MockServerSocket;
 import bent.server.Server;
-
 import bent.server.sockets.MockSocket;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
