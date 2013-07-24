@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class MockServerSocket implements IServerSocket {
     public int acceptCallCount = 0;
-    public ISocket socketToReturn = null;
+    public ISocket createdClientConnection = null;
 
     public ISocket accept() throws IOException {
         acceptCallCount++;
@@ -13,7 +13,7 @@ public class MockServerSocket implements IServerSocket {
             throw new IOException();
         }
 
-        return socketToReturn;
+        return createdClientConnection;
     }
 
     public boolean isClosed() {
