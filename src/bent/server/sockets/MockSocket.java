@@ -14,4 +14,9 @@ public class MockSocket implements ISocket {
     public OutputStream getOutputStream() {
         return fakeOutputStream;
     }
+
+    public void close() {
+        fakeInputStream = null;
+        fakeOutputStream = null;
+    }
 }

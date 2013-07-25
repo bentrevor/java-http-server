@@ -19,4 +19,8 @@ public class RealSocket implements ISocket {
     public OutputStream getOutputStream() throws IOException {
         return socket.getOutputStream();
     }
+
+    public void close() throws IOException {
+        socket.close();
+    }
 }

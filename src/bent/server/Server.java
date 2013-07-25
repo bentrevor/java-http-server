@@ -11,7 +11,7 @@ public class Server {
     public IServerSocket serverSocket = null;
     public ISocket clientConnection = null;
     public String request = "";
-    public String lastResponse = "";
+    public String response = "";
 
     public Server(IServerSocket socket) {
         serverSocket = socket;
@@ -21,6 +21,8 @@ public class Server {
         try {
             while (!serverSocket.isClosed()) {
                 clientConnection = serverSocket.accept();
+                readRequest();
+                sendResponse();
             }
         } catch (IOException e) {
             System.out.println(e + " in Server.start()");
@@ -32,10 +34,9 @@ public class Server {
         request = handler.readRequest();
     }
 
-    public void sendResponse(String response) throws IOException {
-        this.lastResponse = response;
-        OutputStream outputStream = clientConnection.getOutputStream();
-
-        outputStream.write(response.getBytes(), 0, response.getBytes().length);
+    public void sendResponse() throws IOException {
+        ResponseHandler handler = new ResponseHandler(clientConnection);
+        handler.sendResponse(response);
+        response = "";
     }
 }

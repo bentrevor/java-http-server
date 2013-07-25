@@ -7,4 +7,6 @@ import java.io.OutputStream;
 public interface ISocket {
     public InputStream getInputStream() throws IOException;
     public OutputStream getOutputStream() throws IOException;
+
+    public void close() throws IOException;
 }
