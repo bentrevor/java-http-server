@@ -1,4 +1,6 @@
-package bent.server.sockets;
+package tests.mocks;
+
+import bent.server.sockets.ISocket;
 
 import java.io.InputStream;
 import java.io.OutputStream;

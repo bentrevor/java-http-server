@@ -2,12 +2,11 @@ package tests;
 
 import static junit.framework.Assert.*;
 
-import bent.server.IRequestHandler;
 import bent.server.RealRequestHandler;
-import bent.server.sockets.MockSocket;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import tests.mocks.MockSocket;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

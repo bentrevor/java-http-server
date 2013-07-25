@@ -1,8 +1,6 @@
 package tests;
 
-import bent.server.sockets.MockServerSocket;
 import bent.server.Server;
-import bent.server.sockets.MockSocket;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -10,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import tests.mocks.MockRequestHandler;
+import tests.mocks.MockServerSocket;
+import tests.mocks.MockSocket;
 
 import java.io.*;
 

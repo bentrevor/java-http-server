@@ -1,4 +1,7 @@
-package bent.server.sockets;
+package tests.mocks;
+
+import bent.server.sockets.IServerSocket;
+import bent.server.sockets.ISocket;
 
 import java.io.IOException;
 
