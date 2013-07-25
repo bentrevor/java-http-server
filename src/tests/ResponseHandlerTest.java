@@ -14,6 +14,7 @@ import java.io.OutputStream;
 
 @RunWith(JUnit4.class)
 public class ResponseHandlerTest {
+
     @Test
     public void itWritesResponsesToItsClientConnection() throws IOException {
         MockSocket fakeClientConnection = new MockSocket();

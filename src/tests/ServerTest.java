@@ -9,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import tests.mocks.MockRequestHandler;
 
 import java.io.*;
 
@@ -20,11 +21,14 @@ public class ServerTest {
     MockServerSocket fakeServerSocket = null;
     OutputStream fakeOutputStream = null;
     MockSocket fakeClientConnection = null;
+    MockRequestHandler fakeRequestHandler = null;
 
     @Before
     public void setUp() throws IOException {
         fakeServerSocket = new MockServerSocket();
-        myServer = new Server(fakeServerSocket);
+        fakeRequestHandler = new MockRequestHandler();
+
+        myServer = new Server(fakeServerSocket, fakeRequestHandler);
         setUpFakeIO();
     }
 
@@ -35,16 +39,6 @@ public class ServerTest {
         myServer.start();
 
         assertEquals(3, fakeServerSocket.acceptCallCount);
-    }
-
-    @Test
-    public void itReadsFromOpenedClientConnection() throws IOException {
-        InputStream fakeInputStream = new ByteArrayInputStream("peanuts".getBytes());
-        fakeClientConnection.fakeInputStream = fakeInputStream;
-
-        myServer.start();
-
-        assertEquals("peanuts", myServer.request);
     }
 
     @Test
@@ -63,6 +57,15 @@ public class ServerTest {
         myServer.start();
 
         assertEquals(3, fakeClientConnection.closeCallCount);
+    }
+
+    @Test
+    public void itTellsARequestHandlerToHandleRequest() {
+        fakeServerSocket.maxAccepts = 3;
+
+        myServer.start();
+
+        assertEquals(3, fakeRequestHandler.handleRequestCount);
     }
 
     private void setUpFakeIO() {

@@ -9,7 +9,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(5000);
-        Server myServer = new Server(new RealServerSocket(serverSocket));
+        RealRequestHandler handler = new RealRequestHandler();
+        Server myServer = new Server(new RealServerSocket(serverSocket), handler);
         myServer.start();
     }
 }

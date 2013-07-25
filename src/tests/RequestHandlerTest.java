@@ -2,7 +2,8 @@ package tests;
 
 import static junit.framework.Assert.*;
 
-import bent.server.RequestHandler;
+import bent.server.IRequestHandler;
+import bent.server.RealRequestHandler;
 import bent.server.sockets.MockSocket;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,14 +15,17 @@ import java.io.InputStream;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
+
     @Test
     public void itReadsRequestsFromItsClientConnection() throws IOException {
         MockSocket fakeClientConnection = new MockSocket();
-        InputStream fakeInputStream = new ByteArrayInputStream("hello".getBytes());
+        InputStream fakeInputStream = new ByteArrayInputStream("peanuts".getBytes());
         fakeClientConnection.fakeInputStream = fakeInputStream;
 
-        RequestHandler handler = new RequestHandler(fakeClientConnection);
+        RealRequestHandler handler = new RealRequestHandler();
+        handler.setClientConnection(fakeClientConnection);
+        handler.handleRequest();
 
-        assertEquals("hello", handler.readRequest());
+        assertEquals("peanuts", handler.request);
     }
 }
