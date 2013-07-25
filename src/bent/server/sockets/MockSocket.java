@@ -6,6 +6,7 @@ import java.io.OutputStream;
 public class MockSocket implements ISocket {
     public InputStream fakeInputStream = null;
     public OutputStream fakeOutputStream = null;
+    public int closeCallCount = 0;
 
     public InputStream getInputStream() {
         return fakeInputStream;
@@ -16,7 +17,6 @@ public class MockSocket implements ISocket {
     }
 
     public void close() {
-        fakeInputStream = null;
-        fakeOutputStream = null;
+        closeCallCount++;
     }
 }

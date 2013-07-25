@@ -56,6 +56,15 @@ public class ServerTest {
         assertEquals("hello there", fakeOutputStream.toString());
     }
 
+    @Test
+    public void itClosesTheClientConnectionAfterResponding() {
+        fakeServerSocket.maxAccepts = 3;
+
+        myServer.start();
+
+        assertEquals(3, fakeClientConnection.closeCallCount);
+    }
+
     private void setUpFakeIO() {
         fakeClientConnection = new MockSocket();
         fakeOutputStream = new ByteArrayOutputStream();

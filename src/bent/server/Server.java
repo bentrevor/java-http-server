@@ -25,7 +25,7 @@ public class Server {
                 readRequest();
                 //response = "HTTP/1.1 200 OK\nContent-Length: 0\nContent-Type: text/plain\n\n";
                 sendResponse();
-                //clientConnection.close();
+                clientConnection.close();
             }
         } catch (IOException e) {
             System.out.println(e + " in Server.start()");
