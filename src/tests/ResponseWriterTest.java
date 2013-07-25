@@ -2,7 +2,7 @@ package tests;
 
 import static junit.framework.Assert.*;
 
-import bent.server.RealResponseWriter;
+import bent.server.ResponseWriter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -21,7 +21,7 @@ public class ResponseWriterTest {
         OutputStream fakeOutputStream = new ByteArrayOutputStream();
         fakeClientConnection.fakeOutputStream = fakeOutputStream;
 
-        RealResponseWriter responder = new RealResponseWriter();
+        ResponseWriter responder = new ResponseWriter();
         responder.setClientConnection(fakeClientConnection);
 
         responder.sendResponse("hi");

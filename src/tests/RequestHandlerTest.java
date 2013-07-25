@@ -2,7 +2,7 @@ package tests;
 
 import static junit.framework.Assert.*;
 
-import bent.server.RealRequestHandler;
+import bent.server.RequestHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import java.io.InputStream;
 public class RequestHandlerTest {
     MockResponseWriter fakeResponseWriter = null;
     MockSocket fakeClientConnection = null;
-    RealRequestHandler handler = null;
+    RequestHandler handler = null;
 
     @Before
     public void setUp() {
@@ -27,7 +27,7 @@ public class RequestHandlerTest {
         InputStream fakeInputStream = new ByteArrayInputStream("peanuts".getBytes());
         fakeClientConnection.fakeInputStream = fakeInputStream;
         fakeResponseWriter = new MockResponseWriter();
-        handler = new RealRequestHandler(fakeResponseWriter);
+        handler = new RequestHandler(fakeResponseWriter);
         handler.setClientConnection(fakeClientConnection);
     }
 

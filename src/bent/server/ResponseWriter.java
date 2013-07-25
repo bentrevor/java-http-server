@@ -5,7 +5,7 @@ import bent.server.sockets.ISocket;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class RealResponseWriter implements IResponseWriter {
+public class ResponseWriter implements IResponseWriter {
     public ISocket clientConnection = null;
 
     public void respondTo(String request) {

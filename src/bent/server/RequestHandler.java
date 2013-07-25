@@ -5,12 +5,12 @@ import bent.server.sockets.ISocket;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class RealRequestHandler implements IRequestHandler {
+public class RequestHandler implements IRequestHandler {
     public ISocket clientConnection = null;
     public String request = "";
     public IResponseWriter responder = null;
 
-    public RealRequestHandler(IResponseWriter responder) {
+    public RequestHandler(IResponseWriter responder) {
         this.responder = responder;
     }
 
