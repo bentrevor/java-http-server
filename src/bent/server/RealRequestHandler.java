@@ -8,6 +8,11 @@ import java.io.InputStream;
 public class RealRequestHandler implements IRequestHandler {
     public ISocket clientConnection = null;
     public String request = "";
+    public IResponseWriter responder = null;
+
+    public RealRequestHandler(IResponseWriter responder) {
+        this.responder = responder;
+    }
 
     public void handleRequest() throws IOException {
         InputStream inputStream = clientConnection.getInputStream();
@@ -19,6 +24,8 @@ public class RealRequestHandler implements IRequestHandler {
         }
 
         request = currentRequest;
+
+        responder.respondTo(request);
     }
 
     public void setClientConnection(ISocket socket) {

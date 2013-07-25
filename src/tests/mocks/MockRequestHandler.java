@@ -6,7 +6,6 @@ import bent.server.sockets.ISocket;
 import java.io.IOException;
 
 public class MockRequestHandler implements IRequestHandler {
-    public String request = null;
     public ISocket clientConnection = null;
     public int handleRequestCount = 0;
 

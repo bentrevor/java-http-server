@@ -5,10 +5,13 @@ import bent.server.sockets.ISocket;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class ResponseHandler {
+public class RealResponseWriter implements IResponseWriter {
     public ISocket clientConnection = null;
 
-    public ResponseHandler(ISocket clientConnection) {
+    public void respondTo(String request) {
+    }
+
+    public void setClientConnection(ISocket clientConnection) {
         this.clientConnection = clientConnection;
     }
 

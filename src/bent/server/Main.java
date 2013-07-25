@@ -8,9 +8,14 @@ import java.net.ServerSocket;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(5000);
-        RealRequestHandler handler = new RealRequestHandler();
-        Server myServer = new Server(new RealServerSocket(serverSocket), handler);
+        ServerSocket socketOn5000 = new ServerSocket(5000);
+        RealServerSocket serverSocket = new RealServerSocket(socketOn5000);
+
+        RealResponseWriter responder = new RealResponseWriter();
+        RealRequestHandler handler = new RealRequestHandler(responder);
+
+        Server myServer = new Server(serverSocket, handler);
+
         myServer.start();
     }
 }

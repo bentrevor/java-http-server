@@ -42,12 +42,12 @@ public class ServerTest {
     }
 
     @Test
-    public void itWritesToAnOpenedConnection() throws IOException {
-        myServer.response = "hello there";
+    public void itTellsARequestHandlerToHandleRequest() {
+        fakeServerSocket.maxAccepts = 3;
 
         myServer.start();
 
-        assertEquals("hello there", fakeOutputStream.toString());
+        assertEquals(3, fakeRequestHandler.handleRequestCount);
     }
 
     @Test
@@ -57,15 +57,6 @@ public class ServerTest {
         myServer.start();
 
         assertEquals(3, fakeClientConnection.closeCallCount);
-    }
-
-    @Test
-    public void itTellsARequestHandlerToHandleRequest() {
-        fakeServerSocket.maxAccepts = 3;
-
-        myServer.start();
-
-        assertEquals(3, fakeRequestHandler.handleRequestCount);
     }
 
     private void setUpFakeIO() {

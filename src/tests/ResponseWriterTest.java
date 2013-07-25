@@ -2,7 +2,7 @@ package tests;
 
 import static junit.framework.Assert.*;
 
-import bent.server.ResponseHandler;
+import bent.server.RealResponseWriter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @RunWith(JUnit4.class)
-public class ResponseHandlerTest {
+public class ResponseWriterTest {
 
     @Test
     public void itWritesResponsesToItsClientConnection() throws IOException {
@@ -21,9 +21,10 @@ public class ResponseHandlerTest {
         OutputStream fakeOutputStream = new ByteArrayOutputStream();
         fakeClientConnection.fakeOutputStream = fakeOutputStream;
 
-        ResponseHandler handler = new ResponseHandler(fakeClientConnection);
+        RealResponseWriter responder = new RealResponseWriter();
+        responder.setClientConnection(fakeClientConnection);
 
-        handler.sendResponse("hi");
+        responder.sendResponse("hi");
 
         assertEquals("hi", fakeOutputStream.toString());
     }
