@@ -19,6 +19,7 @@ public class ServerTest {
     Server myServer = null;
     MockServerSocket fakeServerSocket = null;
     OutputStream fakeOutputStream = null;
+    MockSocket fakeClientConnection = null;
 
     @Before
     public void setUp() throws IOException {
@@ -38,21 +39,25 @@ public class ServerTest {
 
     @Test
     public void itReadsFromOpenedClientConnection() throws IOException {
+        InputStream fakeInputStream = new ByteArrayInputStream("peanuts".getBytes());
+        fakeClientConnection.fakeInputStream = fakeInputStream;
+
         myServer.start();
 
-        assertEquals("hello", myServer.request);
+        assertEquals("peanuts", myServer.request);
     }
 
     @Test
     public void itWritesToAnOpenedConnection() throws IOException {
         myServer.response = "hello there";
+
         myServer.start();
 
         assertEquals("hello there", fakeOutputStream.toString());
     }
 
     private void setUpFakeIO() {
-        MockSocket fakeClientConnection = new MockSocket();
+        fakeClientConnection = new MockSocket();
         fakeOutputStream = new ByteArrayOutputStream();
         InputStream fakeInputStream = new ByteArrayInputStream("hello".getBytes());
         fakeClientConnection.fakeInputStream = fakeInputStream;

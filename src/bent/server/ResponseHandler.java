@@ -4,6 +4,7 @@ import bent.server.sockets.ISocket;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 public class ResponseHandler {
     public ISocket clientConnection = null;
@@ -15,6 +16,7 @@ public class ResponseHandler {
     public void sendResponse(String response) throws IOException {
         OutputStream outputStream = clientConnection.getOutputStream();
 
-        outputStream.write(response.getBytes(), 0, response.getBytes().length);
+        outputStream.write(response.getBytes());
+        outputStream.flush();
     }
 }
