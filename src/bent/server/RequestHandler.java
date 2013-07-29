@@ -30,5 +30,6 @@ public class RequestHandler implements IRequestHandler {
 
     public void setClientConnection(ISocket socket) {
         clientConnection = socket;
+        responder.setClientConnection(socket);
     }
 }
