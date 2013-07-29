@@ -4,13 +4,14 @@ import bent.server.sockets.ISocket;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Hashtable;
 
 public class ResponseWriter implements IResponseWriter {
     public ISocket clientConnection = null;
     public String response = "";
 
-    public void respondTo(String request) throws IOException {
-        String path = request.split(" ")[1];
+    public void respondTo(Hashtable<String, String> request) throws IOException {
+        String path = request.get("Request-URI");
 
         if (path.equals("/foobar")) {
             response = "HTTP/1.1 404 Not Found\nContent-Length: 0\nContent-Type: text/plain\n\n\n\n";

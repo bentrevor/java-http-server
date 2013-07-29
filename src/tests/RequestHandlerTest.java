@@ -13,6 +13,7 @@ import tests.mocks.MockSocket;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Hashtable;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
@@ -24,7 +25,7 @@ public class RequestHandlerTest {
     public void setUp() {
         fakeResponseWriter = new MockResponseWriter();
         fakeClientConnection = new MockSocket();
-        InputStream fakeInputStream = new ByteArrayInputStream("peanuts".getBytes());
+        InputStream fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1".getBytes());
         fakeClientConnection.fakeInputStream = fakeInputStream;
         fakeResponseWriter = new MockResponseWriter();
         handler = new RequestHandler(fakeResponseWriter);
@@ -35,15 +36,32 @@ public class RequestHandlerTest {
     public void itReadsRequestsFromItsClientConnection() throws IOException {
         handler.handleRequest();
 
-        assertEquals("peanuts", handler.request);
+        Hashtable<String, String> parsedRequest = new Hashtable<String, String>();
+        parsedRequest.put("Method", "GET");
+        parsedRequest.put("Request-URI", "/peanuts");
+        parsedRequest.put("HTTP-Version", "HTTP/1.1");
+
+        assertEquals(parsedRequest, handler.request);
     }
 
     @Test
     public void itTellsAResponseWriterToSendAResponse() throws IOException {
         handler.handleRequest();
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1".getBytes());
         handler.handleRequest();
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1".getBytes());
         handler.handleRequest();
 
         assertEquals(3, fakeResponseWriter.respondToCallCount);
+    }
+
+    @Test
+    public void itSendsTheParsedRequestToTheResponder() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1".getBytes());
+        handler.handleRequest();
+
+        Hashtable<String, String> parsedRequest = fakeResponseWriter.respondToArgument;
+
+        assertEquals("GET", parsedRequest.get("Method"));
     }
 }

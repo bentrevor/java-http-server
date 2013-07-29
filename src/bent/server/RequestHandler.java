@@ -4,10 +4,11 @@ import bent.server.sockets.ISocket;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Hashtable;
 
 public class RequestHandler implements IRequestHandler {
     public ISocket clientConnection = null;
-    public String request = "";
+    public Hashtable<String, String> request = null;
     public IResponseWriter responder = null;
 
     public RequestHandler(IResponseWriter responder) {
@@ -23,7 +24,8 @@ public class RequestHandler implements IRequestHandler {
             currentRequest += (char) inputStream.read();
         }
 
-        request = currentRequest;
+        HttpParser parser = new HttpParser();
+        request = parser.parse(currentRequest);
 
         responder.respondTo(request);
     }
