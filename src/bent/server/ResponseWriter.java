@@ -10,8 +10,8 @@ public class ResponseWriter implements IResponseWriter {
     public ISocket clientConnection = null;
     public String response = "";
 
-    public void respondTo(Hashtable<String, String> request) throws IOException {
-        String path = request.get("Request-URI");
+    public void respondTo(HttpRequest request) throws IOException {
+        String path = request.requestURI;
 
         if (path.equals("/foobar")) {
             response = "HTTP/1.1 404 Not Found\nContent-Length: 0\nContent-Type: text/plain\n\n\n\n";

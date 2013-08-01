@@ -2,6 +2,7 @@ package tests;
 
 import static junit.framework.Assert.*;
 
+import bent.server.HttpRequest;
 import bent.server.ResponseWriter;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,11 +17,11 @@ import java.util.Hashtable;
 
 @RunWith(JUnit4.class)
 public class ResponseWriterTest {
-    Hashtable<String, String> fakeGetRequest = null;
+    public HttpRequest fakeGetRequest = null;
 
     @Before
     public void setUp() {
-        fakeGetRequest = new Hashtable<String, String>();
+        fakeGetRequest = new HttpRequest();
         fakeGetRequest.put("Method", "GET");
         fakeGetRequest.put("Request-URI", "/");
         fakeGetRequest.put("HTTP-Version", "HTTP/1.1");

@@ -10,7 +10,7 @@ import java.util.Hashtable;
 
 public class RequestHandler implements IRequestHandler {
     public ISocket clientConnection = null;
-    public Hashtable<String, String> request = null;
+    public HttpRequest request = null;
     public IResponseWriter responder = null;
 
     public RequestHandler(IResponseWriter responder) {
@@ -36,15 +36,15 @@ public class RequestHandler implements IRequestHandler {
         InputStream inputStream = clientConnection.getInputStream();
 
         StringBuilder out = new StringBuilder();
-        char[] buffer = new char[200];
         Reader in = new InputStreamReader(inputStream, "UTF-8");
 
         while (true) {
-            int bytesRead = in.read(buffer, 0, buffer.length);
-            if (bytesRead < 0) {
+            int byteRead = in.read();
+
+            if (byteRead < 0) {
                 break;
             }
-            out.append(buffer, 0, buffer.length);
+            out.append((char) byteRead);
         }
 
         return out.toString();

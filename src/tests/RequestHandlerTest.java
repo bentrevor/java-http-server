@@ -2,6 +2,7 @@ package tests;
 
 import static junit.framework.Assert.*;
 
+import bent.server.HttpRequest;
 import bent.server.RequestHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,12 +37,14 @@ public class RequestHandlerTest {
     public void itReadsRequestsFromItsClientConnection() throws IOException {
         handler.handleRequest();
 
-        Hashtable<String, String> parsedRequest = new Hashtable<String, String>();
+        HttpRequest parsedRequest = new HttpRequest();
         parsedRequest.put("Method", "GET");
         parsedRequest.put("Request-URI", "/peanuts");
         parsedRequest.put("HTTP-Version", "HTTP/1.1");
 
-        assertEquals(parsedRequest, handler.request);
+        assertEquals(parsedRequest.method, handler.request.method);
+        assertEquals(parsedRequest.httpVersion, handler.request.httpVersion);
+        assertEquals(parsedRequest.requestURI, handler.request.requestURI);
     }
 
     @Test
@@ -60,9 +63,9 @@ public class RequestHandlerTest {
         fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
         handler.handleRequest();
 
-        Hashtable<String, String> parsedRequest = fakeResponseWriter.respondToArgument;
+        HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
 
-        assertEquals("GET", parsedRequest.get("Method"));
+        assertEquals("GET", parsedRequest.method);
     }
 
     @Test

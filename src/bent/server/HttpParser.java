@@ -3,10 +3,10 @@ package bent.server;
 import java.util.Hashtable;
 
 public class HttpParser {
-    public Hashtable<String, String> parsedRequest = null;
+    public HttpRequest parsedRequest = null;
 
-    public Hashtable<String, String> parse(String request) {
-        parsedRequest = new Hashtable<String, String>();
+    public HttpRequest parse(String request) {
+        parsedRequest = new HttpRequest();
         String headers = request.split("\r\n\r\n")[0];
 
         extractMethodFrom(headers);
