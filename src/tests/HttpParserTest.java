@@ -26,31 +26,31 @@ public class HttpParserTest {
 
     @Test
     public void itTakesAStringAndReturnsAHash() {
-        parser.parse("GET / HTTP/1.1");
+        parser.parse("GET / HTTP/1.1\r\n\r\n");
         assertTrue(parser.parsedRequest instanceof Hashtable);
     }
 
     @Test
-    public void itExtractsTheMethodFromARequest() {
-        parser.parse("GET / HTTP/1.1");
+    public void itExtractsTheMethodFromRequestLine() {
+        parser.parse("GET / HTTP/1.1\r\n\r\n");
         assertEquals("GET", parser.parsedRequest.get("Method"));
 
-        parser.parse("PUT / HTTP/1.1");
+        parser.parse("PUT / HTTP/1.1\r\n\r\n");
         assertEquals("PUT", parser.parsedRequest.get("Method"));
     }
 
     @Test
-    public void itExtractsThePathFromARequest() {
-        parser.parse("GET / HTTP/1.1");
+    public void itExtractsThePathFromRequestLine() {
+        parser.parse("GET / HTTP/1.1\r\n\r\n");
         assertEquals("/", parser.parsedRequest.get("Request-URI"));
 
-        parser.parse("PUT /peanuts HTTP/1.1");
+        parser.parse("PUT /peanuts HTTP/1.1\r\n\r\n");
         assertEquals("/peanuts", parser.parsedRequest.get("Request-URI"));
     }
 
     @Test
-    public void itExtractsTheHttpVersionFromARequest() {
-        parser.parse("GET / HTTP/1.1");
+    public void itExtractsTheHttpVersionFromRequestLine() {
+        parser.parse("GET / HTTP/1.1\r\n\r\n");
         assertEquals("HTTP/1.1", parser.parsedRequest.get("HTTP-Version"));
     }
 
