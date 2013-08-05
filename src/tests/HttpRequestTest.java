@@ -1,6 +1,8 @@
 package tests;
 
 import bent.server.HttpRequest;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -12,9 +14,9 @@ public class HttpRequestTest {
     HttpRequest request = null;
 
     @Test
-    public void itExtractsHeaders() {
+    public void itExtractsTheRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        assertEquals("GET / HTTP/1.1", request.headers);
+        assertEquals("GET / HTTP/1.1", request.requestLine);
     }
 
     @Test
@@ -39,5 +41,21 @@ public class HttpRequestTest {
     public void itExtractsTheHttpVersionFromRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
         assertEquals("HTTP/1.1", request.httpVersion);
+    }
+
+    @Test
+    public void itExcludesRequestLineFromHeaders() {
+        request = new HttpRequest("GET /yo HTTP/1.1\r\nAccept: text/plain\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(request.headers.length, 2);
+    }
+
+    @Test
+    public void itExtractsHeaders() {
+        request = new HttpRequest("GET / HTTP/1.1\r\n" +
+                                  "Accept: text/plain\r\n" +
+                                  "Content-Length: 20\r\n" +
+                                  "\r\n");
+        assertEquals(20, request.contentLength);
+        assertEquals("text/plain", request.accept);
     }
 }
