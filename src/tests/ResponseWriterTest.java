@@ -49,8 +49,8 @@ public class ResponseWriterTest {
 
         responder.respondTo(fakeGetRequest);
 
-        assertEquals("HTTP/1.1 200 OK\nContent-Length: 0\nContent-Type: text/plain\n\n\n\n", responder.response);
-        assertEquals("HTTP/1.1 200 OK\nContent-Length: 0\nContent-Type: text/plain\n\n\n\n", fakeOutputStream.toString());
+        assertEquals("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nContent-Type: text/plain\r\n\r\n", responder.response);
+        assertEquals("HTTP/1.1 200 OK\r\nContent-Length: 0\r\nContent-Type: text/plain\r\n\r\n", fakeOutputStream.toString());
     }
 
     @Test
@@ -65,7 +65,23 @@ public class ResponseWriterTest {
         fakeGetRequest = new HttpRequest("GET /foobar HTTP/1.1\r\n\r\n");
         responder.respondTo(fakeGetRequest);
 
-        assertEquals("HTTP/1.1 404 Not Found\nContent-Length: 0\nContent-Type: text/plain\n\n\n\n", responder.response);
-        assertEquals("HTTP/1.1 404 Not Found\nContent-Length: 0\nContent-Type: text/plain\n\n\n\n", fakeOutputStream.toString());
+        assertEquals("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nContent-Type: text/plain\r\n\r\n", responder.response);
+        assertEquals("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nContent-Type: text/plain\r\n\r\n", fakeOutputStream.toString());
+    }
+
+    @Test
+    public void itHandlesARedirectRoute() throws IOException {
+        MockSocket fakeClientConnection = new MockSocket();
+        OutputStream fakeOutputStream = new ByteArrayOutputStream();
+        fakeClientConnection.fakeOutputStream = fakeOutputStream;
+
+        ResponseWriter responder = new ResponseWriter();
+        responder.setClientConnection(fakeClientConnection);
+
+        fakeGetRequest = new HttpRequest("GET /redirect HTTP/1.1\r\n\r\n");
+        responder.respondTo(fakeGetRequest);
+
+        assertEquals("HTTP/1.1 302 Found\r\nContent-Length: 0\r\nContent-Type: text/plain\r\nLocation: http://localhost:5000/\r\n\r\n", responder.response);
+        assertEquals("HTTP/1.1 302 Found\r\nContent-Length: 0\r\nContent-Type: text/plain\r\nLocation: http://localhost:5000/\r\n\r\n", fakeOutputStream.toString());
     }
 }
