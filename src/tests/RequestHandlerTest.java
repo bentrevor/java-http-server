@@ -15,6 +15,7 @@ import tests.mocks.MockSocket;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 @RunWith(JUnit4.class)
@@ -45,12 +46,11 @@ public class RequestHandlerTest {
         assertEquals(parsedRequest.requestURI, handler.request.requestURI);
     }
 
-    @Ignore
+    @Test
     public void itReadsUntilConsecutiveCRLF() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("1 2 3\r\n\r\n".getBytes());
-        handler.handleRequest();
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("1 2 3\r\n\r\noops!".getBytes());
 
-        assertEquals(0, fakeResponseWriter.respondToCallCount);
+        assertEquals("1 2 3", handler.readFromSocket());
     }
 
     @Test
@@ -72,21 +72,5 @@ public class RequestHandlerTest {
         HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
 
         assertEquals("GET", parsedRequest.method);
-    }
-
-    @Test
-    public void itOnlyParsesRequestsWithConsecutiveNewlines() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("invalid".getBytes());
-        handler.handleRequest();
-
-        assertEquals(0, fakeResponseWriter.respondToCallCount);
-    }
-
-    @Test
-    public void itOnlyParsesTestsWithValidRequestLine() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("invalid\r\n\r\n".getBytes());
-        handler.handleRequest();
-
-        assertEquals(0, fakeResponseWriter.respondToCallCount);
     }
 }

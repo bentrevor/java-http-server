@@ -11,6 +11,8 @@ public class RequestHandler implements IRequestHandler {
     public ISocket clientConnection = null;
     public HttpRequest request = null;
     public IResponseWriter responder = null;
+    public int position = 0;
+    public char[] buffer = new char[255];
 
     public RequestHandler(IResponseWriter responder) {
         this.responder = responder;
@@ -19,10 +21,8 @@ public class RequestHandler implements IRequestHandler {
     public void handleRequest() throws IOException {
         String currentRequest = readFromSocket();
 
-        if (valid(currentRequest)) {
-            request = new HttpRequest(currentRequest);
-            responder.respondTo(request);
-        }
+        request = new HttpRequest(currentRequest);
+        responder.respondTo(request);
     }
 
     public void setClientConnection(ISocket socket) {
@@ -30,28 +30,25 @@ public class RequestHandler implements IRequestHandler {
         responder.setClientConnection(socket);
     }
 
-    private String readFromSocket() throws IOException {
+    public String readFromSocket() throws IOException {
         InputStream inputStream = clientConnection.getInputStream();
 
-        StringBuilder out = new StringBuilder();
         Reader in = new InputStreamReader(inputStream, "UTF-8");
+        position = 0;
 
-        while (true) {
+        while (stillReading()) {
             int byteRead = in.read();
-
-            if (byteRead < 0) {
-                break;
-            }
-            out.append((char) byteRead);
+            buffer[position++] = (char) byteRead;
         }
 
-        return out.toString();
+        return new String(buffer).trim();
     }
 
-    private boolean valid(String request) {
-        boolean validNewlines = request.indexOf("\r\n\r\n") != -1;
-        boolean validSpaces = request.indexOf(" ") != request.lastIndexOf(" ");
-
-        return validNewlines && validSpaces;
+    private boolean stillReading() {
+        return !(position > 3 &&
+                 '\n' == buffer[position - 1] &&
+                 '\r' == buffer[position - 2] &&
+                 '\n' == buffer[position - 3] &&
+                 '\r' == buffer[position - 4]);
     }
 }
