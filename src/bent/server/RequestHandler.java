@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Hashtable;
 
 public class RequestHandler implements IRequestHandler {
     public ISocket clientConnection = null;
@@ -19,10 +18,9 @@ public class RequestHandler implements IRequestHandler {
 
     public void handleRequest() throws IOException {
         String currentRequest = readFromSocket();
-        HttpParser parser = new HttpParser();
 
         if (valid(currentRequest)) {
-            request = parser.parse(currentRequest);
+            request = new HttpRequest(currentRequest);
             responder.respondTo(request);
         }
     }

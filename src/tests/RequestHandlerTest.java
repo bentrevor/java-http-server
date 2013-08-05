@@ -5,6 +5,7 @@ import static junit.framework.Assert.*;
 import bent.server.HttpRequest;
 import bent.server.RequestHandler;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -37,14 +38,19 @@ public class RequestHandlerTest {
     public void itReadsRequestsFromItsClientConnection() throws IOException {
         handler.handleRequest();
 
-        HttpRequest parsedRequest = new HttpRequest();
-        parsedRequest.put("Method", "GET");
-        parsedRequest.put("Request-URI", "/peanuts");
-        parsedRequest.put("HTTP-Version", "HTTP/1.1");
+        HttpRequest parsedRequest = new HttpRequest("GET /peanuts HTTP/1.1\r\n\r\n");
 
         assertEquals(parsedRequest.method, handler.request.method);
         assertEquals(parsedRequest.httpVersion, handler.request.httpVersion);
         assertEquals(parsedRequest.requestURI, handler.request.requestURI);
+    }
+
+    @Ignore
+    public void itReadsUntilConsecutiveCRLF() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("1 2 3\r\n\r\n".getBytes());
+        handler.handleRequest();
+
+        assertEquals(0, fakeResponseWriter.respondToCallCount);
     }
 
     @Test

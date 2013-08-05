@@ -21,10 +21,7 @@ public class ResponseWriterTest {
 
     @Before
     public void setUp() {
-        fakeGetRequest = new HttpRequest();
-        fakeGetRequest.put("Method", "GET");
-        fakeGetRequest.put("Request-URI", "/");
-        fakeGetRequest.put("HTTP-Version", "HTTP/1.1");
+        fakeGetRequest = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
     }
 
     @Test
@@ -65,7 +62,7 @@ public class ResponseWriterTest {
         ResponseWriter responder = new ResponseWriter();
         responder.setClientConnection(fakeClientConnection);
 
-        fakeGetRequest.put("Request-URI", "/foobar");
+        fakeGetRequest = new HttpRequest("GET /foobar HTTP/1.1\r\n\r\n");
         responder.respondTo(fakeGetRequest);
 
         assertEquals("HTTP/1.1 404 Not Found\nContent-Length: 0\nContent-Type: text/plain\n\n\n\n", responder.response);

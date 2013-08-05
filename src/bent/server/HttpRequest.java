@@ -1,21 +1,15 @@
 package bent.server;
 
-import java.util.Hashtable;
-
-public class HttpRequest extends Hashtable {
+public class HttpRequest {
     public String method = "";
     public String requestURI = "";
     public String httpVersion = "";
+    public String headers = "";
 
-    public String put(String key, String value) {
-        if (key.equals("Method")) {
-            method = value;
-        } else if (key.equals("Request-URI")) {
-            requestURI = value;
-        } else if (key.equals("HTTP-Version")) {
-            httpVersion = value;
-        }
-
-        return value;
+    public HttpRequest(String request) {
+        headers = request.split("\r\n\r\n")[0];
+        method = headers.split(" ")[0];
+        requestURI = headers.split(" ")[1];
+        httpVersion = headers.split(" ")[2];
     }
 }
