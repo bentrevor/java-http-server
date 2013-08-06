@@ -1,21 +1,17 @@
 package bent.server;
 
-import java.util.Arrays;
-
 public class HttpRequest {
-    public String requestLine = "";
-    public String method = "";
-    public String requestURI = "";
-    public String httpVersion = "";
-    public String accept = "";
-    public String[] headers = null;
-    public int contentLength = 0;
+    public String requestLine;
+    public String method;
+    public String requestURI;
+    public String httpVersion;
+    public String accept;
+    public String[] headers;
+    public int contentLength;
 
     public HttpRequest(String request) {
         requestLine = request.split("\r\n")[0];
-        String[] fullHeaders = request.split("\r\n\r\n")[0].split("\r\n");
-
-        headers = Arrays.copyOfRange(fullHeaders, 1, fullHeaders.length);
+        headers = request.split("\r\n", 2)[1].split("\r\n");
 
         method = requestLine.split(" ")[0];
         requestURI = requestLine.split(" ")[1];

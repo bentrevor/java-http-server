@@ -1,13 +1,11 @@
 package tests;
 
 import bent.server.HttpRequest;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class HttpRequestTest {
@@ -55,7 +53,14 @@ public class HttpRequestTest {
                                   "Accept: text/plain\r\n" +
                                   "Content-Length: 20\r\n" +
                                   "\r\n");
+        assertEquals(2, request.headers.length);
         assertEquals(20, request.contentLength);
         assertEquals("text/plain", request.accept);
+    }
+
+    @Test
+    public void itCanHandleALoneRequestLine() {
+        request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
+        assertEquals(0, request.headers.length);
     }
 }

@@ -1,11 +1,8 @@
 package tests;
 
-import static junit.framework.Assert.*;
-
 import bent.server.HttpRequest;
 import bent.server.RequestHandler;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -15,8 +12,8 @@ import tests.mocks.MockSocket;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Hashtable;
+
+import static junit.framework.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
@@ -48,9 +45,10 @@ public class RequestHandlerTest {
 
     @Test
     public void itReadsUntilConsecutiveCRLF() throws IOException {
+        handler.buffer = new char[2048];
         fakeClientConnection.fakeInputStream = new ByteArrayInputStream("1 2 3\r\n\r\noops!".getBytes());
 
-        assertEquals("1 2 3", handler.readFromSocket());
+        assertEquals("1 2 3\r\n\r\n", handler.readFromSocket());
     }
 
     @Test

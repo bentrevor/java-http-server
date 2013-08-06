@@ -8,19 +8,19 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class RequestHandler implements IRequestHandler {
-    public ISocket clientConnection = null;
-    public HttpRequest request = null;
-    public IResponseWriter responder = null;
-    public int position = 0;
-    public char[] buffer = new char[255];
+    public ISocket clientConnection;
+    public HttpRequest request;
+    public IResponseWriter responder;
+    public int position;
+    public char[] buffer;
 
     public RequestHandler(IResponseWriter responder) {
         this.responder = responder;
     }
 
     public void handleRequest() throws IOException {
+        buffer = new char[2048];
         String currentRequest = readFromSocket();
-
         request = new HttpRequest(currentRequest);
         responder.respondTo(request);
     }
@@ -41,7 +41,11 @@ public class RequestHandler implements IRequestHandler {
             buffer[position++] = (char) byteRead;
         }
 
-        return new String(buffer).trim();
+        return trimZerosFrom(buffer);
+    }
+
+    private String trimZerosFrom(char[] buffer) {
+        return new String(buffer).trim() + "\r\n\r\n";
     }
 
     private boolean stillReading() {

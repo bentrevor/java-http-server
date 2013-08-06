@@ -5,7 +5,6 @@ import bent.server.IResponseWriter;
 import bent.server.sockets.ISocket;
 
 import java.io.IOException;
-import java.util.Hashtable;
 
 public class MockResponseWriter implements IResponseWriter {
     public int respondToCallCount = 0;

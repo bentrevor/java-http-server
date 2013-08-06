@@ -6,10 +6,10 @@ import bent.server.sockets.ISocket;
 import java.io.IOException;
 
 public class MockServerSocket implements IServerSocket {
-    public int acceptCallCount = 0;
-    public int maxAccepts = 1;
-    public ISocket createdClientConnection = null;
-    public boolean isClosed = false;
+    public int acceptCallCount;
+    public int maxAccepts;
+    public ISocket createdClientConnection;
+    public boolean isClosed;
 
     public ISocket accept() throws IOException {
         acceptCallCount++;

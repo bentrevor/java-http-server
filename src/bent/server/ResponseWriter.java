@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class ResponseWriter implements IResponseWriter {
-    public ISocket clientConnection = null;
-    public String response = null;
+    public ISocket clientConnection;
+    public String response;
 
     public void respondTo(HttpRequest request) throws IOException {
         response = buildResponse(request);

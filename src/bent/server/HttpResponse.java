@@ -4,12 +4,12 @@ import java.util.LinkedList;
 
 public class HttpResponse {
     public LinkedList<String> headers;
-    public StringBuilder response = null;
+    public StringBuilder response;
     public String statusLine;
 
     public HttpResponse() {
         response = new StringBuilder();
-        headers = new LinkedList<String>();
+        headers = new LinkedList<>();
     }
 
     public void setStatusLine(String status) {

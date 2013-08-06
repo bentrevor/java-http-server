@@ -1,7 +1,5 @@
 package tests;
 
-import static junit.framework.Assert.*;
-
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.ResponseBuilder;
@@ -9,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class ResponseBuilderTest {

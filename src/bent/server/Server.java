@@ -4,12 +4,11 @@ import bent.server.sockets.IServerSocket;
 import bent.server.sockets.ISocket;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 public class Server {
-    public IRequestHandler requestHandler = null;
-    public IServerSocket serverSocket = null;
-    public ISocket clientConnection = null;
+    public IRequestHandler requestHandler;
+    public IServerSocket serverSocket;
+    public ISocket clientConnection;
 
     public Server(IServerSocket socket, IRequestHandler handler) {
         serverSocket = socket;

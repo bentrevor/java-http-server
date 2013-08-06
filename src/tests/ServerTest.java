@@ -1,9 +1,7 @@
 package tests;
 
 import bent.server.Server;
-
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -13,7 +11,7 @@ import tests.mocks.MockSocket;
 
 import java.io.*;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class ServerTest {
