@@ -1,44 +1,38 @@
 package bent.server;
 
+import java.util.LinkedList;
+
 public class HttpResponse {
+    public LinkedList<String> headers;
     public StringBuilder response = null;
-    public String httpVersion = "";
-    public String statusCode = "";
-    public String reasonPhrase = "";
-    public String statusLine = "";
-    public String contentLength = "";
+    public String statusLine;
 
     public HttpResponse() {
         response = new StringBuilder();
+        headers = new LinkedList<String>();
     }
 
-    public void setHttpVersion(String version) {
-        httpVersion = version;
-        updateStatusLine();
+    public void setStatusLine(String status) {
+        statusLine = status;
     }
 
-    public void setStatusCode(String code) {
-        statusCode = code;
-        updateStatusLine();
-    }
-
-    public void setReasonPhrase(String phrase) {
-        reasonPhrase = phrase;
-        updateStatusLine();
-    }
-    
     public void setContentLength(int length) {
-        contentLength = Integer.toString(length);
+        headers.add("Content-Length: " + length);
+    }
+
+    public void setLocation(String location) {
+        headers.add("Location: " + location);
     }
 
     public String toString() {
-        response.append(statusLine);
-        response.append("Content-Length: " + contentLength + "\r\n");
-        response.append("\r\n");
-        return response.toString();
-    }
+        response.append(statusLine + "\r\n");
 
-    private void updateStatusLine() {
-        statusLine = httpVersion + " " + statusCode + " " + reasonPhrase + "\r\n";
+        for (String header : headers) {
+            response.append(header + "\r\n");
+        }
+
+        response.append("\r\n");
+
+        return response.toString();
     }
 }

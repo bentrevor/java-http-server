@@ -13,24 +13,34 @@ public class HttpResponseTest {
     @Test
     public void itHasAStatusLine() {
         HttpResponse response = new HttpResponse();
-        response.setHttpVersion("HTTP/1.1");
-        response.setStatusCode("200");
-        response.setReasonPhrase("OK");
+        response.setStatusLine("HTTP/1.1 200 OK");
 
-        assertEquals("HTTP/1.1 200 OK\r\n", response.statusLine);
+        assertTrue(response.statusLine.contains("HTTP/1.1 200 OK"));
     }
 
     @Test
     public void itImplementsToString() {
         HttpResponse response = new HttpResponse();
-        response.setHttpVersion("HTTP/1.1");
-        response.setStatusCode("200");
-        response.setReasonPhrase("OK");
         response.setContentLength(20);
+        response.setStatusLine("HTTP/1.1 200 OK");
+        response.setLocation("http://localhost:5000/");
 
         String fullResponse = response.toString();
 
         assertTrue(fullResponse.contains("HTTP/1.1 200 OK\r\n"));
         assertTrue(fullResponse.contains("Content-Length: 20\r\n"));
+        assertTrue(fullResponse.contains("Location: http://localhost:5000/\r\n"));
+    }
+
+    @Test
+    public void itOnlyAppendsHeadersThatHaveBeenSet() {
+        HttpResponse response = new HttpResponse();
+        response.setStatusLine("HTTP/1.1 200 OK");
+
+        String fullResponse = response.toString();
+
+        assertTrue(fullResponse.contains("HTTP/1.1 200 OK\r\n"));
+        assertFalse(fullResponse.contains("Content-Length: "));
+        assertFalse(fullResponse.contains("Location: "));
     }
 }

@@ -15,26 +15,7 @@ public class ResponseWriter implements IResponseWriter {
     }
 
     public String buildResponse(HttpRequest request) {
-        StringBuilder response = new StringBuilder(request.httpVersion);
-        String path = request.requestURI;
-
-        if (path.equals("/foobar")) {
-            response.append(" 404 Not Found\r\n");
-            response.append("Content-Length: 0\r\n");
-            response.append("Content-Type: text/plain\r\n");
-            response.append("\r\n");
-        } else if (path.equals("/redirect")) {
-            response.append(" 302 Found\r\n");
-            response.append("Content-Length: 0\r\n");
-            response.append("Content-Type: text/plain\r\n");
-            response.append("Location: http://localhost:5000/\r\n");
-            response.append("\r\n");
-        } else {
-            response.append(" 200 OK\r\n");
-            response.append("Content-Length: 0\r\n");
-            response.append("Content-Type: text/plain\r\n");
-            response.append("\r\n");
-        }
+        HttpResponse response = new ResponseBuilder().buildResponse(request);
 
         return response.toString();
     }
