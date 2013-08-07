@@ -43,7 +43,17 @@ public class HttpRequestTest {
 
     @Test
     public void itExcludesRequestLineFromHeaders() {
-        request = new HttpRequest("GET /yo HTTP/1.1\r\nAccept: text/plain\r\nContent-Length: 0\r\n\r\n");
+        request = new HttpRequest("GET / HTTP/1.1\r\nAccept: text/plain\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(request.headers.length, 2);
+    }
+
+    @Test
+    public void itExcludesBodyFromHeaders() {
+        request = new HttpRequest("PUT / HTTP/1.1\r\n" +
+                                  "Accept: text/plain\r\n" +
+                                  "Content-Length: 20\r\n" +
+                                  "\r\n" +
+                                  "bla bla bla bla bla ");
         assertEquals(request.headers.length, 2);
     }
 

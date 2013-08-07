@@ -12,24 +12,29 @@ public class HttpRequest {
 
     public HttpRequest(String request) {
         body = null;
-        requestLine = request.split("\r\n")[0];
-        headers = request.split("\r\n", 2)[1].split("\r\n");
+        headers = new String[0];
+        String fullHeaders = request.split("\r\n\r\n")[0];
+        requestLine = fullHeaders.split("\r\n", 2)[0];
 
         method = requestLine.split(" ")[0];
         requestURI = requestLine.split(" ")[1];
         httpVersion = requestLine.split(" ")[2];
 
-        for (String header : headers) {
-            String headerName = header.split(":")[0].toLowerCase();
-            String value = header.split(":")[1].trim();
+        if (fullHeaders.split("\r\n").length > 1) {
+            headers = fullHeaders.split("\r\n", 2)[1].split("\r\n");
 
-            switch (headerName) {
-                case "content-length":
-                    contentLength = Integer.parseInt(value);
-                    break;
-                case "accept":
-                    accept = value;
-                    break;
+            for (String header : headers) {
+                String headerName = header.split(":")[0].toLowerCase();
+                String value = header.split(":")[1].trim();
+
+                switch (headerName) {
+                    case "content-length":
+                        contentLength = Integer.parseInt(value);
+                        break;
+                    case "accept":
+                        accept = value;
+                        break;
+                }
             }
         }
     }
