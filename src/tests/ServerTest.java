@@ -11,7 +11,8 @@ import tests.mocks.MockSocket;
 
 import java.io.*;
 
-import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class ServerTest {
@@ -36,7 +37,7 @@ public class ServerTest {
 
         myServer.start();
 
-        assertEquals(3, fakeServerSocket.acceptCallCount);
+        assertThat(fakeServerSocket.acceptCallCount, is(3));
     }
 
     @Test
@@ -45,7 +46,7 @@ public class ServerTest {
 
         myServer.start();
 
-        assertEquals(3, fakeRequestHandler.handleRequestCount);
+        assertThat(fakeRequestHandler.handleRequestCount, is(3));
     }
 
     @Test
@@ -54,7 +55,7 @@ public class ServerTest {
 
         myServer.start();
 
-        assertEquals(3, fakeClientConnection.closeCallCount);
+        assertThat(fakeClientConnection.closeCallCount, is(3));
     }
 
     private void setUpFakeIO() {

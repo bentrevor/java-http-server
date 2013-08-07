@@ -12,8 +12,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class ResponseWriterTest {
@@ -38,7 +38,7 @@ public class ResponseWriterTest {
 
         responder.sendResponse("hi");
 
-        assertEquals("hi", fakeOutputStream.toString());
+        assertThat(fakeOutputStream.toString(), containsString("hi"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ResponseWriterTest {
 
         responder.respondTo(fakeGetRequest);
 
-        assertTrue(fakeOutputStream.toString().contains("HTTP/1.1 200 OK\r\n"));
+        assertThat(fakeOutputStream.toString(), containsString("HTTP/1.1 200 OK\r\n"));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ResponseWriterTest {
 
         responder.respondTo(fakeGetRequest);
 
-        assertTrue(fakeOutputStream.toString().contains("HTTP/1.1 404 Not Found\r\n"));
+        assertThat(fakeOutputStream.toString(), containsString("HTTP/1.1 404 Not Found\r\n"));
     }
 
     @Test
@@ -65,6 +65,6 @@ public class ResponseWriterTest {
 
         responder.respondTo(fakeGetRequest);
 
-        assertTrue(fakeOutputStream.toString().contains("HTTP/1.1 302 Found\r\n"));
+        assertThat(fakeOutputStream.toString(), containsString("HTTP/1.1 302 Found\r\n"));
     }
 }

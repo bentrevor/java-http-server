@@ -5,17 +5,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class HttpResponseTest {
+
     @Test
     public void itHasAStatusLine() {
         HttpResponse response = new HttpResponse();
         response.setStatusLine("HTTP/1.1 200 OK");
 
-        assertTrue(response.statusLine.contains("HTTP/1.1 200 OK"));
+        assertThat(response.statusLine, containsString("HTTP/1.1 200 OK"));
     }
 
     @Test
@@ -27,9 +29,9 @@ public class HttpResponseTest {
 
         String fullResponse = response.toString();
 
-        assertTrue(fullResponse.contains("HTTP/1.1 200 OK\r\n"));
-        assertTrue(fullResponse.contains("Content-Length: 20\r\n"));
-        assertTrue(fullResponse.contains("Location: http://localhost:5000/\r\n"));
+        assertThat(fullResponse, containsString("HTTP/1.1 200 OK\r\n"));
+        assertThat(fullResponse, containsString("Content-Length: 20\r\n"));
+        assertThat(fullResponse, containsString("Location: http://localhost:5000/\r\n"));
     }
 
     @Test
@@ -39,8 +41,8 @@ public class HttpResponseTest {
 
         String fullResponse = response.toString();
 
-        assertTrue(fullResponse.contains("HTTP/1.1 200 OK\r\n"));
-        assertFalse(fullResponse.contains("Content-Length: "));
-        assertFalse(fullResponse.contains("Location: "));
+        assertThat(fullResponse, containsString("HTTP/1.1 200 OK\r\n"));
+        assertThat(fullResponse, not(containsString("Content-Length:")));
+        assertThat(fullResponse, not(containsString("Location:")));
     }
 }

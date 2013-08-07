@@ -1,11 +1,13 @@
 package tests;
 
 import bent.server.HttpRequest;
-import org.junit.*;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class HttpRequestTest {
@@ -14,37 +16,37 @@ public class HttpRequestTest {
     @Test
     public void itExtractsTheRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        assertEquals("GET / HTTP/1.1", request.requestLine);
+        assertThat(request.requestLine, is(equalTo("GET / HTTP/1.1")));
     }
 
     @Test
     public void itExtractsTheMethodFromRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        assertEquals("GET", request.method);
+        assertThat(request.getMethod(), is(equalTo("GET")));
 
         request = new HttpRequest("PUT / HTTP/1.1\r\n\r\n");
-        assertEquals("PUT", request.method);
+        assertThat(request.getMethod(), is(equalTo("PUT")));
     }
 
     @Test
     public void itExtractsThePathFromRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        assertEquals("/", request.requestURI);
+        assertThat(request.getRequestURI(), is(equalTo("/")));
 
         request = new HttpRequest("PUT /peanuts HTTP/1.1\r\n\r\n");
-        assertEquals("/peanuts", request.requestURI);
+        assertThat(request.getRequestURI(), is(equalTo("/peanuts")));
     }
 
     @Test
     public void itExtractsTheHttpVersionFromRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        assertEquals("HTTP/1.1", request.httpVersion);
+        assertThat(request.getHttpVersion(), is(equalTo("HTTP/1.1")));
     }
 
     @Test
     public void itExcludesRequestLineFromHeaders() {
         request = new HttpRequest("GET / HTTP/1.1\r\nAccept: text/plain\r\nContent-Length: 0\r\n\r\n");
-        assertEquals(request.headers.length, 2);
+        assertThat(request.headers.size(), is(equalTo(2)));
     }
 
     @Test
@@ -54,7 +56,7 @@ public class HttpRequestTest {
                                   "Content-Length: 20\r\n" +
                                   "\r\n" +
                                   "bla bla bla bla bla ");
-        assertEquals(request.headers.length, 2);
+        assertThat(request.headers.size(), is(equalTo(2)));
     }
 
     @Test
@@ -63,20 +65,20 @@ public class HttpRequestTest {
                                   "Accept: text/plain\r\n" +
                                   "Content-Length: 20\r\n" +
                                   "\r\n");
-        assertEquals(2, request.headers.length);
-        assertEquals(20, request.contentLength);
-        assertEquals("text/plain", request.accept);
+        assertThat(request.headers.size(), is(equalTo(2)));
+        assertThat(request.getContentLength(), is(equalTo("20")));
+        assertThat(request.getAccept(), is(equalTo("text/plain")));
     }
 
     @Test
     public void itCanHandleALoneRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        assertEquals(0, request.headers.length);
+        assertThat(request.headers.size(), is(equalTo(0)));
     }
 
     @Ignore
     public void itReadsTheBodyForPutRequests() {
         request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\nsome data\r\n\r\n");
-        assertNotNull(request.body);
+        assertThat(request.body, is(notNullValue()));
     }
 }

@@ -4,12 +4,24 @@ import java.util.LinkedList;
 
 public class HttpResponse {
     public LinkedList<String> headers;
-    public StringBuilder response;
+    public StringBuilder responseBuilder;
     public String statusLine;
 
     public HttpResponse() {
-        response = new StringBuilder();
+        responseBuilder = new StringBuilder();
         headers = new LinkedList<>();
+    }
+
+    public String toString() {
+        responseBuilder.append(statusLine + "\r\n");
+
+        for (String header : headers) {
+            responseBuilder.append(header + "\r\n");
+        }
+
+        responseBuilder.append("\r\n");
+
+        return responseBuilder.toString();
     }
 
     public void setStatusLine(String status) {
@@ -22,17 +34,5 @@ public class HttpResponse {
 
     public void setLocation(String location) {
         headers.add("Location: " + location);
-    }
-
-    public String toString() {
-        response.append(statusLine + "\r\n");
-
-        for (String header : headers) {
-            response.append(header + "\r\n");
-        }
-
-        response.append("\r\n");
-
-        return response.toString();
     }
 }
