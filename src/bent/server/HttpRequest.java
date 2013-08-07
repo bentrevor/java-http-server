@@ -19,7 +19,7 @@ public class HttpRequest {
             setHeaders();
         }
 
-        if (putOrPostRequest()) {
+        if (putOrPostRequest() && bodySentWith(request)) {
             body = request.split("\r\n\r\n")[1];
         }
     }
@@ -45,6 +45,10 @@ public class HttpRequest {
 
     private boolean putOrPostRequest() {
         return requestLine.split(" ")[0].equals("PUT") || requestLine.split(" ")[0].equals("POST");
+    }
+
+    private boolean bodySentWith(String request) {
+        return request.split("\r\n\r\n").length > 1;
     }
 
     public String getMethod() {

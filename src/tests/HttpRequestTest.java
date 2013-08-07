@@ -86,4 +86,10 @@ public class HttpRequestTest {
         request = new HttpRequest("POST /form HTTP/1.1\r\n\r\nsome data\r\n\r\n");
         assertThat(request.body, is(notNullValue()));
     }
+
+    @Test
+    public void itChecksThatABodyWasProvided() {
+        request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\n");
+        assertThat(request.body, is(nullValue()));
+    }
 }
