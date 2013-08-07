@@ -13,6 +13,7 @@ public class RequestHandler implements IRequestHandler {
     public IResponseWriter responder;
     public int position;
     public char[] buffer;
+    public String inputFromSocket;
 
     public RequestHandler(IResponseWriter responder) {
         this.responder = responder;
@@ -20,8 +21,8 @@ public class RequestHandler implements IRequestHandler {
     }
 
     public void handleRequest() throws IOException {
-        String currentRequest = readFromSocket();
-        request = new HttpRequest(currentRequest);
+        inputFromSocket = readFromSocket();
+        request = new HttpRequest(inputFromSocket);
         responder.respondTo(request);
     }
 

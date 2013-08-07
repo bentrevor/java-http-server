@@ -39,18 +39,38 @@ public class RequestHandlerTest {
     public void itReadsRequestsFromItsClientConnection() throws IOException {
         handler.handleRequest();
 
-        HttpRequest parsedRequest = new HttpRequest("GET /peanuts HTTP/1.1\r\n\r\n");
-
-        assertEquals(parsedRequest.method, handler.request.method);
-        assertEquals(parsedRequest.httpVersion, handler.request.httpVersion);
-        assertEquals(parsedRequest.requestURI, handler.request.requestURI);
+        assertThat(handler.inputFromSocket, is(equalTo("GET /peanuts HTTP/1.1\r\n\r\n")));
     }
 
     @Test
     public void itStopsReadingAfterConsecutiveCRLFForGETRequests() throws IOException {
         fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\noops!".getBytes());
+        handler.handleRequest();
+        String handledRequest = handler.inputFromSocket;
 
-        assertEquals("GET /peanuts HTTP/1.1\r\n\r\n", handler.readFromSocket());
+        assertThat(handledRequest, containsString("GET /peanuts HTTP/1.1\r\n\r\n"));
+        assertThat(handledRequest, not(containsString("oops!")));
+    }
+
+    @Test
+    public void itCanExtractTheContentLength() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 12\r\n\r\nsome content".getBytes());
+        handler.handleRequest();
+        assertThat(handler.getContentLength(), is(equalTo(12)));
+    }
+
+    @Test
+    public void itReadsTheBodyForPutRequests() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
+        handler.handleRequest();
+        assertThat(handler.inputFromSocket, containsString("\r\n\r\ncontent of body"));
+    }
+
+    @Test
+    public void itReadsTheBodyForPostRequests() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("POST /form HTTP/1.1\r\nContent-Length: 23\r\n\r\ncontent of post request".getBytes());
+        handler.handleRequest();
+        assertThat(handler.inputFromSocket, containsString("\r\n\r\ncontent of post request"));
     }
 
     @Test
@@ -61,7 +81,7 @@ public class RequestHandlerTest {
         fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
         handler.handleRequest();
 
-        assertEquals(3, fakeResponseWriter.respondToCallCount);
+        assertThat(fakeResponseWriter.respondToCallCount, is(equalTo(3)));
     }
 
     @Test
@@ -71,25 +91,6 @@ public class RequestHandlerTest {
 
         HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
 
-        assertEquals("GET", parsedRequest.method);
-    }
-
-    @Test
-    public void itCanExtractTheContentLength() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 12\r\n\r\nsome content".getBytes());
-        handler.readFromSocket();
-        assertThat(handler.getContentLength(), is(equalTo(12)));
-    }
-
-    @Test
-    public void itReadsTheBodyForPutRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
-        assertThat(handler.readFromSocket(), containsString("\r\n\r\ncontent of body"));
-    }
-
-    @Test
-    public void itReadsTheBodyForPostRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("POST /form HTTP/1.1\r\nContent-Length: 23\r\n\r\ncontent of post request".getBytes());
-        assertThat(handler.readFromSocket(), containsString("\r\n\r\ncontent of post request"));
+        assertThat(parsedRequest.requestLine, is(equalTo("GET /peanuts HTTP/1.1")));
     }
 }
