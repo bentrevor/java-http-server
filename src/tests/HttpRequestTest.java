@@ -1,11 +1,11 @@
 package tests;
 
 import bent.server.HttpRequest;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class HttpRequestTest {
@@ -62,5 +62,11 @@ public class HttpRequestTest {
     public void itCanHandleALoneRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
         assertEquals(0, request.headers.length);
+    }
+
+    @Ignore
+    public void itReadsTheBodyForPutRequests() {
+        request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\nsome data\r\n\r\n");
+        assertNotNull(request.body);
     }
 }

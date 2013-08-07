@@ -3,8 +3,7 @@ package tests;
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.ResponseBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -47,5 +46,14 @@ public class ResponseBuilderTest {
 
         assertTrue(response.toString().contains("HTTP/1.1 302 Found\r\n"));
         assertTrue(response.toString().contains("Location: http://localhost:5000/\r\n"));
+    }
+
+    @Ignore
+    public void itHandlesPutRoute() {
+        request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\n\"My\"=\"Data\"");
+
+        response = builder.buildResponse(request);
+
+        assertTrue(response.toString().contains("HTTP/1.1 200 OK\r\n"));
     }
 }

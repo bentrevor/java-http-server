@@ -13,7 +13,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
@@ -44,11 +47,10 @@ public class RequestHandlerTest {
     }
 
     @Test
-    public void itReadsUntilConsecutiveCRLF() throws IOException {
-        handler.buffer = new char[2048];
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("1 2 3\r\n\r\noops!".getBytes());
+    public void itStopsReadingAfterConsecutiveCRLFForGETRequests() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\noops!".getBytes());
 
-        assertEquals("1 2 3\r\n\r\n", handler.readFromSocket());
+        assertEquals("GET /peanuts HTTP/1.1\r\n\r\n", handler.readFromSocket());
     }
 
     @Test
@@ -70,5 +72,24 @@ public class RequestHandlerTest {
         HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
 
         assertEquals("GET", parsedRequest.method);
+    }
+
+    @Test
+    public void itCanExtractTheContentLength() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 12\r\n\r\nsome content".getBytes());
+        handler.readFromSocket();
+        assertThat(handler.getContentLength(), is(equalTo(12)));
+    }
+
+    @Test
+    public void itReadsTheBodyForPutRequests() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
+        assertThat(handler.readFromSocket(), containsString("\r\n\r\ncontent of body"));
+    }
+
+    @Test
+    public void itReadsTheBodyForPostRequests() throws IOException {
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("POST /form HTTP/1.1\r\nContent-Length: 23\r\n\r\ncontent of post request".getBytes());
+        assertThat(handler.readFromSocket(), containsString("\r\n\r\ncontent of post request"));
     }
 }

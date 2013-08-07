@@ -16,13 +16,27 @@ public class RequestHandler implements IRequestHandler {
 
     public RequestHandler(IResponseWriter responder) {
         this.responder = responder;
+        buffer = new char[2048];
     }
 
     public void handleRequest() throws IOException {
-        buffer = new char[2048];
         String currentRequest = readFromSocket();
         request = new HttpRequest(currentRequest);
         responder.respondTo(request);
+    }
+
+    public String readFromSocket() throws IOException {
+        InputStream inputStream = clientConnection.getInputStream();
+        Reader in = new InputStreamReader(inputStream, "UTF-8");
+        position = 0;
+
+        readHeaders(in);
+
+        if (bodyShouldBeRead()) {
+            readBody(in);
+        }
+
+        return trimZerosFrom(buffer);
     }
 
     public void setClientConnection(ISocket socket) {
@@ -30,29 +44,47 @@ public class RequestHandler implements IRequestHandler {
         responder.setClientConnection(socket);
     }
 
-    public String readFromSocket() throws IOException {
-        InputStream inputStream = clientConnection.getInputStream();
+    public int getContentLength() {
+        return Integer.parseInt(new String(buffer).split("Content-Length")[1].split("\r\n")[0].split(":")[1].trim());
+    }
 
-        Reader in = new InputStreamReader(inputStream, "UTF-8");
-        position = 0;
-
-        while (stillReading()) {
+    private void readHeaders(Reader in) throws IOException {
+        while (stillReadingHeaders()) {
             int byteRead = in.read();
             buffer[position++] = (char) byteRead;
         }
+    }
 
-        return trimZerosFrom(buffer);
+    private void readBody(Reader in) throws IOException {
+        int contentLength = getContentLength();
+        for (int i = 0; i < contentLength; i++) {
+            int byteRead = in.read();
+            buffer[position++] = (char) byteRead;
+        }
+    }
+
+    private boolean putOrPostRequest() {
+        return buffer[0] == 'P';
+    }
+
+    private boolean bodyShouldBeRead() {
+        return putOrPostRequest() && contentLengthProvided();
+    }
+
+    private boolean contentLengthProvided() {
+        String headers = new String(buffer).trim();
+        return headers.contains("Content-Length");
     }
 
     private String trimZerosFrom(char[] buffer) {
         return new String(buffer).trim() + "\r\n\r\n";
     }
 
-    private boolean stillReading() {
+    private boolean stillReadingHeaders() {
         return !(position > 3 &&
-                 '\n' == buffer[position - 1] &&
-                 '\r' == buffer[position - 2] &&
-                 '\n' == buffer[position - 3] &&
-                 '\r' == buffer[position - 4]);
+                '\n' == buffer[position - 1] &&
+                '\r' == buffer[position - 2] &&
+                '\n' == buffer[position - 3] &&
+                '\r' == buffer[position - 4]);
     }
 }

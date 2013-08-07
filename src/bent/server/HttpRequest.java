@@ -8,8 +8,10 @@ public class HttpRequest {
     public String accept;
     public String[] headers;
     public int contentLength;
+    public String body;
 
     public HttpRequest(String request) {
+        body = null;
         requestLine = request.split("\r\n")[0];
         headers = request.split("\r\n", 2)[1].split("\r\n");
 
