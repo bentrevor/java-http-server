@@ -11,6 +11,8 @@ public class ResponseBuilder {
         } else if (path.equals("/redirect")) {
             response.setStatusLine(request.getHttpVersion() + " 302 Found");
             response.setLocation("http://localhost:5000/");
+        } else if (path.equals("/form")) {
+            response.setStatusLine(request.getHttpVersion() + " 200 OK");
         } else {
             response.setStatusLine(request.getHttpVersion() + " 404 Not Found");
         }

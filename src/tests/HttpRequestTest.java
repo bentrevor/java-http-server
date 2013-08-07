@@ -1,8 +1,7 @@
 package tests;
 
 import bent.server.HttpRequest;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -24,7 +23,7 @@ public class HttpRequestTest {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
         assertThat(request.getMethod(), is(equalTo("GET")));
 
-        request = new HttpRequest("PUT / HTTP/1.1\r\n\r\n");
+        request = new HttpRequest("PUT / HTTP/1.1\r\n\r\nbody\r\n\r\n");
         assertThat(request.getMethod(), is(equalTo("PUT")));
     }
 
@@ -33,7 +32,7 @@ public class HttpRequestTest {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
         assertThat(request.getRequestURI(), is(equalTo("/")));
 
-        request = new HttpRequest("PUT /peanuts HTTP/1.1\r\n\r\n");
+        request = new HttpRequest("PUT /peanuts HTTP/1.1\r\n\r\nbody\r\n\r\n");
         assertThat(request.getRequestURI(), is(equalTo("/peanuts")));
     }
 
@@ -76,9 +75,15 @@ public class HttpRequestTest {
         assertThat(request.headers.size(), is(equalTo(0)));
     }
 
-    @Ignore
+    @Test
     public void itReadsTheBodyForPutRequests() {
         request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\nsome data\r\n\r\n");
+        assertThat(request.body, is(notNullValue()));
+    }
+
+    @Test
+    public void itReadsTheBodyForPostRequests() {
+        request = new HttpRequest("POST /form HTTP/1.1\r\n\r\nsome data\r\n\r\n");
         assertThat(request.body, is(notNullValue()));
     }
 }

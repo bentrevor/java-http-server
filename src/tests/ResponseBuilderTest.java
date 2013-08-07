@@ -50,7 +50,7 @@ public class ResponseBuilderTest {
         assertThat(response, containsString("Location: http://localhost:5000/\r\n"));
     }
 
-    @Ignore
+    @Test
     public void itHandlesPutRoute() {
         request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\n\"My\"=\"Data\"");
 
