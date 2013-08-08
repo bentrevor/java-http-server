@@ -2,6 +2,7 @@ package tests;
 
 import bent.server.HttpRequest;
 import bent.server.RequestHandler;
+import tests.mocks.MockRequestReader;
 import tests.mocks.MockResponseWriter;
 import tests.mocks.MockSocket;
 
@@ -20,9 +21,10 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
-    MockResponseWriter fakeResponseWriter = null;
-    MockSocket fakeClientConnection = null;
-    RequestHandler handler = null;
+    MockResponseWriter fakeResponseWriter;
+    MockSocket fakeClientConnection;
+    MockRequestReader fakeRequestReader;
+    RequestHandler handler;
 
     @Before
     public void setUp() {
@@ -31,7 +33,8 @@ public class RequestHandlerTest {
         InputStream fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
         fakeClientConnection.fakeInputStream = fakeInputStream;
         fakeResponseWriter = new MockResponseWriter();
-        handler = new RequestHandler(fakeResponseWriter);
+        fakeRequestReader = new MockRequestReader();
+        handler = new RequestHandler(fakeRequestReader, fakeResponseWriter);
         handler.setClientConnection(fakeClientConnection);
     }
 
@@ -71,6 +74,17 @@ public class RequestHandlerTest {
         fakeClientConnection.fakeInputStream = new ByteArrayInputStream("POST /form HTTP/1.1\r\nContent-Length: 23\r\n\r\ncontent of post request".getBytes());
         handler.handleRequest();
         assertThat(handler.inputFromSocket, containsString("\r\n\r\ncontent of post request"));
+    }
+
+    @Test
+    public void itTellsARequestReaderToReadARequest() throws IOException {
+        handler.handleRequest();
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
+        handler.handleRequest();
+        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
+        handler.handleRequest();
+
+        assertThat(fakeRequestReader.readFromSocketCallCount, is(equalTo(3)));
     }
 
     @Test

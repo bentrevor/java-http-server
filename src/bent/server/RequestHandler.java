@@ -11,16 +11,19 @@ public class RequestHandler implements IRequestHandler {
     public ISocket clientConnection;
     public HttpRequest request;
     public IResponseWriter responder;
+    public IRequestReader reader;
     public int position;
     public char[] buffer;
     public String inputFromSocket;
 
-    public RequestHandler(IResponseWriter responder) {
+    public RequestHandler(IRequestReader reader, IResponseWriter responder) {
         this.responder = responder;
+        this.reader = reader;
     }
 
     public void handleRequest() throws IOException {
         buffer = new char[2048];
+        reader.readFromSocket();
         inputFromSocket = readFromSocket();
         request = new HttpRequest(inputFromSocket);
         responder.respondTo(request);
