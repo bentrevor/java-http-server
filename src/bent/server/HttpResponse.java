@@ -6,10 +6,12 @@ public class HttpResponse {
     public LinkedList<String> headers;
     public StringBuilder responseBuilder;
     public String statusLine;
+    public String body;
 
     public HttpResponse() {
         responseBuilder = new StringBuilder();
         headers = new LinkedList<>();
+        body = "";
     }
 
     public String toString() {
@@ -20,6 +22,7 @@ public class HttpResponse {
         }
 
         responseBuilder.append("\r\n");
+        responseBuilder.append(body);
 
         return responseBuilder.toString();
     }
@@ -34,5 +37,9 @@ public class HttpResponse {
 
     public void setLocation(String location) {
         headers.add("Location: " + location);
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

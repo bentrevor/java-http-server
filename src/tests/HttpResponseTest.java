@@ -1,7 +1,7 @@
 package tests;
 
 import bent.server.HttpResponse;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -11,10 +11,15 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class HttpResponseTest {
+    HttpResponse response;
+
+    @Before
+    public void setUp() {
+        response = new HttpResponse();
+    }
 
     @Test
     public void itHasAStatusLine() {
-        HttpResponse response = new HttpResponse();
         response.setStatusLine("HTTP/1.1 200 OK");
 
         assertThat(response.statusLine, containsString("HTTP/1.1 200 OK"));
@@ -22,7 +27,6 @@ public class HttpResponseTest {
 
     @Test
     public void itImplementsToString() {
-        HttpResponse response = new HttpResponse();
         response.setContentLength(20);
         response.setStatusLine("HTTP/1.1 200 OK");
         response.setLocation("http://localhost:5000/");
@@ -36,7 +40,6 @@ public class HttpResponseTest {
 
     @Test
     public void itOnlyAppendsHeadersThatHaveBeenSet() {
-        HttpResponse response = new HttpResponse();
         response.setStatusLine("HTTP/1.1 200 OK");
 
         String fullResponse = response.toString();
@@ -44,5 +47,15 @@ public class HttpResponseTest {
         assertThat(fullResponse, containsString("HTTP/1.1 200 OK\r\n"));
         assertThat(fullResponse, not(containsString("Content-Length:")));
         assertThat(fullResponse, not(containsString("Location:")));
+    }
+
+    @Test
+    public void itCanHaveABodyAfterTheHeaders() {
+        response.setStatusLine("HTTP/1.1 200 OK");
+        response.setBody("response body");
+
+        String fullResponse = response.toString();
+
+        assertThat(fullResponse, containsString("\r\n\r\nresponse body"));
     }
 }
