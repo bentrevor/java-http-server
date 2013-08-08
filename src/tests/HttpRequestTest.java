@@ -7,6 +7,7 @@ import org.junit.runners.JUnit4;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class HttpRequestTest {
@@ -23,7 +24,9 @@ public class HttpRequestTest {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
         assertThat(request.getMethod(), is(equalTo("GET")));
 
-        request = new HttpRequest("PUT / HTTP/1.1\r\n\r\nbody\r\n\r\n");
+        request = new HttpRequest("PUT / HTTP/1.1\r\n" +
+                                  "\r\n" +
+                                  "body\r\n\r\n");
         assertThat(request.getMethod(), is(equalTo("PUT")));
     }
 
@@ -32,7 +35,9 @@ public class HttpRequestTest {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
         assertThat(request.getRequestURI(), is(equalTo("/")));
 
-        request = new HttpRequest("PUT /peanuts HTTP/1.1\r\n\r\nbody\r\n\r\n");
+        request = new HttpRequest("PUT /peanuts HTTP/1.1\r\n" +
+                                  "\r\n" +
+                                  "body\r\n\r\n");
         assertThat(request.getRequestURI(), is(equalTo("/peanuts")));
     }
 
@@ -44,7 +49,9 @@ public class HttpRequestTest {
 
     @Test
     public void itExcludesRequestLineFromHeaders() {
-        request = new HttpRequest("GET / HTTP/1.1\r\nAccept: text/plain\r\nContent-Length: 0\r\n\r\n");
+        request = new HttpRequest("GET / HTTP/1.1\r\n" +
+                                  "Accept: text/plain\r\n" +
+                                  "Content-Length: 0\r\n\r\n");
         assertThat(request.headers.size(), is(equalTo(2)));
     }
 
@@ -77,14 +84,18 @@ public class HttpRequestTest {
 
     @Test
     public void itReadsTheBodyForPutRequests() {
-        request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\nsome data\r\n\r\n");
-        assertThat(request.body, is(notNullValue()));
+        request = new HttpRequest("PUT /form HTTP/1.1\r\n" +
+                                  "\r\n" +
+                                  "some data\r\n\r\n");
+        assertThat(request.body, containsString("some data"));
     }
 
     @Test
     public void itReadsTheBodyForPostRequests() {
-        request = new HttpRequest("POST /form HTTP/1.1\r\n\r\nsome data\r\n\r\n");
-        assertThat(request.body, is(notNullValue()));
+        request = new HttpRequest("POST /form HTTP/1.1\r\n" +
+                                  "\r\n" +
+                                  "some data\r\n\r\n");
+        assertThat(request.body, containsString("some data"));
     }
 
     @Test

@@ -17,10 +17,10 @@ public class RequestHandler implements IRequestHandler {
 
     public RequestHandler(IResponseWriter responder) {
         this.responder = responder;
-        buffer = new char[2048];
     }
 
     public void handleRequest() throws IOException {
+        buffer = new char[2048];
         inputFromSocket = readFromSocket();
         request = new HttpRequest(inputFromSocket);
         responder.respondTo(request);
@@ -45,7 +45,7 @@ public class RequestHandler implements IRequestHandler {
         responder.setClientConnection(socket);
     }
 
-    public int getContentLength() {
+    public int extractContentLength() {
         return Integer.parseInt(new String(buffer).split("Content-Length")[1].split("\r\n")[0].split(":")[1].trim());
     }
 
@@ -57,7 +57,7 @@ public class RequestHandler implements IRequestHandler {
     }
 
     private void readBody(Reader in) throws IOException {
-        int contentLength = getContentLength();
+        int contentLength = extractContentLength();
         for (int i = 0; i < contentLength; i++) {
             int byteRead = in.read();
             buffer[position++] = (char) byteRead;

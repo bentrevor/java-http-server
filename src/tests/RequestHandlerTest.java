@@ -2,12 +2,13 @@ package tests;
 
 import bent.server.HttpRequest;
 import bent.server.RequestHandler;
+import tests.mocks.MockResponseWriter;
+import tests.mocks.MockSocket;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import tests.mocks.MockResponseWriter;
-import tests.mocks.MockSocket;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class RequestHandlerTest {
     public void itCanExtractTheContentLength() throws IOException {
         fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 12\r\n\r\nsome content".getBytes());
         handler.handleRequest();
-        assertThat(handler.getContentLength(), is(equalTo(12)));
+        assertThat(handler.extractContentLength(), is(equalTo(12)));
     }
 
     @Test
