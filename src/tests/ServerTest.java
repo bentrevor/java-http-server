@@ -58,6 +58,15 @@ public class ServerTest {
         assertThat(fakeClientConnection.closeCallCount, is(3));
     }
 
+    @Test
+    public void itSetsTheClientConnectionForTheRequestHandler() {
+        fakeServerSocket.maxAccepts = 3;
+
+        myServer.start();
+
+        assertThat(fakeRequestHandler.setClientConnectionCount, is(3));
+    }
+
     private void setUpFakeIO() {
         fakeClientConnection = new MockSocket();
         fakeOutputStream = new ByteArrayOutputStream();

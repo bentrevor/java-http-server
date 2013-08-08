@@ -36,7 +36,6 @@ public class RequestHandlerTest {
         fakeRequestReader = new MockRequestReader();
         handler = new RequestHandler(fakeRequestReader, fakeResponseWriter);
         handler.setClientConnection(fakeClientConnection);
-        fakeRequestReader .setClientConnection(fakeClientConnection);
     }
 
     @Test
@@ -69,5 +68,21 @@ public class RequestHandlerTest {
         HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
 
         assertThat(parsedRequest.requestLine, is(equalTo("GET /peanuts HTTP/1.1")));
+    }
+
+    @Test
+    public void itSetsTheClientConnectionForTheResponseWriter() throws IOException {
+        handler.setClientConnection(fakeClientConnection);
+        handler.setClientConnection(fakeClientConnection);
+
+        assertThat(fakeResponseWriter.setClientConnectionCount, is(3));
+    }
+
+    @Test
+    public void itSetsTheClientConnectionForTheRequestReader() throws IOException {
+        handler.setClientConnection(fakeClientConnection);
+        handler.setClientConnection(fakeClientConnection);
+
+        assertThat(fakeRequestReader.setClientConnectionCount, is(3));
     }
 }

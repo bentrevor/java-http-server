@@ -9,6 +9,7 @@ import java.io.IOException;
 public class MockResponseWriter implements IResponseWriter {
     public int respondToCallCount = 0;
     public HttpRequest respondToArgument = null;
+    public int setClientConnectionCount = 0;
 
     public void respondTo(HttpRequest request) throws IOException {
         respondToCallCount++;
@@ -16,5 +17,6 @@ public class MockResponseWriter implements IResponseWriter {
     }
 
     public void setClientConnection(ISocket socket) {
+        setClientConnectionCount++;
     }
 }
