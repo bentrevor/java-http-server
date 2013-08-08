@@ -36,44 +36,7 @@ public class RequestHandlerTest {
         fakeRequestReader = new MockRequestReader();
         handler = new RequestHandler(fakeRequestReader, fakeResponseWriter);
         handler.setClientConnection(fakeClientConnection);
-    }
-
-    @Test
-    public void itReadsRequestsFromItsClientConnection() throws IOException {
-        handler.handleRequest();
-
-        assertThat(handler.inputFromSocket, is(equalTo("GET /peanuts HTTP/1.1\r\n\r\n")));
-    }
-
-    @Test
-    public void itStopsReadingAfterConsecutiveCRLFForGETRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\noops!".getBytes());
-        handler.handleRequest();
-        String handledRequest = handler.inputFromSocket;
-
-        assertThat(handledRequest, containsString("GET /peanuts HTTP/1.1\r\n\r\n"));
-        assertThat(handledRequest, not(containsString("oops!")));
-    }
-
-    @Test
-    public void itCanExtractTheContentLength() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 12\r\n\r\nsome content".getBytes());
-        handler.handleRequest();
-        assertThat(handler.extractContentLength(), is(equalTo(12)));
-    }
-
-    @Test
-    public void itReadsTheBodyForPutRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
-        handler.handleRequest();
-        assertThat(handler.inputFromSocket, containsString("\r\n\r\ncontent of body"));
-    }
-
-    @Test
-    public void itReadsTheBodyForPostRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("POST /form HTTP/1.1\r\nContent-Length: 23\r\n\r\ncontent of post request".getBytes());
-        handler.handleRequest();
-        assertThat(handler.inputFromSocket, containsString("\r\n\r\ncontent of post request"));
+        fakeRequestReader .setClientConnection(fakeClientConnection);
     }
 
     @Test

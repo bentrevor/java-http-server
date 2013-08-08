@@ -23,8 +23,7 @@ public class RequestHandler implements IRequestHandler {
 
     public void handleRequest() throws IOException {
         buffer = new char[2048];
-        reader.readFromSocket();
-        inputFromSocket = readFromSocket();
+        inputFromSocket = reader.readFromSocket();
         request = new HttpRequest(inputFromSocket);
         responder.respondTo(request);
     }
