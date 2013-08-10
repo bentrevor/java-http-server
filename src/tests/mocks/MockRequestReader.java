@@ -7,9 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MockRequestReader implements IRequestReader {
-    public int readFromSocketCallCount = 0;
-    public int setClientConnectionCount = 0;
+    public int readFromSocketCallCount;
+    public int setClientConnectionCount;
     public ISocket fakeClientConnection;
+
+    public MockRequestReader() {
+        readFromSocketCallCount = 0;
+        setClientConnectionCount = 0;
+    }
 
     public String readFromSocket() throws IOException {
         readFromSocketCallCount++;

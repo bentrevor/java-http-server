@@ -11,7 +11,7 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class HttpRequestTest {
-    HttpRequest request = null;
+    HttpRequest request;
 
     @Test
     public void itExtractsTheRequestLine() {

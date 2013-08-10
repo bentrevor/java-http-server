@@ -11,9 +11,9 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class ResponseBuilderTest {
-    ResponseBuilder builder = null;
-    HttpRequest request = null;
-    String response = null;
+    ResponseBuilder builder;
+    HttpRequest request;
+    String response;
 
     @Before
     public void setUp() {

@@ -17,11 +17,11 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class ServerTest {
-    Server myServer = null;
-    MockServerSocket fakeServerSocket = null;
-    OutputStream fakeOutputStream = null;
-    MockSocket fakeClientConnection = null;
-    MockRequestHandler fakeRequestHandler = null;
+    Server myServer;
+    MockServerSocket fakeServerSocket;
+    OutputStream fakeOutputStream;
+    MockSocket fakeClientConnection;
+    MockRequestHandler fakeRequestHandler;
 
     @Before
     public void setUp() throws IOException {
