@@ -3,8 +3,6 @@ package tests;
 import bent.server.HttpRequest;
 import bent.server.ResponseWriter;
 
-import tests.mocks.MockSocket;
-
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -19,27 +17,23 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 @RunWith(JUnit4.class)
 public class ResponseWriterTest {
     public HttpRequest fakeGetRequest;
-    public MockSocket fakeClientConnection;
-    public OutputStream fakeOutputStream;
+    public OutputStream outputStream;
     public ResponseWriter responder;
 
     @Before
     public void setUp() {
-        fakeClientConnection = new MockSocket();
-        fakeOutputStream = new ByteArrayOutputStream();
-        fakeClientConnection.fakeOutputStream = fakeOutputStream;
-
+        outputStream = new ByteArrayOutputStream();
         responder = new ResponseWriter();
-        responder.setClientConnection(fakeClientConnection);
+        responder.setOutputStream(outputStream);
     }
 
     @Test
-    public void itWritesResponsesToItsClientConnection() throws IOException {
+    public void itWritesResponsesToItsOutputStream() throws IOException {
         fakeGetRequest = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
 
         responder.sendResponse("hi");
 
-        assertThat(fakeOutputStream.toString(), containsString("hi"));
+        assertThat(outputStream.toString(), containsString("hi"));
     }
 
     @Test
@@ -48,7 +42,7 @@ public class ResponseWriterTest {
 
         responder.respondTo(fakeGetRequest);
 
-        assertThat(fakeOutputStream.toString(), containsString("HTTP/1.1 200 OK\r\n"));
+        assertThat(outputStream.toString(), containsString("HTTP/1.1 200 OK\r\n"));
     }
 
     @Test
@@ -57,7 +51,7 @@ public class ResponseWriterTest {
 
         responder.respondTo(fakeGetRequest);
 
-        assertThat(fakeOutputStream.toString(), containsString("HTTP/1.1 404 Not Found\r\n"));
+        assertThat(outputStream.toString(), containsString("HTTP/1.1 404 Not Found\r\n"));
     }
 
     @Test
@@ -66,6 +60,6 @@ public class ResponseWriterTest {
 
         responder.respondTo(fakeGetRequest);
 
-        assertThat(fakeOutputStream.toString(), containsString("HTTP/1.1 302 Found\r\n"));
+        assertThat(outputStream.toString(), containsString("HTTP/1.1 302 Found\r\n"));
     }
 }

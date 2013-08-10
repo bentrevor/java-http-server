@@ -25,7 +25,7 @@ public class RequestHandlerTest {
     RequestHandler handler;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         fakeResponseWriter = new MockResponseWriter();
         fakeClientConnection = new MockSocket();
         InputStream fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
@@ -73,7 +73,7 @@ public class RequestHandlerTest {
         handler.setClientConnection(fakeClientConnection);
         handler.setClientConnection(fakeClientConnection);
 
-        assertThat(fakeResponseWriter.setClientConnectionCount, is(3));
+        assertThat(fakeResponseWriter.setOutputStreamCallCount, is(3));
     }
 
     @Test

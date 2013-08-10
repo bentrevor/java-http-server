@@ -2,19 +2,19 @@ package tests.mocks;
 
 import bent.server.HttpRequest;
 import bent.server.IResponseWriter;
-import bent.server.sockets.ISocket;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class MockResponseWriter implements IResponseWriter {
     public int respondToCallCount;
     public HttpRequest respondToArgument;
-    public int setClientConnectionCount;
+    public int setOutputStreamCallCount;
 
     public MockResponseWriter() {
         respondToCallCount = 0;
         respondToArgument = null;
-        setClientConnectionCount = 0;
+        setOutputStreamCallCount = 0;
     }
 
     public void respondTo(HttpRequest request) throws IOException {
@@ -22,7 +22,7 @@ public class MockResponseWriter implements IResponseWriter {
         respondToArgument = request;
     }
 
-    public void setClientConnection(ISocket socket) {
-        setClientConnectionCount++;
+    public void setOutputStream(OutputStream outputStream) {
+        setOutputStreamCallCount++;
     }
 }

@@ -3,9 +3,6 @@ package bent.server;
 import bent.server.sockets.ISocket;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 public class RequestHandler implements IRequestHandler {
     public HttpRequest request;
@@ -23,8 +20,8 @@ public class RequestHandler implements IRequestHandler {
         responder.respondTo(request);
     }
 
-    public void setClientConnection(ISocket socket) {
-        responder.setClientConnection(socket);
+    public void setClientConnection(ISocket socket) throws IOException {
+        responder.setOutputStream(socket.getOutputStream());
         reader.setClientConnection(socket);
     }
 }
