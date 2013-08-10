@@ -22,6 +22,6 @@ public class RequestHandler implements IRequestHandler {
 
     public void setClientConnection(ISocket socket) throws IOException {
         responder.setOutputStream(socket.getOutputStream());
-        reader.setClientConnection(socket);
+        reader.setInputStream(socket.getInputStream());
     }
 }

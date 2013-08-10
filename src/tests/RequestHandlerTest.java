@@ -77,10 +77,10 @@ public class RequestHandlerTest {
     }
 
     @Test
-    public void itSetsTheClientConnectionForTheRequestReader() throws IOException {
+    public void itSetsTheInputStreamForTheRequestReader() throws IOException {
         handler.setClientConnection(fakeClientConnection);
         handler.setClientConnection(fakeClientConnection);
 
-        assertThat(fakeRequestReader.setClientConnectionCount, is(3));
+        assertThat(fakeRequestReader.setInputStreamCallCount, is(3));
     }
 }

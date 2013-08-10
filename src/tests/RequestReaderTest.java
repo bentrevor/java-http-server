@@ -17,17 +17,15 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class RequestReaderTest {
-    MockSocket fakeClientConnection;
+    InputStream inputStream;
     RequestReader reader;
 
     @Before
     public void setUp() {
-        fakeClientConnection = new MockSocket();
-        InputStream fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
-        fakeClientConnection.fakeInputStream = fakeInputStream;
+        inputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
 
         reader = new RequestReader();
-        reader.setClientConnection(fakeClientConnection);
+        reader.setInputStream(inputStream);
     }
 
     @Test
@@ -37,7 +35,8 @@ public class RequestReaderTest {
 
     @Test
     public void itStopsReadingAfterConsecutiveCRLFForGETRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\noops!".getBytes());
+        inputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\noops!".getBytes());
+        reader.setInputStream(inputStream);
 
         String inputFromSocket = reader.readFromSocket();
 
@@ -47,7 +46,8 @@ public class RequestReaderTest {
 
     @Test
     public void itCanExtractTheContentLength() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
+        inputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
+        reader.setInputStream(inputStream);
 
         reader.readFromSocket();
         int contentLength = reader.extractContentLength();
@@ -57,7 +57,8 @@ public class RequestReaderTest {
 
     @Test
     public void itReadsTheBodyForPutRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
+        inputStream = new ByteArrayInputStream("PUT /form HTTP/1.1\r\nContent-Length: 15\r\n\r\ncontent of body".getBytes());
+        reader.setInputStream(inputStream);
 
         String inputFromSocket = reader.readFromSocket();
 
@@ -66,7 +67,8 @@ public class RequestReaderTest {
 
     @Test
     public void itReadsTheBodyForPostRequests() throws IOException {
-        fakeClientConnection.fakeInputStream = new ByteArrayInputStream("POST /form HTTP/1.1\r\nContent-Length: 23\r\n\r\ncontent of post request".getBytes());
+        inputStream = new ByteArrayInputStream("POST /form HTTP/1.1\r\nContent-Length: 23\r\n\r\ncontent of post request".getBytes());
+        reader.setInputStream(inputStream);
 
         String inputFromSocket = reader.readFromSocket();
 

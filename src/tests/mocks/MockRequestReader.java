@@ -8,26 +8,26 @@ import java.io.InputStream;
 
 public class MockRequestReader implements IRequestReader {
     public int readFromSocketCallCount;
-    public int setClientConnectionCount;
-    public ISocket fakeClientConnection;
+    public int setInputStreamCallCount;
+    public InputStream inputStream;
 
     public MockRequestReader() {
         readFromSocketCallCount = 0;
-        setClientConnectionCount = 0;
+        setInputStreamCallCount = 0;
     }
 
     public String readFromSocket() throws IOException {
         readFromSocketCallCount++;
-        InputStream in = fakeClientConnection.getInputStream();
+
         byte[] buffer = new byte[1000];
 
-        in.read(buffer, 0, in.available());
+        inputStream.read(buffer, 0, inputStream.available());
 
         return new String(buffer);
     }
 
-    public void setClientConnection(ISocket socket) {
-        setClientConnectionCount++;
-        fakeClientConnection = socket;
+    public void setInputStream(InputStream inputStream) {
+        setInputStreamCallCount++;
+        this.inputStream = inputStream;
     }
 }

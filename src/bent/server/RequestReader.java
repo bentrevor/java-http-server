@@ -8,12 +8,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class RequestReader implements IRequestReader {
-    public ISocket clientConnection;
+    public InputStream inputStream;
     public char[] buffer;
     public int position;
 
     public String readFromSocket() throws IOException {
-        InputStream inputStream = clientConnection.getInputStream();
         Reader in = new InputStreamReader(inputStream, "UTF-8");
         position = 0;
 
@@ -35,8 +34,8 @@ public class RequestReader implements IRequestReader {
         return new String(buffer);
     }
 
-    public void setClientConnection(ISocket socket) {
-        clientConnection = socket;
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
     public int extractContentLength() {
