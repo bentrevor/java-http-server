@@ -1,17 +1,18 @@
 package tests;
 
 import bent.server.Server;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+
 import tests.mocks.MockRequestHandler;
 import tests.mocks.MockServerSocket;
 import tests.mocks.MockSocket;
 
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import java.io.*;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)

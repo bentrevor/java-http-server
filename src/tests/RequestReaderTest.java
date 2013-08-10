@@ -1,12 +1,11 @@
 package tests;
 
-import bent.server.IRequestReader;
 import bent.server.RequestReader;
+import tests.mocks.MockSocket;
+
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import tests.mocks.MockRequestReader;
-import tests.mocks.MockSocket;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 @RunWith(JUnit4.class)
 public class RequestReaderTest {
     MockSocket fakeClientConnection;
-    MockRequestReader fakeRequestReader;
     RequestReader reader;
 
     @Before
