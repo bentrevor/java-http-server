@@ -45,7 +45,7 @@ public class ServerTest {
 
         myServer.start();
 
-        assertThat(fakeRequestHandler.handleRequestCount, is(3));
+        assertThat(fakeRequestHandler.handleRequestCallCount, is(3));
     }
 
     @Test
@@ -58,12 +58,23 @@ public class ServerTest {
     }
 
     @Test
-    public void itSetsTheClientConnectionForTheRequestHandler() {
+    public void itTellTheRequestHandlerToSetAnInputStream() {
         fakeServerSocket.maxAccepts = 3;
 
         myServer.start();
 
-        assertThat(fakeRequestHandler.setClientConnectionCount, is(3));
+        assertThat(fakeRequestHandler.setReaderInputStreamCallCount, is(3));
+        assertThat(fakeRequestHandler.setReaderInputStreamArgument, is(fakeClientConnection.fakeInputStream));
+    }
+
+    @Test
+    public void itTellTheRequestHandlerToSetAnOutputStream() {
+        fakeServerSocket.maxAccepts = 3;
+
+        myServer.start();
+
+        assertThat(fakeRequestHandler.setWriterOutputStreamCallCount, is(3));
+        assertThat(fakeRequestHandler.setWriterOutputStreamArgument, is(fakeClientConnection.fakeOutputStream));
     }
 
     private void setUpFakeIO() {

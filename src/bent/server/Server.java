@@ -18,7 +18,8 @@ public class Server {
         try {
             while (!serverSocket.isClosed()) {
                 ISocket clientConnection = serverSocket.accept();
-                requestHandler.setClientConnection(clientConnection);
+                requestHandler.setReaderInputStream(clientConnection.getInputStream());
+                requestHandler.setWriterOutputStream(clientConnection.getOutputStream());
                 requestHandler.handleRequest();
                 clientConnection.close();
             }

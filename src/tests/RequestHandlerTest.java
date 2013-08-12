@@ -34,7 +34,8 @@ public class RequestHandlerTest {
         fakeResponseWriter = new MockResponseWriter();
         fakeRequestReader = new MockRequestReader();
         handler = new RequestHandler(fakeRequestReader, fakeResponseWriter);
-        handler.setClientConnection(fakeClientConnection);
+        handler.setReaderInputStream(fakeClientConnection.fakeInputStream);
+        handler.setWriterOutputStream(fakeClientConnection.fakeOutputStream);
     }
 
     @Test
@@ -71,16 +72,16 @@ public class RequestHandlerTest {
 
     @Test
     public void itSetsTheClientConnectionForTheResponseWriter() throws IOException {
-        handler.setClientConnection(fakeClientConnection);
-        handler.setClientConnection(fakeClientConnection);
+        handler.setWriterOutputStream(fakeClientConnection.fakeOutputStream);
+        handler.setWriterOutputStream(fakeClientConnection.fakeOutputStream);
 
         assertThat(fakeResponseWriter.setOutputStreamCallCount, is(3));
     }
 
     @Test
     public void itSetsTheInputStreamForTheRequestReader() throws IOException {
-        handler.setClientConnection(fakeClientConnection);
-        handler.setClientConnection(fakeClientConnection);
+        handler.setReaderInputStream(fakeClientConnection.fakeInputStream);
+        handler.setReaderInputStream(fakeClientConnection.fakeInputStream);
 
         assertThat(fakeRequestReader.setInputStreamCallCount, is(3));
     }

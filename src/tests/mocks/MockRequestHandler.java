@@ -1,24 +1,37 @@
 package tests.mocks;
 
 import bent.server.IRequestHandler;
-import bent.server.sockets.ISocket;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MockRequestHandler implements IRequestHandler {
-    public int handleRequestCount;
-    public int setClientConnectionCount;
+    public int handleRequestCallCount;
+    public int setReaderInputStreamCallCount;
+    public int setWriterOutputStreamCallCount;
+    public InputStream setReaderInputStreamArgument;
+    public OutputStream setWriterOutputStreamArgument;
 
     public MockRequestHandler() {
-        handleRequestCount = 0;
-        setClientConnectionCount = 0;
+        handleRequestCallCount = 0;
+        setReaderInputStreamCallCount = 0;
+        setWriterOutputStreamCallCount = 0;
+        setReaderInputStreamArgument = null;
+        setWriterOutputStreamArgument = null;
     }
 
     public void handleRequest() throws IOException {
-        handleRequestCount++;
+        handleRequestCallCount++;
     }
 
-    public void setClientConnection(ISocket socket) {
-        setClientConnectionCount++;
+    public void setReaderInputStream(InputStream in) {
+        setReaderInputStreamCallCount++;
+        setReaderInputStreamArgument = in;
+    }
+
+    public void setWriterOutputStream(OutputStream out) {
+        setWriterOutputStreamCallCount++;
+        setWriterOutputStreamArgument = out;
     }
 }
