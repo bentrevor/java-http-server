@@ -4,15 +4,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class ResponseWriter implements IResponseWriter {
-    public OutputStream outputStream;
-    public String response;
+    private OutputStream outputStream;
 
     public void respondTo(HttpRequest request) throws IOException {
-        response = buildResponse(request);
+        String response = buildResponse(request);
         sendResponse(response);
     }
 
-    public String buildResponse(HttpRequest request) {
+    String buildResponse(HttpRequest request) {
         HttpResponse response = new ResponseBuilder().buildResponse(request);
 
         return response.toString();

@@ -6,7 +6,7 @@ public class HttpRequest {
     public Hashtable<String, String> headers;
     public String requestLine;
     public String body;
-    public String fullHeaders;
+    private String fullHeaders;
 
     public HttpRequest(String request) {
         body = null;

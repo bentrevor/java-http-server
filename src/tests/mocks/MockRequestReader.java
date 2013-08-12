@@ -1,7 +1,6 @@
 package tests.mocks;
 
 import bent.server.IRequestReader;
-import bent.server.sockets.ISocket;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +8,7 @@ import java.io.InputStream;
 public class MockRequestReader implements IRequestReader {
     public int readFromSocketCallCount;
     public int setInputStreamCallCount;
-    public InputStream inputStream;
+    private InputStream inputStream;
 
     public MockRequestReader() {
         readFromSocketCallCount = 0;

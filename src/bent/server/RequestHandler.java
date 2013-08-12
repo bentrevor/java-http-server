@@ -5,9 +5,8 @@ import bent.server.sockets.ISocket;
 import java.io.IOException;
 
 public class RequestHandler implements IRequestHandler {
-    public HttpRequest request;
-    public IResponseWriter responder;
-    public IRequestReader reader;
+    private IResponseWriter responder;
+    private IRequestReader reader;
 
     public RequestHandler(IRequestReader reader, IResponseWriter responder) {
         this.responder = responder;
@@ -16,7 +15,7 @@ public class RequestHandler implements IRequestHandler {
 
     public void handleRequest() throws IOException {
         String inputFromSocket = reader.readFromSocket();
-        request = new HttpRequest(inputFromSocket);
+        HttpRequest request = new HttpRequest(inputFromSocket);
         responder.respondTo(request);
     }
 

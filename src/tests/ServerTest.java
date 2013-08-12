@@ -1,27 +1,25 @@
 package tests;
 
 import bent.server.Server;
-
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import tests.mocks.MockRequestHandler;
 import tests.mocks.MockServerSocket;
 import tests.mocks.MockSocket;
 
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import java.io.*;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class ServerTest {
-    Server myServer;
-    MockServerSocket fakeServerSocket;
-    OutputStream fakeOutputStream;
-    MockSocket fakeClientConnection;
-    MockRequestHandler fakeRequestHandler;
+    private Server myServer;
+    private MockServerSocket fakeServerSocket;
+    private MockSocket fakeClientConnection;
+    private MockRequestHandler fakeRequestHandler;
 
     @Before
     public void setUp() throws IOException {
@@ -70,7 +68,7 @@ public class ServerTest {
 
     private void setUpFakeIO() {
         fakeClientConnection = new MockSocket();
-        fakeOutputStream = new ByteArrayOutputStream();
+        OutputStream fakeOutputStream = new ByteArrayOutputStream();
         InputStream fakeInputStream = new ByteArrayInputStream("hello".getBytes());
         fakeClientConnection.fakeInputStream = fakeInputStream;
         fakeClientConnection.fakeOutputStream = fakeOutputStream;

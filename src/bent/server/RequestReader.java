@@ -1,16 +1,14 @@
 package bent.server;
 
-import bent.server.sockets.ISocket;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class RequestReader implements IRequestReader {
-    public InputStream inputStream;
-    public char[] buffer;
-    public int position;
+    private InputStream inputStream;
+    private char[] buffer;
+    private int position;
 
     public String readFromSocket() throws IOException {
         Reader in = new InputStreamReader(inputStream, "UTF-8");

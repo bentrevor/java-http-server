@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class RealServerSocket implements IServerSocket {
-    public ServerSocket serverSocket;
+    private ServerSocket serverSocket;
 
     public RealServerSocket(ServerSocket serverSocket){
         this.serverSocket = serverSocket;

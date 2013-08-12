@@ -1,17 +1,18 @@
 package tests;
 
 import bent.server.HttpResponse;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class HttpResponseTest {
-    HttpResponse response;
+    private HttpResponse response;
 
     @Before
     public void setUp() {

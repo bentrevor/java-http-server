@@ -1,8 +1,6 @@
 package bent.server;
 
 
-import bent.server.sockets.ISocket;
-
 import java.io.IOException;
 import java.io.InputStream;
 

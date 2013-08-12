@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class RealSocket implements ISocket {
-    Socket socket;
+    private Socket socket;
 
     public RealSocket(Socket concreteSocket) {
         socket = concreteSocket;

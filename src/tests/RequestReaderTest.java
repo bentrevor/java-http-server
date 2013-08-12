@@ -1,9 +1,8 @@
 package tests;
 
 import bent.server.RequestReader;
-import tests.mocks.MockSocket;
-
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -17,8 +16,8 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class RequestReaderTest {
-    InputStream inputStream;
-    RequestReader reader;
+    private InputStream inputStream;
+    private RequestReader reader;
 
     @Before
     public void setUp() {

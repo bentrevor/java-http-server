@@ -3,10 +3,10 @@ package bent.server;
 import java.util.LinkedList;
 
 public class HttpResponse {
-    public LinkedList<String> headers;
-    public StringBuilder responseBuilder;
+    private LinkedList<String> headers;
+    private StringBuilder responseBuilder;
     public String statusLine;
-    public String body;
+    private String body;
 
     public HttpResponse() {
         responseBuilder = new StringBuilder();

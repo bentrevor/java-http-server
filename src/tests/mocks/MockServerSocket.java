@@ -9,7 +9,7 @@ public class MockServerSocket implements IServerSocket {
     public int acceptCallCount;
     public int maxAccepts;
     public ISocket createdClientConnection;
-    public boolean isClosed;
+    private boolean isClosed;
 
     public ISocket accept() throws IOException {
         acceptCallCount++;

@@ -2,27 +2,28 @@ package tests;
 
 import bent.server.HttpRequest;
 import bent.server.RequestHandler;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import tests.mocks.MockRequestReader;
 import tests.mocks.MockResponseWriter;
 import tests.mocks.MockSocket;
-
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
-    MockResponseWriter fakeResponseWriter;
-    MockSocket fakeClientConnection;
-    MockRequestReader fakeRequestReader;
-    RequestHandler handler;
+    private MockResponseWriter fakeResponseWriter;
+    private MockSocket fakeClientConnection;
+    private MockRequestReader fakeRequestReader;
+    private RequestHandler handler;
 
     @Before
     public void setUp() throws IOException {

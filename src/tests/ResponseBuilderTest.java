@@ -2,18 +2,19 @@ package tests;
 
 import bent.server.HttpRequest;
 import bent.server.ResponseBuilder;
-
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class ResponseBuilderTest {
-    ResponseBuilder builder;
-    HttpRequest request;
-    String response;
+    private ResponseBuilder builder;
+    private HttpRequest request;
+    private String response;
 
     @Before
     public void setUp() {
