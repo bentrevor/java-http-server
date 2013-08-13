@@ -1,5 +1,6 @@
 package bent.server;
 
+import bent.server.responses.RedirectResponse;
 import bent.server.responses.RootResponse;
 
 public class ResponseBuilder implements IResponseBuilder {
@@ -9,10 +10,11 @@ public class ResponseBuilder implements IResponseBuilder {
         String path = request.getRequestURI();
 
         if (path.equals("/")) {
-            response = new RootResponse(request);
+            response = new RootResponse();
+            response.buildResponse(request);
         } else if (path.equals("/redirect")) {
-            response.setStatusLine(request.getHttpVersion() + " 302 Found");
-            response.setLocation("http://localhost:5000/");
+            response = new RedirectResponse();
+            response.buildResponse(request);
         } else if (path.equals("/form")) {
             response.setStatusLine(request.getHttpVersion() + " 200 OK");
         } else {

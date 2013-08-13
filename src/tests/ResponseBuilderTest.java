@@ -45,7 +45,7 @@ public class ResponseBuilderTest {
 
         response = builder.buildResponse(request).toString();
 
-        assertThat(response, containsString("HTTP/1.1 302 Found\r\n"));
+        assertThat(response, containsString("HTTP/1.1 301 Moved Permanently\r\n"));
         assertThat(response, containsString("Location: http://localhost:5000/\r\n"));
     }
 

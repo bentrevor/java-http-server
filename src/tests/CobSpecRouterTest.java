@@ -15,11 +15,25 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class CobSpecRouterTest {
+    public CobSpecRouter router;
+    public Hashtable<String, HttpResponse> routes;
+
+    @Before
+    public void setUp() {
+        router = new CobSpecRouter();
+        routes = router.getRoutes();
+    }
+
     @Test
     public void itHasTheRootRoute() {
-        CobSpecRouter router = new CobSpecRouter();
-        Hashtable<String, HttpResponse> routes = router.getRoutes();
         HttpResponse response = routes.get("/");
+
+        assertThat(response, is(notNullValue()));
+    }
+
+    @Test
+    public void itHasTheRedirectRoute() {
+        HttpResponse response = routes.get("/redirect");
 
         assertThat(response, is(notNullValue()));
     }

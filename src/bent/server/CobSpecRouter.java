@@ -1,5 +1,6 @@
 package bent.server;
 
+import bent.server.responses.RedirectResponse;
 import bent.server.responses.RootResponse;
 
 import java.util.Hashtable;
@@ -10,6 +11,7 @@ public class CobSpecRouter {
     public Hashtable<String, HttpResponse> getRoutes() {
         routes = new Hashtable<>();
         routes.put("/", new RootResponse());
+        routes.put("/redirect", new RedirectResponse());
         return routes;
     }
 }

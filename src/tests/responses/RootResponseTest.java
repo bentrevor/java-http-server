@@ -15,7 +15,9 @@ public class RootResponseTest {
     @Test
     public void itReturns200Status() {
         HttpRequest request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        HttpResponse response = new RootResponse(request);
+        HttpResponse response = new RootResponse();
+        response.buildResponse(request);
+
         assertThat(response.statusLine, is("HTTP/1.1 200 OK"));
     }
 }

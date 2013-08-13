@@ -8,6 +8,9 @@ public class HttpResponse {
     public String statusLine;
     private String body;
 
+    public void buildResponse(HttpRequest request) {
+    }
+
     public HttpResponse() {
         responseBuilder = new StringBuilder();
         headers = new LinkedList<>();
