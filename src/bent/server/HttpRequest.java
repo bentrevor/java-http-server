@@ -4,9 +4,11 @@ import java.util.Hashtable;
 
 public class HttpRequest {
     public Hashtable<String, String> headers;
-    public String requestLine;
     public String body;
     private String fullHeaders;
+    private String method;
+    private String requestURI;
+    private String httpVersion;
 
     public HttpRequest(String request) {
         body = null;
@@ -25,7 +27,10 @@ public class HttpRequest {
     }
 
     private void setRequestLine() {
-        requestLine = fullHeaders.split("\r\n", 2)[0];
+        String requestLine = fullHeaders.split("\r\n", 2)[0];
+        method = requestLine.split(" ")[0];
+        requestURI = requestLine.split(" ")[1];
+        httpVersion = requestLine.split(" ")[2];
     }
 
     private boolean headersProvided() {
@@ -44,7 +49,7 @@ public class HttpRequest {
     }
 
     private boolean putOrPostRequest() {
-        return requestLine.split(" ")[0].equals("PUT") || requestLine.split(" ")[0].equals("POST");
+        return method.equals("PUT") || method.equals("POST");
     }
 
     private boolean bodySentWith(String request) {
@@ -52,15 +57,15 @@ public class HttpRequest {
     }
 
     public String getMethod() {
-        return requestLine.split(" ")[0];
+        return method;
     }
 
     public String getRequestURI() {
-        return requestLine.split(" ")[1];
+        return requestURI;
     }
 
     public String getHttpVersion() {
-        return requestLine.split(" ")[2];
+        return httpVersion;
     }
 
     public String getContentLength() {

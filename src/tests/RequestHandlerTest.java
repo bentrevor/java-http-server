@@ -60,11 +60,14 @@ public class RequestHandlerTest {
     @Test
     public void itSendsTheParsedRequestToTheResponder() throws IOException {
         fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
+        handler.setReaderInputStream(fakeInputStream);
         handler.handleRequest();
 
         HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
 
-        assertThat(parsedRequest.requestLine, is(equalTo("GET /peanuts HTTP/1.1")));
+        assertThat(parsedRequest.getMethod(), is(equalTo("GET")));
+        assertThat(parsedRequest.getRequestURI(), is(equalTo("/peanuts")));
+        assertThat(parsedRequest.getHttpVersion(), is(equalTo("HTTP/1.1")));
     }
 
     @Test

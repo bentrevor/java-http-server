@@ -14,12 +14,6 @@ public class HttpRequestTest {
     private HttpRequest request;
 
     @Test
-    public void itExtractsTheRequestLine() {
-        request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
-        assertThat(request.requestLine, is(equalTo("GET / HTTP/1.1")));
-    }
-
-    @Test
     public void itExtractsTheMethodFromRequestLine() {
         request = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
         assertThat(request.getMethod(), is(equalTo("GET")));
