@@ -9,6 +9,7 @@ public class HttpResponse {
     private String body;
 
     public void buildResponse(HttpRequest request) {
+        setStatusLine(request.getHttpVersion() + " 404 Not Found");
     }
 
     public HttpResponse() {

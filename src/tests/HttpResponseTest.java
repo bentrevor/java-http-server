@@ -1,5 +1,6 @@
 package tests;
 
+import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,5 +59,15 @@ public class HttpResponseTest {
         String fullResponse = response.toString();
 
         assertThat(fullResponse, containsString("\r\n\r\nresponse body"));
+    }
+
+    @Test
+    public void itBuildsADefault404Response() {
+        HttpRequest fakeRequest = new HttpRequest("GET /foobar HTTP/1.1\r\n\r\n");
+        response.buildResponse(fakeRequest);
+
+        String fullResponse = response.toString();
+
+        assertThat(fullResponse, containsString("HTTP/1.1 404 Not Found"));
     }
 }
