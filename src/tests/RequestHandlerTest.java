@@ -20,47 +20,35 @@ public class RequestHandlerTest {
     private MockResponseWriter fakeResponseWriter;
     private MockRequestReader fakeRequestReader;
     private RequestHandler handler;
-    private InputStream fakeInputStream;
-    private OutputStream fakeOutputStream;
+    private InputStream in;
+    private OutputStream out;
 
     @Before
     public void setUp() throws IOException {
         fakeResponseWriter = new MockResponseWriter();
-        fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
-        fakeOutputStream = new ByteArrayOutputStream();
         fakeResponseWriter = new MockResponseWriter();
         fakeRequestReader = new MockRequestReader();
         handler = new RequestHandler(fakeRequestReader, fakeResponseWriter);
-        handler.setReaderInputStream(fakeInputStream);
-        handler.setWriterOutputStream(fakeOutputStream);
+        out = new ByteArrayOutputStream();
     }
 
     @Test
     public void itTellsARequestReaderToReadARequest() throws IOException {
-        handler.handleRequest();
-        fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
-        handler.handleRequest();
-        fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
-        handler.handleRequest();
+        makeThreeRequests();
 
         assertThat(fakeRequestReader.readFromSocketCallCount, is(equalTo(3)));
     }
 
     @Test
     public void itTellsAResponseWriterToSendAResponse() throws IOException {
-        handler.handleRequest();
-        fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
-        handler.handleRequest();
-        fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
-        handler.handleRequest();
+        makeThreeRequests();
 
         assertThat(fakeResponseWriter.respondToCallCount, is(equalTo(3)));
     }
 
     @Test
     public void itSendsTheParsedRequestToTheResponder() throws IOException {
-        fakeInputStream = new ByteArrayInputStream("GET /peanuts HTTP/1.1\r\n\r\n".getBytes());
-        handler.setReaderInputStream(fakeInputStream);
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
         handler.handleRequest();
 
         HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
@@ -72,17 +60,37 @@ public class RequestHandlerTest {
 
     @Test
     public void itSetsTheClientConnectionForTheResponseWriter() throws IOException {
-        handler.setWriterOutputStream(fakeOutputStream);
-        handler.setWriterOutputStream(fakeOutputStream);
+        assertThat(fakeResponseWriter.setOutputStreamCallCount, is(0));
+
+        handler.setWriterOutputStream(out);
+        handler.setWriterOutputStream(out);
+        handler.setWriterOutputStream(out);
 
         assertThat(fakeResponseWriter.setOutputStreamCallCount, is(3));
     }
 
     @Test
     public void itSetsTheInputStreamForTheRequestReader() throws IOException {
-        handler.setReaderInputStream(fakeInputStream);
-        handler.setReaderInputStream(fakeInputStream);
+        assertThat(fakeRequestReader.setInputStreamCallCount, is(0));
+
+        handler.setReaderInputStream(in);
+        handler.setReaderInputStream(in);
+        handler.setReaderInputStream(in);
 
         assertThat(fakeRequestReader.setInputStreamCallCount, is(3));
+    }
+
+    private void setInputStreamContent(String content) {
+        in = new ByteArrayInputStream(content.getBytes());
+        handler.setReaderInputStream(in);
+    }
+
+    private void makeThreeRequests() throws IOException {
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
+        handler.handleRequest();
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
+        handler.handleRequest();
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
+        handler.handleRequest();
     }
 }
