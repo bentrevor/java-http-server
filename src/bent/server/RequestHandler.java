@@ -1,7 +1,5 @@
 package bent.server;
 
-import bent.server.sockets.ISocket;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,8 +18,8 @@ public class RequestHandler implements IRequestHandler {
     public void handleRequest() throws IOException {
         String inputFromSocket = reader.readFromSocket();
         HttpRequest request = new HttpRequest(inputFromSocket);
-        builder.buildResponse(request);
-        writer.respondTo(request);
+        HttpResponse response = builder.buildResponse(request);
+        writer.send(response);
     }
 
     public void setReaderInputStream(InputStream in) {

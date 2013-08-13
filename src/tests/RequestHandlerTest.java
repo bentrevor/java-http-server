@@ -1,8 +1,10 @@
 package tests;
 
 import bent.server.HttpRequest;
+import bent.server.HttpResponse;
 import bent.server.RequestHandler;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -15,6 +17,7 @@ import java.io.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {
@@ -45,7 +48,22 @@ public class RequestHandlerTest {
     public void itTellsAResponseWriterToSendAResponse() throws IOException {
         makeThreeRequests();
 
-        assertThat(fakeResponseWriter.respondToCallCount, is(equalTo(3)));
+        assertThat(fakeResponseWriter.sendCallCount, is(equalTo(3)));
+    }
+
+    @Ignore
+    public void itGivesTheBuiltResponseToTheResponseWriter() throws IOException {
+        HttpResponse fakeResponse = new HttpResponse();
+        fakeResponse.setStatusLine("HTTP/1.1 200 OK");
+
+        fakeResponseBuilder.setBuiltResponse(fakeResponse);
+
+        String responseToSend = fakeResponseWriter.sendArgument.toString();
+
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
+        handler.handleRequest();
+
+        assertThat(responseToSend, containsString("HTTP/1.1 200 OK"));
     }
 
     @Test
