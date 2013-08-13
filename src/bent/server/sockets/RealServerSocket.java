@@ -6,8 +6,8 @@ import java.net.ServerSocket;
 public class RealServerSocket implements IServerSocket {
     private ServerSocket serverSocket;
 
-    public RealServerSocket(ServerSocket serverSocket){
-        this.serverSocket = serverSocket;
+    public RealServerSocket(ServerSocket socket){
+        serverSocket = socket;
     }
 
     public ISocket accept() throws IOException {

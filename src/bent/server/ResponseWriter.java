@@ -10,7 +10,7 @@ public class ResponseWriter implements IResponseWriter {
         outputStream.write(response.toString().getBytes());
     }
 
-    public void setOutputStream(OutputStream outputStream) {
-        this.outputStream = outputStream;
+    public void setOutputStream(OutputStream out) {
+        outputStream = out;
     }
 }

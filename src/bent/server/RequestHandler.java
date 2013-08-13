@@ -9,10 +9,10 @@ public class RequestHandler implements IRequestHandler {
     private IResponseBuilder builder;
     private IRequestReader reader;
 
-    public RequestHandler(IRequestReader reader, IResponseBuilder builder, IResponseWriter writer) {
-        this.writer = writer;
-        this.builder = builder;
-        this.reader = reader;
+    public RequestHandler(IRequestReader requestReader, IResponseBuilder responseBuilder, IResponseWriter responseWriter) {
+        reader = requestReader;
+        builder = responseBuilder;
+        writer = responseWriter;
     }
 
     public void handleRequest() throws IOException {

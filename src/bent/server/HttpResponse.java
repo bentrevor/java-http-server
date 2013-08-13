@@ -39,7 +39,7 @@ public class HttpResponse {
         headers.add("Location: " + location);
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setBody(String content) {
+        body = content;
     }
 }

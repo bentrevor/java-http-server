@@ -25,8 +25,8 @@ public class MockRequestReader implements IRequestReader {
         return new String(buffer);
     }
 
-    public void setInputStream(InputStream inputStream) {
+    public void setInputStream(InputStream in) {
         setInputStreamCallCount++;
-        this.inputStream = inputStream;
+        inputStream = in;
     }
 }

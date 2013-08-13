@@ -32,8 +32,8 @@ public class RequestReader implements IRequestReader {
         return new String(buffer);
     }
 
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public void setInputStream(InputStream in) {
+        inputStream = in;
     }
 
     public int extractContentLength() {

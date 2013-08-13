@@ -26,7 +26,6 @@ public class RequestHandlerTest {
     private MockResponseBuilder fakeResponseBuilder;
     private RequestHandler handler;
     private InputStream in;
-    private OutputStream out;
 
     @Before
     public void setUp() throws IOException {
@@ -80,7 +79,7 @@ public class RequestHandlerTest {
 
     @Test
     public void itSetsTheClientConnectionForTheResponseWriter() throws IOException {
-        out = new ByteArrayOutputStream();
+        OutputStream out = new ByteArrayOutputStream();
         assertThat(fakeResponseWriter.setOutputStreamCallCount, is(0));
 
         handler.setWriterOutputStream(out);
