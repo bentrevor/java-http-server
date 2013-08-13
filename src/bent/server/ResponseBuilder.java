@@ -1,5 +1,6 @@
 package bent.server;
 
+import bent.server.responses.FormResponse;
 import bent.server.responses.RedirectResponse;
 import bent.server.responses.RootResponse;
 
@@ -16,7 +17,8 @@ public class ResponseBuilder implements IResponseBuilder {
             response = new RedirectResponse();
             response.buildResponse(request);
         } else if (path.equals("/form")) {
-            response.setStatusLine(request.getHttpVersion() + " 200 OK");
+            response = new FormResponse();
+            response.buildResponse(request);
         } else {
             response.setStatusLine(request.getHttpVersion() + " 404 Not Found");
         }

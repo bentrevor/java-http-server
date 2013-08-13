@@ -1,5 +1,6 @@
 package bent.server;
 
+import bent.server.responses.FormResponse;
 import bent.server.responses.RedirectResponse;
 import bent.server.responses.RootResponse;
 
@@ -12,6 +13,7 @@ public class CobSpecRouter {
         routes = new Hashtable<>();
         routes.put("/", new RootResponse());
         routes.put("/redirect", new RedirectResponse());
+        routes.put("/form", new FormResponse());
         return routes;
     }
 }

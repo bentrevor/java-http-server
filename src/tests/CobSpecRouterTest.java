@@ -37,4 +37,11 @@ public class CobSpecRouterTest {
 
         assertThat(response, is(notNullValue()));
     }
+
+    @Test
+    public void itHasTheFormRoute() {
+        HttpResponse response = routes.get("/form");
+
+        assertThat(response, is(notNullValue()));
+    }
 }
