@@ -5,7 +5,7 @@ import java.util.Hashtable;
 public class HttpRequest {
     public Hashtable<String, String> headers;
     public String body;
-    private String fullHeaders;
+    public String fullHeaders;
     private String method;
     private String requestURI;
     private String httpVersion;
