@@ -7,18 +7,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class RequestHandler implements IRequestHandler {
-    private IResponseWriter responder;
+    private IResponseWriter writer;
+    private IResponseBuilder builder;
     private IRequestReader reader;
 
-    public RequestHandler(IRequestReader reader, IResponseWriter responder) {
-        this.responder = responder;
+    public RequestHandler(IRequestReader reader, IResponseBuilder builder, IResponseWriter writer) {
+        this.writer = writer;
+        this.builder = builder;
         this.reader = reader;
     }
 
     public void handleRequest() throws IOException {
         String inputFromSocket = reader.readFromSocket();
         HttpRequest request = new HttpRequest(inputFromSocket);
-        responder.respondTo(request);
+        builder.buildResponse(request);
+        writer.respondTo(request);
     }
 
     public void setReaderInputStream(InputStream in) {
@@ -26,6 +29,6 @@ public class RequestHandler implements IRequestHandler {
     }
 
     public void setWriterOutputStream(OutputStream out) {
-        responder.setOutputStream(out);
+        writer.setOutputStream(out);
     }
 }

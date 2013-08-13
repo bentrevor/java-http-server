@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import tests.mocks.MockRequestReader;
+import tests.mocks.MockResponseBuilder;
 import tests.mocks.MockResponseWriter;
 
 import java.io.*;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertThat;
 public class RequestHandlerTest {
     private MockResponseWriter fakeResponseWriter;
     private MockRequestReader fakeRequestReader;
+    private MockResponseBuilder fakeResponseBuilder;
     private RequestHandler handler;
     private InputStream in;
     private OutputStream out;
@@ -26,10 +28,10 @@ public class RequestHandlerTest {
     @Before
     public void setUp() throws IOException {
         fakeResponseWriter = new MockResponseWriter();
-        fakeResponseWriter = new MockResponseWriter();
+        fakeResponseBuilder = new MockResponseBuilder();
         fakeRequestReader = new MockRequestReader();
-        handler = new RequestHandler(fakeRequestReader, fakeResponseWriter);
-        out = new ByteArrayOutputStream();
+
+        handler = new RequestHandler(fakeRequestReader, fakeResponseBuilder, fakeResponseWriter);
     }
 
     @Test
@@ -47,11 +49,11 @@ public class RequestHandlerTest {
     }
 
     @Test
-    public void itSendsTheParsedRequestToTheResponder() throws IOException {
+    public void itSendsTheParsedRequestToTheResponseBuilder() throws IOException {
         setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
         handler.handleRequest();
 
-        HttpRequest parsedRequest = fakeResponseWriter.respondToArgument;
+        HttpRequest parsedRequest = fakeResponseBuilder.buildResponseArgument;
 
         assertThat(parsedRequest.getMethod(), is(equalTo("GET")));
         assertThat(parsedRequest.getRequestURI(), is(equalTo("/peanuts")));
@@ -60,6 +62,7 @@ public class RequestHandlerTest {
 
     @Test
     public void itSetsTheClientConnectionForTheResponseWriter() throws IOException {
+        out = new ByteArrayOutputStream();
         assertThat(fakeResponseWriter.setOutputStreamCallCount, is(0));
 
         handler.setWriterOutputStream(out);

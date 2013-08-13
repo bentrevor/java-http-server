@@ -11,8 +11,9 @@ public class Main {
         RealServerSocket serverSocket = new RealServerSocket(socketOn5000);
 
         ResponseWriter responder = new ResponseWriter();
+        ResponseBuilder builder = new ResponseBuilder();
         RequestReader reader = new RequestReader();
-        RequestHandler handler = new RequestHandler(reader, responder);
+        RequestHandler handler = new RequestHandler(reader, builder, responder);
 
         Server myServer = new Server(serverSocket, handler);
 

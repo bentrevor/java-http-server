@@ -1,6 +1,6 @@
 package bent.server;
 
-public class ResponseBuilder {
+public class ResponseBuilder implements IResponseBuilder {
     public HttpResponse buildResponse(HttpRequest request) {
         HttpResponse response = new HttpResponse();
 
