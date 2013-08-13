@@ -9,4 +9,7 @@ public class RootResponse extends HttpResponse {
             setStatusLine("HTTP/1.1 200 OK");
         }
     }
+
+    public RootResponse() {
+    }
 }
