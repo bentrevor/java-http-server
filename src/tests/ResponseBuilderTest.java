@@ -1,12 +1,16 @@
 package tests;
 
+import bent.server.CobSpecRouter;
 import bent.server.HttpRequest;
+import bent.server.IRouter;
 import bent.server.ResponseBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import tests.mocks.MockRouter;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
@@ -18,7 +22,8 @@ public class ResponseBuilderTest {
 
     @Before
     public void setUp() {
-        builder = new ResponseBuilder();
+        IRouter router = new CobSpecRouter();
+        builder = new ResponseBuilder(router);
     }
 
     @Test
@@ -56,5 +61,16 @@ public class ResponseBuilderTest {
         response = builder.buildResponse(request).toString();
 
         assertThat(response, containsString("HTTP/1.1 200 OK\r\n"));
+    }
+
+    @Test
+    public void itGetsRoutesFromARouterWhenConstructed() {
+        MockRouter fakeRouter = new MockRouter();
+
+        builder = new ResponseBuilder(fakeRouter);
+        builder = new ResponseBuilder(fakeRouter);
+        builder = new ResponseBuilder(fakeRouter);
+
+        assertThat(fakeRouter.getRoutesCallCount, is(3));
     }
 }
