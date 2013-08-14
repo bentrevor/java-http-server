@@ -52,6 +52,15 @@ public class FormResponseTest {
     }
 
     @Test
+    public void itSavesDataFromPutRequestsToTheBody() {
+        request = new HttpRequest("PUT /form HTTP/1.1\r\nContent-Length: 10\r\n\r\ndata=bubsy");
+        response.buildResponse(request);
+
+        assertThat(response.body, containsString("data = bubsy"));
+    }
+
+
+    @Test
     public void itKeepsTheBodyBetweenRequests() {
         request = new HttpRequest("POST /form HTTP/1.1\r\nContent-Length: 10\r\n\r\ndata=cosby");
         response.buildResponse(request);
