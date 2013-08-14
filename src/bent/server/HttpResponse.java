@@ -13,12 +13,12 @@ public class HttpResponse {
     }
 
     public HttpResponse() {
-        responseBuilder = new StringBuilder();
         headers = new LinkedList<>();
         body = "";
     }
 
     public String toString() {
+        responseBuilder = new StringBuilder();
         responseBuilder.append(statusLine + "\r\n");
 
         for (String header : headers) {

@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
@@ -69,5 +71,16 @@ public class HttpResponseTest {
         String fullResponse = response.toString();
 
         assertThat(fullResponse, containsString("HTTP/1.1 404 Not Found"));
+    }
+
+    @Test
+    public void itUsesANewStringBuilderForEachResponse() {
+        HttpRequest fakeRequest = new HttpRequest("GET / HTTP/1.1\r\n\r\n");
+        response.buildResponse(fakeRequest);
+
+        String firstResponse = response.toString();
+        String secondResponse = response.toString();
+
+        assertThat(firstResponse.length(), is(equalTo(secondResponse.length())));
     }
 }
