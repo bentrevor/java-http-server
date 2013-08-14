@@ -6,7 +6,7 @@ public class HttpResponse {
     private LinkedList<String> headers;
     private StringBuilder responseBuilder;
     public String statusLine;
-    private String body;
+    public String body;
 
     public void buildResponse(HttpRequest request) {
         setStatusLine(request.getHttpVersion() + " 404 Not Found");
