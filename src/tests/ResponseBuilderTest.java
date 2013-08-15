@@ -64,6 +64,16 @@ public class ResponseBuilderTest {
     }
 
     @Test
+    public void itHandlesFileRoutes() {
+        request = new HttpRequest("GET /file1 HTTP/1.1\r\n\r\n\"My\"=\"Data\"");
+
+        response = builder.buildResponse(request).toString();
+
+        assertThat(response, containsString("HTTP/1.1 200 OK\r\n"));
+        assertThat(response, containsString("file1 contents"));
+    }
+
+    @Test
     public void itGetsRoutesFromARouterWhenConstructed() {
         MockRouter fakeRouter = new MockRouter();
 

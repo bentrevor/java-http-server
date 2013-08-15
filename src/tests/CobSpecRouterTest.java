@@ -2,6 +2,7 @@ package tests;
 
 import bent.server.CobSpecRouter;
 import bent.server.HttpResponse;
+import bent.server.responses.FileResponse;
 import bent.server.responses.FormResponse;
 import bent.server.responses.RedirectResponse;
 import bent.server.responses.RootResponse;
@@ -50,5 +51,13 @@ public class CobSpecRouterTest {
 
         assertThat(response, is(notNullValue()));
         assertThat(response, is(instanceOf(FormResponse.class)));
+    }
+
+    @Test
+    public void itHasTheFileRoute() {
+        HttpResponse response = routes.get("/file1");
+
+        assertThat(response, is(notNullValue()));
+        assertThat(response, is(instanceOf(FileResponse.class)));
     }
 }
