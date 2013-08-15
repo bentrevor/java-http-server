@@ -65,12 +65,21 @@ public class ResponseBuilderTest {
 
     @Test
     public void itHandlesFileRoutes() {
-        request = new HttpRequest("GET /file1 HTTP/1.1\r\n\r\n\"My\"=\"Data\"");
+        request = new HttpRequest("GET /file1 HTTP/1.1\r\n\r\n");
 
         response = builder.buildResponse(request).toString();
 
         assertThat(response, containsString("HTTP/1.1 200 OK\r\n"));
         assertThat(response, containsString("file1 contents"));
+    }
+
+    @Test
+    public void itSendsContentLengthWithImages() {
+        request = new HttpRequest("GET /image.jpeg HTTP/1.1\r\n\r\n");
+
+        response = builder.buildResponse(request).toString();
+
+        assertThat(response, containsString("Content-Length: 38400"));
     }
 
     @Test

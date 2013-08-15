@@ -54,8 +54,38 @@ public class CobSpecRouterTest {
     }
 
     @Test
-    public void itHasTheFileRoute() {
-        HttpResponse response = routes.get("/file1");
+    public void itHasTheFile2Route() {
+        HttpResponse response = routes.get("/file2");
+
+        assertThat(response, is(notNullValue()));
+        assertThat(response, is(instanceOf(FileResponse.class)));
+    }
+
+    @Test
+    public void itHasImageRoutes() {
+        HttpResponse jpegResponse = routes.get("/image.jpeg");
+        HttpResponse pngResponse = routes.get("/image.png");
+        HttpResponse gifResponse = routes.get("/image.gif");
+
+        assertThat(jpegResponse, is(notNullValue()));
+        assertThat(jpegResponse, is(instanceOf(FileResponse.class)));
+        assertThat(gifResponse, is(notNullValue()));
+        assertThat(gifResponse, is(instanceOf(FileResponse.class)));
+        assertThat(pngResponse, is(notNullValue()));
+        assertThat(pngResponse, is(instanceOf(FileResponse.class)));
+    }
+
+    @Test
+    public void itHasRouteForTextFile() {
+        HttpResponse response = routes.get("/text-file.txt");
+
+        assertThat(response, is(notNullValue()));
+        assertThat(response, is(instanceOf(FileResponse.class)));
+    }
+
+    @Test
+    public void itHasRouteForPartialContent() {
+        HttpResponse response = routes.get("/partial-content.txt");
 
         assertThat(response, is(notNullValue()));
         assertThat(response, is(instanceOf(FileResponse.class)));

@@ -13,14 +13,19 @@ public class FileResponse extends HttpResponse {
     }
 
     public void buildResponse(HttpRequest request) {
-        setStatusLine("HTTP/1.1 200 OK");
-        String body = "";
-        try {
-            body = new String(readFile());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!request.getMethod().equals("GET")) {
+            setStatusLine("HTTP/1.1 405 Method Not Allowed");
+        } else {
+            setStatusLine("HTTP/1.1 200 OK");
+            setContentLength((int) file.length());
+            String body = "";
+            try {
+                body = new String(readFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            setBody(body);
         }
-        setBody(body);
     }
 
     private File openFile(String fileName) {
@@ -28,8 +33,8 @@ public class FileResponse extends HttpResponse {
     }
 
     private byte[] readFile() throws IOException {
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-        byte[] buffer = new byte[2048];
+        FileInputStream in = new FileInputStream(file);
+        byte[] buffer = new byte[(int) file.length()];
         in.read(buffer);
         in.close();
         return buffer;

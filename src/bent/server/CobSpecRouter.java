@@ -23,6 +23,12 @@ public class CobSpecRouter implements IRouter {
         routes.put("/form", new FormResponse());
         try {
             routes.put("/file1", new FileResponse("/file1"));
+            routes.put("/file2", new FileResponse("/file2"));
+            routes.put("/image.jpeg", new FileResponse("/image.jpeg"));
+            routes.put("/image.png", new FileResponse("/image.png"));
+            routes.put("/image.gif", new FileResponse("/image.gif"));
+            routes.put("/text-file.txt", new FileResponse("/text-file.txt"));
+            routes.put("/partial-content.txt", new FileResponse("/partial-content.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

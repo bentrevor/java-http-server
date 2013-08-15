@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 public class ResponseBuilder implements IResponseBuilder {
     private Hashtable<String, HttpResponse> routes;
+
     public ResponseBuilder(IRouter router) {
         routes = router.getRoutes();
     }
