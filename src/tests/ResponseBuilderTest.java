@@ -74,15 +74,6 @@ public class ResponseBuilderTest {
     }
 
     @Test
-    public void itSendsContentLengthWithImages() {
-        request = new HttpRequest("GET /image.jpeg HTTP/1.1\r\n\r\n");
-
-        response = builder.buildResponse(request).toString();
-
-        assertThat(response, containsString("Content-Length: 38400"));
-    }
-
-    @Test
     public void itGetsRoutesFromARouterWhenConstructed() {
         MockRouter fakeRouter = new MockRouter();
 

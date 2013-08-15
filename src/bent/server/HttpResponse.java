@@ -46,4 +46,8 @@ public class HttpResponse {
     public void setBody(String content) {
         body = content;
     }
+
+    public void setContentType(String type) {
+        headers.add("Content-Type: " + type);
+    }
 }

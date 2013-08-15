@@ -18,6 +18,7 @@ public class FileResponse extends HttpResponse {
         } else {
             setStatusLine("HTTP/1.1 200 OK");
             setContentLength((int) file.length());
+            setImageContentType(request.getRequestURI());
             String body = "";
             try {
                 body = new String(readFile());
@@ -38,5 +39,11 @@ public class FileResponse extends HttpResponse {
         in.read(buffer);
         in.close();
         return buffer;
+    }
+
+    private void setImageContentType(String uri) {
+        if (uri.contains("image.")) {
+            setContentType("image/" + uri.split("\\.")[1]);
+        }
     }
 }

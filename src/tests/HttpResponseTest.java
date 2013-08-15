@@ -34,11 +34,13 @@ public class HttpResponseTest {
         response.setContentLength(20);
         response.setStatusLine("HTTP/1.1 200 OK");
         response.setLocation("http://localhost:5000/");
+        response.setContentType("image/jpeg");
 
         String fullResponse = response.toString();
 
         assertThat(fullResponse, containsString("HTTP/1.1 200 OK\r\n"));
         assertThat(fullResponse, containsString("Content-Length: 20\r\n"));
+        assertThat(fullResponse, containsString("Content-Type: image/jpeg\r\n"));
         assertThat(fullResponse, containsString("Location: http://localhost:5000/\r\n"));
     }
 
