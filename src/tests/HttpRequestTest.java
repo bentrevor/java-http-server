@@ -95,6 +95,26 @@ public class HttpRequestTest {
     @Test
     public void itChecksThatABodyWasProvided() {
         request = new HttpRequest("PUT /form HTTP/1.1\r\n\r\n");
-        assertThat(request.body, is(nullValue()));
+        assertThat(request.body, is(""));
+    }
+
+    @Test
+    public void itDisregardsQueryStringParametersInRequestURI() {
+        request = new HttpRequest("GET /parameters?blah HTTP/1.1\r\n\r\n");
+        assertThat(request.getRequestURI(), is(equalTo("/parameters")));
+    }
+
+    @Test
+    public void itExtractsQueryStringParametersIntoMemberVariable() {
+        request = new HttpRequest("GET /parameters?blah HTTP/1.1\r\n\r\n");
+        assertThat(request.queryStringParams, containsString("blah"));
+    }
+
+    @Test
+    public void itCanSetARangeHeader() {
+        request = new HttpRequest("GET / HTTP/1.1\r\n" +
+                                  "Range: bytes=0-4\r\n" +
+                                  "\r\n");
+        assertThat(request.getRange(), containsString("bytes=0-4"));
     }
 }

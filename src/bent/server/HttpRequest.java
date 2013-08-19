@@ -6,12 +6,14 @@ public class HttpRequest {
     public Hashtable<String, String> headers;
     public String body;
     public String fullHeaders;
+    public String queryStringParams;
     private String method;
     private String requestURI;
     private String httpVersion;
 
     public HttpRequest(String request) {
-        body = null;
+        body = "";
+        queryStringParams = "";
         fullHeaders = request.split("\r\n\r\n")[0];
         headers = new Hashtable<>();
 
@@ -29,7 +31,7 @@ public class HttpRequest {
     private void setRequestLine() {
         String requestLine = fullHeaders.split("\r\n", 2)[0];
         method = requestLine.split(" ")[0];
-        requestURI = requestLine.split(" ")[1];
+        setRequestURI(requestLine.split(" ")[1]);
         httpVersion = requestLine.split(" ")[2];
     }
 
@@ -74,5 +76,18 @@ public class HttpRequest {
 
     public String getAccept() {
         return headers.get("accept");
+    }
+
+    private void setRequestURI(String uri) {
+        requestURI = uri;
+
+        if (requestURI.contains("?")) {
+            requestURI = uri.split("\\?")[0];
+            queryStringParams = uri.split("\\?")[1];
+        }
+    }
+
+    public String getRange() {
+        return headers.get("range");
     }
 }

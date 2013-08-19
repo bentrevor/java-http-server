@@ -2,10 +2,7 @@ package tests;
 
 import bent.server.CobSpecRouter;
 import bent.server.HttpResponse;
-import bent.server.responses.FileResponse;
-import bent.server.responses.FormResponse;
-import bent.server.responses.RedirectResponse;
-import bent.server.responses.RootResponse;
+import bent.server.responses.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -85,9 +82,17 @@ public class CobSpecRouterTest {
 
     @Test
     public void itHasRouteForPartialContent() {
-        HttpResponse response = routes.get("/partial-content.txt");
+        HttpResponse response = routes.get("/partial_content.txt");
 
         assertThat(response, is(notNullValue()));
         assertThat(response, is(instanceOf(FileResponse.class)));
+    }
+
+    @Test
+    public void itHasRouteForParameters() {
+        HttpResponse response = routes.get("/parameters");
+
+        assertThat(response, is(notNullValue()));
+        assertThat(response, is(instanceOf(ParametersResponse.class)));
     }
 }

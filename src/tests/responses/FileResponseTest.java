@@ -9,6 +9,8 @@ import org.junit.runners.JUnit4;
 
 import java.io.FileNotFoundException;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
@@ -90,5 +92,18 @@ public class FileResponseTest {
         String fullResponse = response.toString();
 
         assertThat(fullResponse, containsString("Content-Type: image/jpeg"));
+    }
+
+    @Test
+    public void itTrimsBodyAccordingToRangeHeader() throws FileNotFoundException {
+        request = new HttpRequest("GET /partial_content.txt HTTP/1.1\r\n" + 
+                                  "Range: bytes=0-4\r\n" +
+                                  "\r\n");
+        response = new FileResponse(request.getRequestURI());
+
+        response.buildResponse(request);
+
+        assertThat(response.toString(), containsString("HTTP/1.1 206 Partial Content"));
+        assertThat(response.body.length(), is(4));
     }
 }

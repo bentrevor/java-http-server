@@ -9,7 +9,7 @@ public class FileResponse extends HttpResponse {
     private File file;
 
     public FileResponse(String fileName) throws FileNotFoundException {
-        file = openFile(fileName);
+        file = createFile(fileName);
     }
 
     public void buildResponse(HttpRequest request) {
@@ -25,11 +25,18 @@ public class FileResponse extends HttpResponse {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            String range = request.getRange();
+
+            if (!(range == null)) {
+                body = trimBodyToRange(body, range);
+                setStatusLine("HTTP/1.1 206 Partial Content");
+            }
             setBody(body);
         }
     }
 
-    private File openFile(String fileName) {
+    private File createFile(String fileName) {
         return new File(System.getProperty("user.dir") + "/public" + fileName);
     }
 
@@ -45,5 +52,11 @@ public class FileResponse extends HttpResponse {
         if (uri.contains("image.")) {
             setContentType("image/" + uri.split("\\.")[1]);
         }
+    }
+
+    private String trimBodyToRange(String body, String range) {
+        int start = Integer.parseInt(range.split("=")[1].split("-")[0]);
+        int end = Integer.parseInt(range.split("=")[1].split("-")[1]);
+        return body.substring(start, end);
     }
 }
