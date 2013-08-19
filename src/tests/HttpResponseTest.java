@@ -98,4 +98,25 @@ public class HttpResponseTest {
         assertThat(new String(response.bytes()), containsString("HTTP/1.1 200 OK"));
         assertThat(new String(response.bytes()), containsString("yo mama"));
     }
+
+    @Test
+    public void itDoesNotCastTheBodyToAString() {
+        response.setStatusLine("HTTP/1.1 200 OK");
+
+        byte[] fakeBody = new byte[10];
+
+        for (int i = 0; i < 10; i++) {
+            fakeBody[i] = (byte) (i - 5);
+        }
+
+        response.setBody(fakeBody);
+
+        int offset = "HTTP/1.1 200 OK\r\n\r\n".length();
+
+        assertThat(response.bytes()[0 + offset], is((byte) (-5)));
+        assertThat(response.bytes()[1 + offset], is((byte) (-4)));
+        assertThat(response.bytes()[2 + offset], is((byte) (-3)));
+        assertThat(response.bytes()[3 + offset], is((byte) (-2)));
+        assertThat(response.bytes()[4 + offset], is((byte) (-1)));
+    }
 }

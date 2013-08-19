@@ -18,6 +18,10 @@ public class HttpResponse {
     }
 
     public String toString() {
+        return getStringHeaders() + getStringBody();
+    }
+
+    public String getStringHeaders() {
         responseBuilder = new StringBuilder();
         responseBuilder.append(statusLine + "\r\n");
 
@@ -26,7 +30,6 @@ public class HttpResponse {
         }
 
         responseBuilder.append("\r\n");
-        responseBuilder.append(getStringBody());
 
         return responseBuilder.toString();
     }
@@ -64,6 +67,18 @@ public class HttpResponse {
     }
 
     public byte[] bytes() {
-        return toString().getBytes();
+        int headersLength = getStringHeaders().length();
+        int responseLength = headersLength + body.length;
+        byte[] response = new byte[responseLength];
+
+        for (int i = 0; i < headersLength; i++) {
+            response[i] = (byte) getStringHeaders().charAt(i);
+        }
+
+        for (int j = headersLength; j < responseLength; j++) {
+            response[j] = body[j - headersLength];
+        }
+
+        return response;
     }
 }

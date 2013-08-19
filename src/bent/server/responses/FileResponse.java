@@ -19,9 +19,9 @@ public class FileResponse extends HttpResponse {
             setStatusLine("HTTP/1.1 200 OK");
             setContentLength((int) file.length());
             setImageContentType(request.getRequestURI());
-            String body = "";
+            byte[] body = null;
             try {
-                body = new String(readFile());
+                body = readFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -29,7 +29,7 @@ public class FileResponse extends HttpResponse {
             String range = request.getRange();
 
             if (!(range == null)) {
-                body = trimBodyToRange(body, range);
+                body = trimBodyToRange(new String(body), range).getBytes();
                 setStatusLine("HTTP/1.1 206 Partial Content");
             }
             setBody(body);
