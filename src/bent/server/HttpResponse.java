@@ -2,15 +2,13 @@ package bent.server;
 
 import java.util.LinkedList;
 
-public class HttpResponse {
+public abstract class HttpResponse {
     private LinkedList<String> headers;
     private StringBuilder responseBuilder;
     private String statusLine;
     private byte[] body;
 
-    public void buildResponse(HttpRequest request) {
-        setStatusLine(request.getHttpVersion() + " 404 Not Found");
-    }
+    public abstract void buildResponse(HttpRequest request);
 
     public HttpResponse() {
         headers = new LinkedList<>();
@@ -21,7 +19,7 @@ public class HttpResponse {
         return getStringHeaders() + getStringBody();
     }
 
-    public String getStringHeaders() {
+    private String getStringHeaders() {
         responseBuilder = new StringBuilder();
         responseBuilder.append(statusLine + "\r\n");
 
@@ -46,7 +44,7 @@ public class HttpResponse {
         headers.add("Location: " + location);
     }
 
-    public void setBody(String content) {
+    protected void setBody(String content) {
         body = content.getBytes();
     }
 

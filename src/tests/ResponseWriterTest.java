@@ -1,8 +1,8 @@
 package tests;
 
-import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.ResponseWriter;
+import bent.server.responses.RootResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +29,7 @@ public class ResponseWriterTest {
 
     @Test
     public void itWritesResponsesToItsOutputStream() throws IOException {
-        HttpResponse response = new HttpResponse();
+        HttpResponse response = new RootResponse();
         response.setStatusLine("HTTP/1.1 200 OK");
         response.setContentLength(20);
         response.setBody("yo mama".getBytes());

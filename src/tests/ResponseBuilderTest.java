@@ -1,15 +1,14 @@
 package tests;
 
-import bent.server.CobSpecRouter;
-import bent.server.HttpRequest;
-import bent.server.IRouter;
-import bent.server.ResponseBuilder;
+import bent.server.*;
+import bent.server.responses.NotFoundResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import tests.mocks.MockRouter;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
@@ -82,5 +81,14 @@ public class ResponseBuilderTest {
         builder = new ResponseBuilder(fakeRouter);
 
         assertThat(fakeRouter.getRoutesCallCount, is(3));
+    }
+
+    @Test
+    public void itUsesNotFoundResponseForUnknownRoutes() {
+        request = new HttpRequest("GET /foobar HTTP/1.1\r\n\r\n");
+
+        HttpResponse response = builder.buildResponse(request);
+
+        assertThat(response, is(instanceOf(NotFoundResponse.class)));
     }
 }

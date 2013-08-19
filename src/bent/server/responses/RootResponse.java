@@ -3,10 +3,6 @@ package bent.server.responses;
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class RootResponse extends HttpResponse {
     public RootResponse() {
     }

@@ -3,6 +3,7 @@ package tests;
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.RequestHandler;
+import bent.server.responses.RootResponse;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class RequestHandlerTest {
 
     @Ignore
     public void itGivesTheBuiltResponseToTheResponseWriter() throws IOException {
-        HttpResponse fakeResponse = new HttpResponse();
+        HttpResponse fakeResponse = new RootResponse();
         fakeResponse.setStatusLine("HTTP/1.1 200 OK");
 
         fakeResponseBuilder.setBuiltResponse(fakeResponse);

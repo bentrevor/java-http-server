@@ -1,6 +1,5 @@
 package tests.mocks;
 
-import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.IResponseWriter;
 

@@ -1,5 +1,7 @@
 package bent.server;
 
+import bent.server.responses.NotFoundResponse;
+
 import java.util.Hashtable;
 
 public class ResponseBuilder implements IResponseBuilder {
@@ -17,7 +19,7 @@ public class ResponseBuilder implements IResponseBuilder {
         response = routes.get(path);
 
         if (response == null) {
-            response = new HttpResponse();
+            response = new NotFoundResponse();
         }
 
         response.buildResponse(request);

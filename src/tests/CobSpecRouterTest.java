@@ -17,8 +17,8 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class CobSpecRouterTest {
-    public CobSpecRouter router;
-    public Hashtable<String, HttpResponse> routes;
+    private CobSpecRouter router;
+    private Hashtable<String, HttpResponse> routes;
 
     @Before
     public void setUp() {

@@ -3,7 +3,10 @@ package bent.server.responses;
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class FileResponse extends HttpResponse {
     private File file;

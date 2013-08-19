@@ -9,14 +9,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class FormResponseTest {
-        HttpRequest request;
-        HttpResponse response;
+        private HttpRequest request;
+        private HttpResponse response;
 
     @Before
     public void setUp() {

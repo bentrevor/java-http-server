@@ -6,7 +6,7 @@ import bent.server.IResponseBuilder;
 
 public class MockResponseBuilder implements IResponseBuilder {
     public HttpRequest buildResponseArgument;
-    public HttpResponse builtResponse;
+    private HttpResponse builtResponse;
 
     public HttpResponse buildResponse(HttpRequest request) {
         buildResponseArgument = request;

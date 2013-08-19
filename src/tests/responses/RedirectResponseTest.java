@@ -1,18 +1,13 @@
 package tests.responses;
 
-import bent.server.CobSpecRouter;
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.responses.RedirectResponse;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.Hashtable;
-
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 

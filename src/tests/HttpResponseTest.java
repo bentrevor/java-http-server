@@ -2,17 +2,15 @@ package tests;
 
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
+import bent.server.responses.RootResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
-import static org.junit.matchers.JUnitMatchers.hasItems;
 
 @RunWith(JUnit4.class)
 public class HttpResponseTest {
@@ -20,7 +18,7 @@ public class HttpResponseTest {
 
     @Before
     public void setUp() {
-        response = new HttpResponse();
+        response = new RootResponse();
     }
 
     @Test
@@ -64,16 +62,6 @@ public class HttpResponseTest {
         String fullResponse = response.toString();
 
         assertThat(fullResponse, containsString("\r\n\r\nresponse body"));
-    }
-
-    @Test
-    public void itBuildsADefault404Response() {
-        HttpRequest fakeRequest = new HttpRequest("GET /foobar HTTP/1.1\r\n\r\n");
-        response.buildResponse(fakeRequest);
-
-        String fullResponse = response.toString();
-
-        assertThat(fullResponse, containsString("HTTP/1.1 404 Not Found"));
     }
 
     @Test

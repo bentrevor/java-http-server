@@ -10,14 +10,13 @@ import org.junit.runners.JUnit4;
 import java.io.FileNotFoundException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class FileResponseTest {
-    HttpRequest request;
-    HttpResponse response;
+    private HttpRequest request;
+    private HttpResponse response;
 
     @Test
     public void itReadsFile1() throws FileNotFoundException {
