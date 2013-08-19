@@ -107,4 +107,10 @@ public class HttpResponseTest {
         assertThat(response.bytes()[3 + offset], is((byte) (-2)));
         assertThat(response.bytes()[4 + offset], is((byte) (-1)));
     }
+
+    @Test
+    public void itReturnsEmptyStringForNullBody() {
+        response.setBody(null);
+        assertThat(response.getStringBody(), is(""));
+    }
 }

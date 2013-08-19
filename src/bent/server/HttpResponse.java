@@ -53,7 +53,11 @@ public abstract class HttpResponse {
     }
 
     public String getStringBody() {
-        return new String(body);
+        try {
+            return new String(body);
+        } catch (NullPointerException e) {
+            return "";
+        }
     }
 
     public void setContentType(String type) {

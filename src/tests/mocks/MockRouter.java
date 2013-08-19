@@ -7,13 +7,15 @@ import java.util.Hashtable;
 
 public class MockRouter implements IRouter {
     public int getRoutesCallCount;
+    public Hashtable<String, HttpResponse> routes;
 
     public MockRouter() {
         getRoutesCallCount = 0;
+        routes = new Hashtable<>();
     }
 
     public Hashtable<String, HttpResponse> getRoutes() {
         getRoutesCallCount++;
-        return new Hashtable<>();
+        return routes;
     }
 }

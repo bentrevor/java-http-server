@@ -5,15 +5,15 @@ import bent.server.responses.NotFoundResponse;
 import java.util.Hashtable;
 
 public class ResponseBuilder implements IResponseBuilder {
-    private Hashtable<String, HttpResponse> routes;
+    public Hashtable<String, HttpResponse> routes;
+    public HttpResponse response;
 
     public ResponseBuilder(IRouter router) {
+        response = null;
         routes = router.getRoutes();
     }
 
     public HttpResponse buildResponse(HttpRequest request) {
-        HttpResponse response;
-
         String path = request.getRequestURI();
 
         response = routes.get(path);
