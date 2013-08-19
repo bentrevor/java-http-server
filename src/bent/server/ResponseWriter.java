@@ -7,7 +7,7 @@ public class ResponseWriter implements IResponseWriter {
     private OutputStream outputStream;
 
     public void send(HttpResponse response) throws IOException {
-        outputStream.write(response.toString().getBytes());
+        outputStream.write(response.bytes());
     }
 
     public void setOutputStream(OutputStream out) {

@@ -5,8 +5,8 @@ import java.util.LinkedList;
 public class HttpResponse {
     private LinkedList<String> headers;
     private StringBuilder responseBuilder;
-    public String statusLine;
-    public String body;
+    private String statusLine;
+    private byte[] body;
 
     public void buildResponse(HttpRequest request) {
         setStatusLine(request.getHttpVersion() + " 404 Not Found");
@@ -14,7 +14,7 @@ public class HttpResponse {
 
     public HttpResponse() {
         headers = new LinkedList<>();
-        body = "";
+        body = new byte[0];
     }
 
     public String toString() {
@@ -26,7 +26,7 @@ public class HttpResponse {
         }
 
         responseBuilder.append("\r\n");
-        responseBuilder.append(body);
+        responseBuilder.append(getStringBody());
 
         return responseBuilder.toString();
     }
@@ -44,10 +44,26 @@ public class HttpResponse {
     }
 
     public void setBody(String content) {
-        body = content;
+        body = content.getBytes();
+    }
+
+    public void setBody(byte[] bytes) {
+        body = bytes;
+    }
+
+    public String getStringBody() {
+        return new String(body);
     }
 
     public void setContentType(String type) {
         headers.add("Content-Type: " + type);
+    }
+
+    public String getStatusLine() {
+        return statusLine;
+    }
+
+    public byte[] bytes() {
+        return toString().getBytes();
     }
 }

@@ -32,7 +32,7 @@ public class ResponseWriterTest {
         HttpResponse response = new HttpResponse();
         response.setStatusLine("HTTP/1.1 200 OK");
         response.setContentLength(20);
-        response.setBody("yo mama");
+        response.setBody("yo mama".getBytes());
 
         responder.send(response);
 

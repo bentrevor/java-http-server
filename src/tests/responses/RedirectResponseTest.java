@@ -24,7 +24,7 @@ public class RedirectResponseTest {
         HttpResponse response = new RedirectResponse();
         response.buildResponse(request);
 
-        assertThat(response.statusLine, is("HTTP/1.1 301 Moved Permanently"));
+        assertThat(response.getStatusLine(), is("HTTP/1.1 301 Moved Permanently"));
         assertThat(response.toString(), containsString("Location: http://localhost:5000/"));
     }
 }

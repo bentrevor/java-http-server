@@ -104,6 +104,6 @@ public class FileResponseTest {
         response.buildResponse(request);
 
         assertThat(response.toString(), containsString("HTTP/1.1 206 Partial Content"));
-        assertThat(response.body.length(), is(4));
+        assertThat(response.getStringBody().length(), is(4));
     }
 }

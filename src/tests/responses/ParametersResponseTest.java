@@ -20,7 +20,7 @@ public class ParametersResponseTest {
 
         response.buildResponse(request);
 
-        assertThat(response.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(response.getStatusLine(), is("HTTP/1.1 200 OK"));
     }
 
     @Test
@@ -30,9 +30,9 @@ public class ParametersResponseTest {
 
         response.buildResponse(request);
 
-        assertThat(response.statusLine, is("HTTP/1.1 200 OK"));
-        assertThat(response.body, containsString("key1 = value1"));
-        assertThat(response.body, containsString("key2 = value2"));
+        assertThat(response.getStatusLine(), is("HTTP/1.1 200 OK"));
+        assertThat(response.getStringBody(), containsString("key1 = value1"));
+        assertThat(response.getStringBody(), containsString("key2 = value2"));
     }
 
     @Test
@@ -42,8 +42,8 @@ public class ParametersResponseTest {
 
         response.buildResponse(request);
 
-        assertThat(response.statusLine, is("HTTP/1.1 200 OK"));
-        assertThat(response.body, containsString("variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?"));
-        assertThat(response.body, containsString("variable_2 = stuff"));
+        assertThat(response.getStatusLine(), is("HTTP/1.1 200 OK"));
+        assertThat(response.getStringBody(), containsString("variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?"));
+        assertThat(response.getStringBody(), containsString("variable_2 = stuff"));
     }
 }

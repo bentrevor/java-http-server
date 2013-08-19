@@ -19,7 +19,7 @@ public class RootResponseTest {
         HttpResponse response = new RootResponse();
         response.buildResponse(request);
 
-        assertThat(response.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(response.getStatusLine(), is("HTTP/1.1 200 OK"));
     }
 
     @Test
@@ -28,12 +28,12 @@ public class RootResponseTest {
         HttpResponse response = new RootResponse();
         response.buildResponse(request);
 
-        assertThat(response.body, containsString("<a href=\"/file1\">file1</a>"));
-        assertThat(response.body, containsString("<a href=\"/file2\">file2</a>"));
-        assertThat(response.body, containsString("<a href=\"/image.gif\">image.gif</a>"));
-        assertThat(response.body, containsString("<a href=\"/image.jpeg\">image.jpeg</a>"));
-        assertThat(response.body, containsString("<a href=\"/image.png\">image.png</a>"));
-        assertThat(response.body, containsString("<a href=\"/text-file.txt\">text-file.txt</a>"));
-        assertThat(response.body, containsString("<a href=\"/partial_content.txt\">partial_content.txt</a>"));
+        assertThat(response.getStringBody(), containsString("<a href=\"/file1\">file1</a>"));
+        assertThat(response.getStringBody(), containsString("<a href=\"/file2\">file2</a>"));
+        assertThat(response.getStringBody(), containsString("<a href=\"/image.gif\">image.gif</a>"));
+        assertThat(response.getStringBody(), containsString("<a href=\"/image.jpeg\">image.jpeg</a>"));
+        assertThat(response.getStringBody(), containsString("<a href=\"/image.png\">image.png</a>"));
+        assertThat(response.getStringBody(), containsString("<a href=\"/text-file.txt\">text-file.txt</a>"));
+        assertThat(response.getStringBody(), containsString("<a href=\"/partial_content.txt\">partial_content.txt</a>"));
     }
 }

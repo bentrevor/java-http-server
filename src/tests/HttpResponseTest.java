@@ -12,6 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
+import static org.junit.matchers.JUnitMatchers.hasItems;
 
 @RunWith(JUnit4.class)
 public class HttpResponseTest {
@@ -26,7 +27,7 @@ public class HttpResponseTest {
     public void itHasAStatusLine() {
         response.setStatusLine("HTTP/1.1 200 OK");
 
-        assertThat(response.statusLine, containsString("HTTP/1.1 200 OK"));
+        assertThat(response.getStatusLine(), containsString("HTTP/1.1 200 OK"));
     }
 
     @Test
@@ -58,7 +59,7 @@ public class HttpResponseTest {
     @Test
     public void itCanHaveABodyAfterTheHeaders() {
         response.setStatusLine("HTTP/1.1 200 OK");
-        response.setBody("response body");
+        response.setBody("response body".getBytes());
 
         String fullResponse = response.toString();
 
@@ -84,5 +85,17 @@ public class HttpResponseTest {
         String secondResponse = response.toString();
 
         assertThat(firstResponse.length(), is(equalTo(secondResponse.length())));
+    }
+
+    @Test
+    public void itCanBeRepresentedAsByteArray() {
+        response.setStatusLine("HTTP/1.1 200 OK");
+        response.setBody("yo mama".getBytes());
+
+        int responseLength = "HTTP/1.1 200 OK\r\n\r\nyo mama".length();
+
+        assertThat(response.bytes().length, is(responseLength));
+        assertThat(new String(response.bytes()), containsString("HTTP/1.1 200 OK"));
+        assertThat(new String(response.bytes()), containsString("yo mama"));
     }
 }
