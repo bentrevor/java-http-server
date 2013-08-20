@@ -5,8 +5,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class FileSystem implements IFileSystem {
+    private String rootDir;
+
+    public FileSystem(String root) {
+        rootDir = root;
+    }
+
     public File open(String fileName) {
-        return new File(fileName);
+        return new File(rootDir + fileName);
     }
 
     public byte[] read(File file) throws IOException {
@@ -15,5 +21,9 @@ public class FileSystem implements IFileSystem {
         in.read(buffer);
         in.close();
         return buffer;
+    }
+
+    public String getRootDir() {
+        return rootDir;
     }
 }

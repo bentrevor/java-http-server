@@ -20,10 +20,11 @@ import static org.junit.Assert.assertThat;
 public class CobSpecRouterTest {
     private CobSpecRouter router;
     private Hashtable<String, HttpResponse> routes;
+    private MockFileSystem fakeFileSystem;
 
     @Before
     public void setUp() {
-        MockFileSystem fakeFileSystem = new MockFileSystem();
+        fakeFileSystem = new MockFileSystem();
         router = new CobSpecRouter(fakeFileSystem);
         routes = router.getRoutes();
     }
@@ -96,5 +97,10 @@ public class CobSpecRouterTest {
 
         assertThat(response, is(notNullValue()));
         assertThat(response, is(instanceOf(ParametersResponse.class)));
+    }
+
+    @Test
+    public void itUsesTheInjectedFilesystem() {
+        assertThat(fakeFileSystem.openFileCallCount, is(7));
     }
 }

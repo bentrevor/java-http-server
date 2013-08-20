@@ -10,7 +10,8 @@ public class Main {
         ServerSocket socketOn5000 = new ServerSocket(5000);
         RealServerSocket serverSocket = new RealServerSocket(socketOn5000);
 
-        IFileSystem fileSystem = new FileSystem();
+        String rootDir = System.getProperty("user.dir") + "/public";
+        IFileSystem fileSystem = new FileSystem(rootDir);
         IRouter router = new CobSpecRouter(fileSystem);
 
         ResponseWriter responder = new ResponseWriter();
