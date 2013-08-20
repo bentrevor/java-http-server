@@ -10,7 +10,8 @@ public class Main {
         ServerSocket socketOn5000 = new ServerSocket(5000);
         RealServerSocket serverSocket = new RealServerSocket(socketOn5000);
 
-        IRouter router = new CobSpecRouter();
+        IFileSystem fileSystem = new FileSystem();
+        IRouter router = new CobSpecRouter(fileSystem);
 
         ResponseWriter responder = new ResponseWriter();
         ResponseBuilder builder = new ResponseBuilder(router);

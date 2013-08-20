@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import tests.mocks.MockFileSystem;
 
 import java.util.Hashtable;
 
@@ -22,7 +23,8 @@ public class CobSpecRouterTest {
 
     @Before
     public void setUp() {
-        router = new CobSpecRouter();
+        MockFileSystem fakeFileSystem = new MockFileSystem();
+        router = new CobSpecRouter(fakeFileSystem);
         routes = router.getRoutes();
     }
 
