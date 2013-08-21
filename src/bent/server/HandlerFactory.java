@@ -1,19 +1,15 @@
 package bent.server;
 
 public class HandlerFactory implements IHandlerFactory {
-    private String publicDirectoryPath;
+    private IRouter applicationRouter;
 
-    public HandlerFactory(String path) {
-        publicDirectoryPath = path;
+    public HandlerFactory(IRouter router) {
+        applicationRouter = router;
     }
 
     public RequestHandler makeHandler() {
         return new RequestHandler(new RequestReader(),
-               new ResponseBuilder(new CobSpecRouter(new FileSystem(publicDirectoryPath))),
+               new ResponseBuilder(applicationRouter),
                new ResponseWriter());
-    }
-
-    public String getPublicDir() {
-        return publicDirectoryPath;
     }
 }

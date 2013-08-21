@@ -14,12 +14,9 @@ public class Main {
         IFileSystem fileSystem = new FileSystem(rootDir);
         IRouter router = new CobSpecRouter(fileSystem);
 
-        ResponseWriter writer = new ResponseWriter();
-        ResponseBuilder builder = new ResponseBuilder(router);
-        RequestReader reader = new RequestReader();
-        RequestHandler handler = new RequestHandler(reader, builder, writer);
+        HandlerFactory factory = new HandlerFactory(router);
 
-        Server myServer = new Server(serverSocket, handler);
+        Server myServer = new Server(serverSocket, factory);
 
         myServer.start();
     }

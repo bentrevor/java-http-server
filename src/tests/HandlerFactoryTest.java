@@ -1,20 +1,30 @@
 package tests;
 
 import bent.server.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import tests.mocks.MockRouter;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class HandlerFactoryTest {
+    public MockRouter fakeRouter;
+    public HandlerFactory factory;
+
+    @Before
+    public void setUp() {
+        fakeRouter = new MockRouter();
+        factory = new HandlerFactory(fakeRouter);
+    }
+
     @Test
     public void itCreatesARequestHandler() {
-        HandlerFactory factory = new HandlerFactory("");
-
         RequestHandler rh = factory.makeHandler();
 
         assertThat(rh.getReader(), is(instanceOf(RequestReader.class)));
@@ -23,20 +33,12 @@ public class HandlerFactoryTest {
     }
 
     @Test
-    public void itKnowsThePathToThePublicDirectory() {
-        HandlerFactory factory = new HandlerFactory("path/to/public");
-
-        assertThat(factory.getPublicDir(), is("path/to/public"));
-    }
-
-    @Test
-    public void itCreatesAFileSystemWithGivenPublicDirectory() {
-        HandlerFactory factory = new HandlerFactory("path/to/public");
+    public void itCreatesAFileSystemWithGivenRouter() {
+        HandlerFactory factory = new HandlerFactory(fakeRouter);
         RequestHandler handler = factory.makeHandler();
         IResponseBuilder builder = handler.getBuilder();
         IRouter router = builder.getRouter();
-        IFileSystem fileSystem = router.getFileSystem();
 
-        assertThat(fileSystem.getPublicDirectory(), is("path/to/public"));
+        assertSame(fakeRouter, router);
     }
 }
