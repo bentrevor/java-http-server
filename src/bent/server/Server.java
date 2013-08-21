@@ -2,9 +2,6 @@ package bent.server;
 
 import bent.server.sockets.IServerSocket;
 import bent.server.sockets.ISocket;
-import tests.mocks.MockHandlerFactory;
-import tests.mocks.MockRequestHandler;
-import tests.mocks.MockServerSocket;
 
 import java.io.IOException;
 

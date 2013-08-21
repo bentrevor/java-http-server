@@ -4,13 +4,12 @@ import java.util.LinkedList;
 
 public abstract class HttpResponse {
     private LinkedList<String> headers;
-    private StringBuilder responseBuilder;
     private String statusLine;
     private byte[] body;
 
     public abstract void buildResponse(HttpRequest request);
 
-    public HttpResponse() {
+    protected HttpResponse() {
         headers = new LinkedList<>();
         body = new byte[0];
     }
@@ -20,7 +19,7 @@ public abstract class HttpResponse {
     }
 
     private String getStringHeaders() {
-        responseBuilder = new StringBuilder();
+        StringBuilder responseBuilder = new StringBuilder();
         responseBuilder.append(statusLine + "\r\n");
 
         for (String header : headers) {

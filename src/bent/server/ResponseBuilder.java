@@ -5,8 +5,8 @@ import bent.server.responses.NotFoundResponse;
 import java.util.Hashtable;
 
 public class ResponseBuilder implements IResponseBuilder {
-    public Hashtable<String, HttpResponse> routes;
-    public HttpResponse response;
+    private Hashtable<String, HttpResponse> routes;
+    private HttpResponse response;
     private IRouter router;
 
     public ResponseBuilder(IRouter someRouter) {

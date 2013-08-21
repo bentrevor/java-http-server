@@ -17,12 +17,10 @@ import static org.junit.Assert.assertThat;
 @RunWith(JUnit4.class)
 public class ResponseBuilderTest {
     private ResponseBuilder builder;
-    private HttpRequest request;
-    private MockRouter fakeRouter;
 
     @Before
     public void setUp() {
-        fakeRouter = new MockRouter();
+        MockRouter fakeRouter = new MockRouter();
         builder = new ResponseBuilder(fakeRouter);
     }
 
@@ -39,7 +37,7 @@ public class ResponseBuilderTest {
 
     @Test
     public void itUsesNotFoundResponseForUnknownRoutes() {
-        request = new HttpRequest("GET /foobar HTTP/1.1\r\n\r\n");
+        HttpRequest request = new HttpRequest("GET /foobar HTTP/1.1\r\n\r\n");
 
         HttpResponse response = builder.buildResponse(request);
 

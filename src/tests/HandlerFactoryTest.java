@@ -14,8 +14,8 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class HandlerFactoryTest {
-    public MockRouter fakeRouter;
-    public HandlerFactory factory;
+    private MockRouter fakeRouter;
+    private HandlerFactory factory;
 
     @Before
     public void setUp() {

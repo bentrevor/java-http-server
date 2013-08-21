@@ -8,7 +8,7 @@ import java.util.Hashtable;
 
 public class MockRouter implements IRouter {
     public int getRoutesCallCount;
-    public Hashtable<String, HttpResponse> routes;
+    private Hashtable<String, HttpResponse> routes;
 
     public MockRouter() {
         getRoutesCallCount = 0;

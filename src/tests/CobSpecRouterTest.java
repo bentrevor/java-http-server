@@ -18,14 +18,13 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class CobSpecRouterTest {
-    private CobSpecRouter router;
     private Hashtable<String, HttpResponse> routes;
     private MockFileSystem fakeFileSystem;
 
     @Before
     public void setUp() {
         fakeFileSystem = new MockFileSystem();
-        router = new CobSpecRouter(fakeFileSystem);
+        CobSpecRouter router = new CobSpecRouter(fakeFileSystem);
         routes = router.getRoutes();
     }
 

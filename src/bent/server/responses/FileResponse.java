@@ -5,14 +5,13 @@ import bent.server.HttpResponse;
 import bent.server.IFileSystem;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FileResponse extends HttpResponse {
     private File file;
     private IFileSystem fileSystem;
 
-    public FileResponse(IFileSystem files, String fileName) throws FileNotFoundException {
+    public FileResponse(IFileSystem files, String fileName) {
         fileSystem = files;
         file = fileSystem.open(fileName);
     }
