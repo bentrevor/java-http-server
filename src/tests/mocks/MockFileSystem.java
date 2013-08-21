@@ -32,4 +32,8 @@ public class MockFileSystem implements IFileSystem {
     public void addFile(String fileName, String fileContents) {
         files.put(fileName, fileContents.getBytes());
     }
+
+    public String getPublicDirectory() {
+        return "path/to/MockFileSystem/public";
+    }
 }

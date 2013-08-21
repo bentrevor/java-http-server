@@ -14,10 +14,10 @@ public class Main {
         IFileSystem fileSystem = new FileSystem(rootDir);
         IRouter router = new CobSpecRouter(fileSystem);
 
-        ResponseWriter responder = new ResponseWriter();
+        ResponseWriter writer = new ResponseWriter();
         ResponseBuilder builder = new ResponseBuilder(router);
         RequestReader reader = new RequestReader();
-        RequestHandler handler = new RequestHandler(reader, builder, responder);
+        RequestHandler handler = new RequestHandler(reader, builder, writer);
 
         Server myServer = new Server(serverSocket, handler);
 

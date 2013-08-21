@@ -3,6 +3,7 @@ package tests.mocks;
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.IResponseBuilder;
+import bent.server.IRouter;
 
 public class MockResponseBuilder implements IResponseBuilder {
     public HttpRequest buildResponseArgument;
@@ -15,5 +16,9 @@ public class MockResponseBuilder implements IResponseBuilder {
 
     public void setBuiltResponse(HttpResponse response) {
         builtResponse = response;
+    }
+
+    public IRouter getRouter() {
+        return new MockRouter();
     }
 }

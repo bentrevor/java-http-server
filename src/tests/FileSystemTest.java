@@ -14,6 +14,6 @@ public class FileSystemTest {
     public void itSetsTheRootDirectoryInConstructor() {
         FileSystem fs = new FileSystem("path/to/public");
 
-        assertThat(fs.getRootDir(), is("path/to/public"));
+        assertThat(fs.getPublicDirectory(), is("path/to/public"));
     }
 }

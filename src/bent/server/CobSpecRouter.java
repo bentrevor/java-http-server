@@ -7,17 +7,19 @@ import java.util.Hashtable;
 
 public class CobSpecRouter implements IRouter {
     private Hashtable<String, HttpResponse> routes;
+    private IFileSystem fileSystem;
 
     public CobSpecRouter(IFileSystem fs) {
+        fileSystem = fs;
         routes = new Hashtable<>();
-        initializeRoutes(fs);
+        initializeRoutes();
     }
 
     public Hashtable<String, HttpResponse> getRoutes() {
         return routes;
     }
 
-    private void initializeRoutes(IFileSystem fileSystem) {
+    private void initializeRoutes() {
         routes.put("/",           new RootResponse());
         routes.put("/redirect",   new RedirectResponse());
         routes.put("/form",       new FormResponse());
@@ -33,5 +35,9 @@ public class CobSpecRouter implements IRouter {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public IFileSystem getFileSystem() {
+        return fileSystem;
     }
 }

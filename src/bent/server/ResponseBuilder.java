@@ -7,8 +7,10 @@ import java.util.Hashtable;
 public class ResponseBuilder implements IResponseBuilder {
     public Hashtable<String, HttpResponse> routes;
     public HttpResponse response;
+    private IRouter router;
 
-    public ResponseBuilder(IRouter router) {
+    public ResponseBuilder(IRouter someRouter) {
+        router = someRouter;
         response = null;
         routes = router.getRoutes();
     }
@@ -24,5 +26,9 @@ public class ResponseBuilder implements IResponseBuilder {
 
         response.buildResponse(request);
         return response;
+    }
+
+    public IRouter getRouter() {
+        return router;
     }
 }

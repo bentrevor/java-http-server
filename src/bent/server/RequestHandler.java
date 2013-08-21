@@ -29,4 +29,16 @@ public class RequestHandler implements IRequestHandler {
     public void setWriterOutputStream(OutputStream out) {
         writer.setOutputStream(out);
     }
+
+    public IResponseWriter getWriter() {
+        return writer;
+    }
+
+    public IResponseBuilder getBuilder() {
+        return builder;
+    }
+
+    public IRequestReader getReader() {
+        return reader;
+    }
 }
