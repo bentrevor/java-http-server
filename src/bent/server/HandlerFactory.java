@@ -1,6 +1,6 @@
 package bent.server;
 
-public class HandlerFactory {
+public class HandlerFactory implements IHandlerFactory {
     private String publicDirectoryPath;
 
     public HandlerFactory(String path) {

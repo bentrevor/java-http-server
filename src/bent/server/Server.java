@@ -2,12 +2,21 @@ package bent.server;
 
 import bent.server.sockets.IServerSocket;
 import bent.server.sockets.ISocket;
+import tests.mocks.MockHandlerFactory;
+import tests.mocks.MockRequestHandler;
+import tests.mocks.MockServerSocket;
 
 import java.io.IOException;
 
 public class Server {
     private IRequestHandler requestHandler;
     private IServerSocket serverSocket;
+    private IHandlerFactory handlerFactory;
+
+    public Server(IServerSocket socket, IHandlerFactory factory) {
+        handlerFactory = factory;
+        serverSocket = socket;
+    }
 
     public Server(IServerSocket socket, IRequestHandler handler) {
         serverSocket = socket;
@@ -17,6 +26,7 @@ public class Server {
     public void start() {
         try {
             while (!serverSocket.isClosed()) {
+                requestHandler = handlerFactory.makeHandler();
                 ISocket clientConnection = serverSocket.accept();
                 requestHandler.setReaderInputStream(clientConnection.getInputStream());
                 requestHandler.setWriterOutputStream(clientConnection.getOutputStream());
