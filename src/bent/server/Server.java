@@ -6,7 +6,6 @@ import bent.server.sockets.ISocket;
 import java.io.IOException;
 
 public class Server {
-    private IRequestHandler requestHandler;
     private IServerSocket serverSocket;
     private IHandlerFactory handlerFactory;
 
@@ -15,15 +14,10 @@ public class Server {
         serverSocket = socket;
     }
 
-    public Server(IServerSocket socket, IRequestHandler handler) {
-        serverSocket = socket;
-        requestHandler = handler;
-    }
-
     public void start() {
         try {
             while (!serverSocket.isClosed()) {
-                requestHandler = handlerFactory.makeHandler();
+                IRequestHandler requestHandler = handlerFactory.makeHandler();
                 ISocket clientConnection = serverSocket.accept();
                 requestHandler.setReaderInputStream(clientConnection.getInputStream());
                 requestHandler.setWriterOutputStream(clientConnection.getOutputStream());

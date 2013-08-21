@@ -33,7 +33,7 @@ public class MockFileSystem implements IFileSystem {
         files.put(fileName, fileContents.getBytes());
     }
 
-    public String getPublicDirectory() {
-        return "path/to/MockFileSystem/public";
+    public File getPublicDirectory() {
+        return new File(System.getProperty("user.dir") + "/public");
     }
 }

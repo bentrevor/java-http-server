@@ -5,14 +5,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class FileSystem implements IFileSystem {
-    private String publicDirectory;
+    private String rootDirectory;
 
     public FileSystem(String root) {
-        publicDirectory = root;
+        rootDirectory = root;
     }
 
     public File open(String fileName) {
-        return new File(publicDirectory + fileName);
+        return new File(rootDirectory + "/public" + fileName);
     }
 
     public byte[] read(File file) throws IOException {
@@ -23,7 +23,7 @@ public class FileSystem implements IFileSystem {
         return buffer;
     }
 
-    public String getPublicDirectory() {
-        return publicDirectory;
+    public File getPublicDirectory() {
+        return new File(rootDirectory + "/public");
     }
 }

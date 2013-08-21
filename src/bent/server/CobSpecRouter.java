@@ -31,12 +31,10 @@ public class CobSpecRouter implements IRouter {
     }
 
     private void addFileRoutes() {
-        routes.put("/file1",               new FileResponse(fileSystem, "/file1"));
-        routes.put("/file2",               new FileResponse(fileSystem, "/file2"));
-        routes.put("/image.jpeg",          new FileResponse(fileSystem, "/image.jpeg"));
-        routes.put("/image.png",           new FileResponse(fileSystem, "/image.png"));
-        routes.put("/image.gif",           new FileResponse(fileSystem, "/image.gif"));
-        routes.put("/text-file.txt",       new FileResponse(fileSystem, "/text-file.txt"));
-        routes.put("/partial_content.txt", new FileResponse(fileSystem, "/partial_content.txt"));
+        String[] filenames = fileSystem.getPublicDirectory().list();
+        for (String filename : filenames) {
+            filename = "/" + filename;
+            routes.put(filename, new FileResponse(fileSystem, filename));
+        }
     }
 }
