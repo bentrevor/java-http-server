@@ -5,10 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import tests.mocks.MockHandlerFactory;
-import tests.mocks.MockRequestHandler;
-import tests.mocks.MockServerSocket;
-import tests.mocks.MockSocket;
+import tests.mocks.*;
 
 import java.io.*;
 
@@ -22,6 +19,7 @@ public class ServerTest {
     private MockSocket fakeClientConnection;
     private MockRequestHandler fakeRequestHandler;
     private MockHandlerFactory fakeHandlerFactory;
+    private MockExecutorService fakeExecutorService;
 
     @Before
     public void setUp() throws IOException {
@@ -30,7 +28,9 @@ public class ServerTest {
         fakeHandlerFactory = new MockHandlerFactory();
         fakeHandlerFactory.createdHandler = fakeRequestHandler;
 
-        myServer = new Server(fakeServerSocket, fakeHandlerFactory);
+        fakeExecutorService = new MockExecutorService();
+
+        myServer = new Server(fakeServerSocket, fakeHandlerFactory, fakeExecutorService);
         setUpFakeIO();
     }
 
@@ -86,11 +86,18 @@ public class ServerTest {
     public void itUsesAHandlerFactory() {
         fakeServerSocket.maxAccepts = 3;
 
-        myServer = new Server(fakeServerSocket, fakeHandlerFactory);
-
         myServer.start();
 
         assertThat(fakeHandlerFactory.makeHandlerCount, is(3));
+    }
+
+    @Test
+    public void itUsesAnExecutorService() {
+        fakeServerSocket.maxAccepts = 3;
+
+        myServer.start();
+
+        assertThat(fakeExecutorService.executeCallCount, is(3));
     }
 
     private void setUpFakeIO() {

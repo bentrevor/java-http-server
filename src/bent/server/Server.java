@@ -8,8 +8,10 @@ import java.io.IOException;
 public class Server {
     private IServerSocket serverSocket;
     private IHandlerFactory handlerFactory;
+    private IExecutorService executor;
 
-    public Server(IServerSocket socket, IHandlerFactory factory) {
+    public Server(IServerSocket socket, IHandlerFactory factory, IExecutorService executorService) {
+        executor = executorService;
         handlerFactory = factory;
         serverSocket = socket;
     }
@@ -21,6 +23,7 @@ public class Server {
                 ISocket clientConnection = serverSocket.accept();
                 requestHandler.setReaderInputStream(clientConnection.getInputStream());
                 requestHandler.setWriterOutputStream(clientConnection.getOutputStream());
+                executor.execute(requestHandler);
                 requestHandler.handleRequest();
                 clientConnection.close();
             }

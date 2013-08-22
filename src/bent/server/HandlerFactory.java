@@ -9,7 +9,7 @@ public class HandlerFactory implements IHandlerFactory {
 
     public RequestHandler makeHandler() {
         return new RequestHandler(new RequestReader(),
-               new ResponseBuilder(applicationRouter),
-               new ResponseWriter());
+                                  new ResponseBuilder(applicationRouter),
+                                  new ResponseWriter());
     }
 }

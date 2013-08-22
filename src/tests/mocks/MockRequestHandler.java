@@ -34,4 +34,6 @@ public class MockRequestHandler implements IRequestHandler {
         setWriterOutputStreamCallCount++;
         setWriterOutputStreamArgument = out;
     }
+
+    public void run() {}
 }

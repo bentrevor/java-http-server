@@ -41,4 +41,7 @@ public class RequestHandler implements IRequestHandler {
     public IRequestReader getReader() {
         return reader;
     }
+
+    public void run() {
+    }
 }

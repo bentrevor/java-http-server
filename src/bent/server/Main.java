@@ -4,6 +4,8 @@ import bent.server.sockets.RealServerSocket;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -13,10 +15,13 @@ public class Main {
         String rootDirectory = System.getProperty("user.dir");
         IFileSystem fileSystem = new FileSystem(rootDirectory);
 
+        ExecutorService service = Executors.newCachedThreadPool();
+        IExecutorService executor = new RealExecutorService(service);
+
         IRouter router = new CobSpecRouter(fileSystem);
         HandlerFactory factory = new HandlerFactory(router);
 
-        Server myServer = new Server(serverSocket, factory);
+        Server myServer = new Server(serverSocket, factory, executor);
 
         myServer.start();
     }
