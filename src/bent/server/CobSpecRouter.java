@@ -6,9 +6,9 @@ import java.util.Hashtable;
 
 public class CobSpecRouter implements IRouter {
     private Hashtable<String, HttpResponse> routes;
-    private IFileSystem fileSystem;
+    private IFileManager fileSystem;
 
-    public CobSpecRouter(IFileSystem fs) {
+    public CobSpecRouter(IFileManager fs) {
         fileSystem = fs;
         routes = new Hashtable<>();
         initializeRoutes();
@@ -18,7 +18,7 @@ public class CobSpecRouter implements IRouter {
         return routes;
     }
 
-    public IFileSystem getFileSystem() {
+    public IFileManager getFileSystem() {
         return fileSystem;
     }
 

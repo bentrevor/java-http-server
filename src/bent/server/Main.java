@@ -13,7 +13,7 @@ public class Main {
         RealServerSocket serverSocket = new RealServerSocket(socketOn5000);
 
         String rootDirectory = System.getProperty("user.dir");
-        IFileSystem fileSystem = new FileSystem(rootDirectory);
+        IFileManager fileSystem = new FileManager(rootDirectory);
 
         ExecutorService service = Executors.newCachedThreadPool();
         IExecutorService executor = new RealExecutorService(service);

@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import tests.mocks.MockFileSystem;
+import tests.mocks.MockFileManager;
 
 import java.io.FileNotFoundException;
 
@@ -19,11 +19,11 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 public class FileResponseTest {
     private HttpRequest request;
     private HttpResponse response;
-    private MockFileSystem fakeFileSystem;
+    private MockFileManager fakeFileSystem;
 
     @Before
     public void setUp() {
-        fakeFileSystem = new MockFileSystem();
+        fakeFileSystem = new MockFileManager();
     }
 
     @Test

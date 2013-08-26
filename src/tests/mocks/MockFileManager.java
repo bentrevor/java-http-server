@@ -1,17 +1,17 @@
 package tests.mocks;
 
-import bent.server.IFileSystem;
+import bent.server.IFileManager;
 
 import java.io.File;
 import java.util.Hashtable;
 
-public class MockFileSystem implements IFileSystem {
+public class MockFileManager implements IFileManager {
     public int openFileCallCount = 0;
     public int readFileCallCount = 0;
     public String openFileArgument;
     private Hashtable<String, byte[]> files;
 
-    public MockFileSystem() {
+    public MockFileManager() {
         openFileCallCount = 0;
         readFileCallCount = 0;
         openFileArgument = "";

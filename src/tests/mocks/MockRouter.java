@@ -1,7 +1,7 @@
 package tests.mocks;
 
 import bent.server.HttpResponse;
-import bent.server.IFileSystem;
+import bent.server.IFileManager;
 import bent.server.IRouter;
 
 import java.util.Hashtable;
@@ -20,7 +20,7 @@ public class MockRouter implements IRouter {
         return routes;
     }
 
-    public IFileSystem getFileSystem() {
-        return new MockFileSystem();
+    public IFileManager getFileSystem() {
+        return new MockFileManager();
     }
 }

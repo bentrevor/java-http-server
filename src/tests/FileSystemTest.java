@@ -1,6 +1,6 @@
 package tests;
 
-import bent.server.FileSystem;
+import bent.server.FileManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 public class FileSystemTest {
     @Test
     public void itSavesThePublicDirectoryAsAFile() {
-        FileSystem fs = new FileSystem("rootpath");
+        FileManager fs = new FileManager("rootpath");
 
         assertThat(fs.getPublicDirectory(), is(instanceOf(File.class)));
         assertThat(fs.getPublicDirectory().getPath(), is("rootpath/public"));

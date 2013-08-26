@@ -2,16 +2,16 @@ package bent.server.responses;
 
 import bent.server.HttpRequest;
 import bent.server.HttpResponse;
-import bent.server.IFileSystem;
+import bent.server.IFileManager;
 
 import java.io.File;
 import java.io.IOException;
 
 public class FileResponse extends HttpResponse {
     private File file;
-    private IFileSystem fileSystem;
+    private IFileManager fileSystem;
 
-    public FileResponse(IFileSystem files, String fileName) {
+    public FileResponse(IFileManager files, String fileName) {
         fileSystem = files;
         file = fileSystem.open(fileName);
     }

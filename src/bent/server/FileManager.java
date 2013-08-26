@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class FileSystem implements IFileSystem {
+public class FileManager implements IFileManager {
     private String rootDirectory;
 
-    public FileSystem(String root) {
+    public FileManager(String root) {
         rootDirectory = root;
     }
 
