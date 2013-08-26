@@ -44,16 +44,6 @@ public class ServerTest {
     }
 
     @Test
-    public void itTellsARequestHandlerToHandleRequest() {
-        fakeServerSocket.maxAccepts = 3;
-
-
-        myServer.start();
-
-        assertThat(fakeRequestHandler.handleRequestCallCount, is(3));
-    }
-
-    @Test
     public void itClosesTheClientConnectionAfterResponding() {
         fakeServerSocket.maxAccepts = 3;
 

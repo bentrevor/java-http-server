@@ -15,11 +15,15 @@ public class RequestHandler implements IRequestHandler {
         writer = responseWriter;
     }
 
-    public void handleRequest() throws IOException {
-        String inputFromSocket = reader.readFromSocket();
-        HttpRequest request = new HttpRequest(inputFromSocket);
-        HttpResponse response = builder.buildResponse(request);
-        writer.send(response);
+    public void run() {
+        try {
+            String inputFromSocket = reader.readFromSocket();
+            HttpRequest request = new HttpRequest(inputFromSocket);
+            HttpResponse response = builder.buildResponse(request);
+            writer.send(response);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 
     public void setReaderInputStream(InputStream in) {
@@ -40,8 +44,5 @@ public class RequestHandler implements IRequestHandler {
 
     public IRequestReader getReader() {
         return reader;
-    }
-
-    public void run() {
     }
 }

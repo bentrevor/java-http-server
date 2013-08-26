@@ -21,7 +21,7 @@ public class MockRequestHandler implements IRequestHandler {
         setWriterOutputStreamArgument = null;
     }
 
-    public void handleRequest() throws IOException {
+    public void run() {
         handleRequestCallCount++;
     }
 
@@ -34,6 +34,4 @@ public class MockRequestHandler implements IRequestHandler {
         setWriterOutputStreamCallCount++;
         setWriterOutputStreamArgument = out;
     }
-
-    public void run() {}
 }

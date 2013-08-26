@@ -61,7 +61,7 @@ public class RequestHandlerTest {
         String responseToSend = fakeResponseWriter.sendArgument.toString();
 
         setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
+        handler.run();
 
         assertThat(responseToSend, containsString("HTTP/1.1 200 OK"));
     }
@@ -69,7 +69,7 @@ public class RequestHandlerTest {
     @Test
     public void itSendsTheParsedRequestToTheResponseBuilder() throws IOException {
         setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
+        handler.run();
 
         HttpRequest parsedRequest = fakeResponseBuilder.buildResponseArgument;
 
@@ -108,10 +108,10 @@ public class RequestHandlerTest {
 
     private void makeThreeRequests() throws IOException {
         setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
+        handler.run();
         setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
+        handler.run();
         setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
+        handler.run();
     }
 }
