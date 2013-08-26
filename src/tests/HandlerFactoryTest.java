@@ -27,6 +27,7 @@ public class HandlerFactoryTest {
     public void itCreatesARequestHandler() {
         RequestHandler rh = factory.makeHandler();
 
+        assertThat(rh, is(instanceOf(RequestHandler.class)));
         assertThat(rh.getReader(), is(instanceOf(RequestReader.class)));
         assertThat(rh.getWriter(), is(instanceOf(ResponseWriter.class)));
         assertThat(rh.getBuilder(), is(instanceOf(ResponseBuilder.class)));

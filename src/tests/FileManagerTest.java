@@ -12,7 +12,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
-public class FileSystemTest {
+public class FileManagerTest {
     @Test
     public void itSavesThePublicDirectoryAsAFile() {
         FileManager fs = new FileManager("rootpath");

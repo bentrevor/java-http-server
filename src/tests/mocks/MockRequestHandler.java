@@ -2,19 +2,18 @@ package tests.mocks;
 
 import bent.server.IRequestHandler;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class MockRequestHandler implements IRequestHandler {
-    public int handleRequestCallCount;
+    public int runCallCount;
     public int setReaderInputStreamCallCount;
     public int setWriterOutputStreamCallCount;
     public InputStream setReaderInputStreamArgument;
     public OutputStream setWriterOutputStreamArgument;
 
     public MockRequestHandler() {
-        handleRequestCallCount = 0;
+        runCallCount = 0;
         setReaderInputStreamCallCount = 0;
         setWriterOutputStreamCallCount = 0;
         setReaderInputStreamArgument = null;
@@ -22,7 +21,7 @@ public class MockRequestHandler implements IRequestHandler {
     }
 
     public void run() {
-        handleRequestCallCount++;
+        runCallCount++;
     }
 
     public void setReaderInputStream(InputStream in) {
