@@ -53,21 +53,6 @@ public class RequestHandlerTest {
         assertThat(fakeResponseWriter.sendCallCount, is(equalTo(3)));
     }
 
-    @Ignore
-    public void itGivesTheBuiltResponseToTheResponseWriter() throws IOException {
-        HttpResponse fakeResponse = new RootResponse();
-        fakeResponse.setStatusLine("HTTP/1.1 200 OK");
-
-        fakeResponseBuilder.setBuiltResponse(fakeResponse);
-
-        String responseToSend = fakeResponseWriter.sendArgument.toString();
-
-        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.run();
-
-        assertThat(responseToSend, containsString("HTTP/1.1 200 OK"));
-    }
-
     @Test
     public void itSendsTheParsedRequestToTheResponseBuilder() throws IOException {
         setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
@@ -109,6 +94,13 @@ public class RequestHandlerTest {
 
         assertThat(fakeRequestReader.readFromSocketCallCount, is(equalTo(3)));
         assertThat(fakeResponseWriter.sendCallCount, is(equalTo(3)));
+    }
+
+    @Test
+    public void itClosesTheClientConnectionWhenItsDone() throws IOException {
+        makeThreeRequests();
+
+        assertThat(fakeSocket.closeCallCount, is(3));
     }
 
     private void setInputStreamContent(String content) throws IOException {

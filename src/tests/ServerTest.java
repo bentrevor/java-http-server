@@ -20,7 +20,6 @@ public class ServerTest {
     private MockSocket fakeClientConnection;
     private MockRequestHandler fakeRequestHandler;
     private MockHandlerFactory fakeHandlerFactory;
-    private MockExecutorService fakeExecutorService;
 
     @Before
     public void setUp() throws IOException {
@@ -29,9 +28,7 @@ public class ServerTest {
         fakeHandlerFactory = new MockHandlerFactory();
         fakeHandlerFactory.createdHandler = fakeRequestHandler;
 
-        fakeExecutorService = new MockExecutorService();
-
-        myServer = new Server(fakeServerSocket, fakeHandlerFactory, fakeExecutorService);
+        myServer = new Server(fakeServerSocket, fakeHandlerFactory);
         setUpFakeIO();
     }
 
@@ -45,48 +42,12 @@ public class ServerTest {
     }
 
     @Test
-    public void itClosesTheClientConnectionAfterResponding() {
-        fakeServerSocket.maxAccepts = 3;
-
-        myServer.start();
-
-        assertThat(fakeClientConnection.closeCallCount, is(3));
-    }
-
-    @Test
-    public void itTellTheRequestHandlerToSetAnInputStream() {
-        fakeServerSocket.maxAccepts = 3;
-
-        myServer.start();
-
-        assertThat(fakeRequestHandler.setReaderInputStreamCallCount, is(3));
-    }
-
-    @Test
-    public void itTellTheRequestHandlerToSetAnOutputStream() {
-        fakeServerSocket.maxAccepts = 3;
-
-        myServer.start();
-
-        assertThat(fakeRequestHandler.setWriterOutputStreamCallCount, is(3));
-    }
-
-    @Test
     public void itUsesAHandlerFactory() {
         fakeServerSocket.maxAccepts = 3;
 
         myServer.start();
 
         assertThat(fakeHandlerFactory.makeHandlerCount, is(3));
-    }
-
-    @Test
-    public void itUsesAnExecutorService() {
-        fakeServerSocket.maxAccepts = 3;
-
-        myServer.start();
-
-        assertThat(fakeExecutorService.executeCallCount, is(3));
     }
 
     @Test

@@ -30,6 +30,7 @@ public class RequestHandler implements IRequestHandler {
             HttpRequest request = new HttpRequest(inputFromSocket);
             HttpResponse response = builder.buildResponse(request);
             writer.send(response);
+            connection.close();
         } catch (IOException e) {
             System.out.println(e);
         }
