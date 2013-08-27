@@ -6,12 +6,16 @@ import java.io.IOException;
 
 public class ThreadedHandlerFactory implements IHandlerFactory {
     private IHandlerFactory handlerFactory;
+    private IExecutorService service;
 
-    public ThreadedHandlerFactory(IHandlerFactory factory) {
+    public ThreadedHandlerFactory(IHandlerFactory factory, IExecutorService executor) {
         handlerFactory = factory;
+        service = executor;
     }
 
     public IRequestHandler makeHandler(ISocket socket) throws IOException {
-        return handlerFactory.makeHandler(socket);
+        IRequestHandler handler = handlerFactory.makeHandler(socket);
+
+        return new ThreadedRequestHandler(handler, service);
     }
 }

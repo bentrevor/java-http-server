@@ -81,19 +81,6 @@ public class RequestHandlerTest {
     }
 
     @Test
-    public void itRunsWhenHandleRequestIsCalled() throws IOException {
-        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
-        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
-        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
-        handler.handleRequest();
-
-        assertThat(fakeRequestReader.readFromSocketCallCount, is(equalTo(3)));
-        assertThat(fakeResponseWriter.sendCallCount, is(equalTo(3)));
-    }
-
-    @Test
     public void itClosesTheClientConnectionWhenItsDone() throws IOException {
         makeThreeRequests();
 

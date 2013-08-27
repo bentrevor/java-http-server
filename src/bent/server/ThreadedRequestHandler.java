@@ -4,14 +4,12 @@ public class ThreadedRequestHandler implements IRequestHandler {
     private IRequestHandler handler;
     private IExecutorService executor;
 
-    public void run() {}
-
     public ThreadedRequestHandler(IRequestHandler requestHandler, IExecutorService service) {
         handler = requestHandler;
         executor = service;
     }
 
-    public void handleRequest() {
+    public void run() {
         executor.execute(handler);
     }
 }

@@ -21,7 +21,9 @@ public class Main {
         IRouter router = new CobSpecRouter(fileSystem);
         HandlerFactory factory = new HandlerFactory(router);
 
-        Server myServer = new Server(serverSocket, factory);
+        ThreadedHandlerFactory tFactory = new ThreadedHandlerFactory(factory, executor);
+
+        Server myServer = new Server(serverSocket, tFactory);
 
         myServer.start();
     }

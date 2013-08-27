@@ -20,9 +20,9 @@ public class ThreadedRequestHandlerTest {
         MockExecutorService fakeExecutorService = new MockExecutorService();
         ThreadedRequestHandler handler = new ThreadedRequestHandler(fakeRequestHandler, fakeExecutorService);
 
-        handler.handleRequest();
-        handler.handleRequest();
-        handler.handleRequest();
+        handler.run();
+        handler.run();
+        handler.run();
 
         assertThat(fakeExecutorService.executeCallCount, is(3));
         assertSame(fakeExecutorService.executeArgument, fakeRequestHandler);

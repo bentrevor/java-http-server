@@ -34,10 +34,6 @@ public class RequestHandler implements IRequestHandler {
         }
     }
 
-    public void handleRequest() {
-        run();
-    }
-
     public void setReaderInputStream() throws IOException {
         reader.setInputStream(connection.getInputStream());
     }
