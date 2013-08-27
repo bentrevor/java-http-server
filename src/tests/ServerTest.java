@@ -98,6 +98,15 @@ public class ServerTest {
         assertSame(fakeHandlerFactory.makeHandlerArgument, fakeServerSocket.createdClientConnection);
     }
 
+    @Test
+    public void itTellsTheRequestHandlerToHandleRequest() {
+        fakeServerSocket.maxAccepts = 3;
+
+        myServer.start();
+
+        assertThat(fakeRequestHandler.handleRequestCallCount, is(3));
+    }
+
     private void setUpFakeIO() {
         fakeClientConnection = new MockSocket();
         OutputStream fakeOutputStream = new ByteArrayOutputStream();

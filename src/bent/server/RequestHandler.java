@@ -15,11 +15,13 @@ public class RequestHandler implements IRequestHandler {
     public RequestHandler(ISocket socket,
                           IRequestReader requestReader, 
                           IResponseBuilder responseBuilder,
-                          IResponseWriter responseWriter) {
+                          IResponseWriter responseWriter) throws IOException {
         connection = socket;
         reader = requestReader;
         builder = responseBuilder;
         writer = responseWriter;
+        setReaderInputStream();
+        setWriterOutputStream();
     }
 
     public void run() {
@@ -31,6 +33,10 @@ public class RequestHandler implements IRequestHandler {
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+
+    public void handleRequest() {
+        run();
     }
 
     public void setReaderInputStream() throws IOException {

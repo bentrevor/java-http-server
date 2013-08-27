@@ -8,6 +8,7 @@ import org.junit.runners.JUnit4;
 import tests.mocks.MockRouter;
 import tests.mocks.MockSocket;
 
+import java.io.IOException;
 import java.net.Socket;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -27,7 +28,7 @@ public class HandlerFactoryTest {
     }
 
     @Test
-    public void itCreatesARequestHandler() {
+    public void itCreatesARequestHandler() throws IOException {
         MockSocket fakeSocket = new MockSocket();
         RequestHandler rh = factory.makeHandler(fakeSocket);
 
@@ -39,7 +40,7 @@ public class HandlerFactoryTest {
     }
 
     @Test
-    public void itCreatesAFileSystemWithGivenRouter() {
+    public void itCreatesAFileSystemWithGivenRouter() throws IOException {
         HandlerFactory factory = new HandlerFactory(fakeRouter);
         RequestHandler handler = factory.makeHandler(new MockSocket());
         IResponseBuilder builder = handler.getBuilder();

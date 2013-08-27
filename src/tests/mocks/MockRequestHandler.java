@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 public class MockRequestHandler implements IRequestHandler {
     public int runCallCount;
+    public int handleRequestCallCount;
     public int setReaderInputStreamCallCount;
     public int setWriterOutputStreamCallCount;
     public InputStream setReaderInputStreamArgument;
@@ -14,6 +15,7 @@ public class MockRequestHandler implements IRequestHandler {
 
     public MockRequestHandler() {
         runCallCount = 0;
+        handleRequestCallCount = 0;
         setReaderInputStreamCallCount = 0;
         setWriterOutputStreamCallCount = 0;
         setReaderInputStreamArgument = null;
@@ -22,6 +24,10 @@ public class MockRequestHandler implements IRequestHandler {
 
     public void run() {
         runCallCount++;
+    }
+
+    public void handleRequest() {
+        handleRequestCallCount++;
     }
 
     public void setReaderInputStream() {

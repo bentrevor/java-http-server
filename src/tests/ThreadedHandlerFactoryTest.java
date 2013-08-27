@@ -11,6 +11,8 @@ import tests.mocks.MockHandlerFactory;
 import tests.mocks.MockRouter;
 import tests.mocks.MockSocket;
 
+import java.io.IOException;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -18,7 +20,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(JUnit4.class)
 public class ThreadedHandlerFactoryTest {
     @Test
-    public void itUsesAHandlerFactoryToCreateThreadedHandlers() {
+    public void itUsesAHandlerFactoryToCreateThreadedHandlers() throws IOException {
         MockHandlerFactory nonThreadedFactory = new MockHandlerFactory();
         MockSocket fakeSocket = new MockSocket();
         ThreadedHandlerFactory threadedFactory = new ThreadedHandlerFactory(nonThreadedFactory);

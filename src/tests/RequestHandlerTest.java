@@ -82,12 +82,8 @@ public class RequestHandlerTest {
 
     @Test
     public void itSetsTheWriterOutputStreamFromItsConnection() throws IOException {
-        OutputStream out = new ByteArrayOutputStream();
-        assertThat(fakeResponseWriter.setOutputStreamCallCount, is(0));
-
-        handler.setWriterOutputStream();
-        handler.setWriterOutputStream();
-        handler.setWriterOutputStream();
+        handler = new RequestHandler(fakeSocket, fakeRequestReader, fakeResponseBuilder, fakeResponseWriter);
+        handler = new RequestHandler(fakeSocket, fakeRequestReader, fakeResponseBuilder, fakeResponseWriter);
 
         assertThat(fakeResponseWriter.setOutputStreamCallCount, is(3));
         assertThat(fakeSocket.getOutputStreamCallCount, is(3));
@@ -95,14 +91,24 @@ public class RequestHandlerTest {
 
     @Test
     public void itSetsTheReaderInputStreamFromItsConnection() throws IOException {
-        assertThat(fakeRequestReader.setInputStreamCallCount, is(0));
-
-        handler.setReaderInputStream();
-        handler.setReaderInputStream();
-        handler.setReaderInputStream();
+        handler = new RequestHandler(fakeSocket, fakeRequestReader, fakeResponseBuilder, fakeResponseWriter);
+        handler = new RequestHandler(fakeSocket, fakeRequestReader, fakeResponseBuilder, fakeResponseWriter);
 
         assertThat(fakeRequestReader.setInputStreamCallCount, is(3));
         assertThat(fakeSocket.getInputStreamCallCount, is(3));
+    }
+
+    @Test
+    public void itRunsWhenHandleRequestIsCalled() throws IOException {
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
+        handler.handleRequest();
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
+        handler.handleRequest();
+        setInputStreamContent("GET /peanuts HTTP/1.1\r\n\r\n");
+        handler.handleRequest();
+
+        assertThat(fakeRequestReader.readFromSocketCallCount, is(equalTo(3)));
+        assertThat(fakeResponseWriter.sendCallCount, is(equalTo(3)));
     }
 
     private void setInputStreamContent(String content) throws IOException {

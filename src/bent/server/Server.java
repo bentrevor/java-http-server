@@ -24,6 +24,7 @@ public class Server {
                 requestHandler.setReaderInputStream();
                 requestHandler.setWriterOutputStream();
                 executor.execute(requestHandler);
+                requestHandler.handleRequest();
                 clientConnection.close();
             }
         } catch (IOException e) {
