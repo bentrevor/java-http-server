@@ -6,6 +6,6 @@ import java.io.OutputStream;
 
 public interface IRequestHandler extends Runnable {
     public void run();
-    public void setReaderInputStream(InputStream in);
-    public void setWriterOutputStream(OutputStream out);
+    public void setReaderInputStream() throws IOException;
+    public void setWriterOutputStream() throws IOException;
 }

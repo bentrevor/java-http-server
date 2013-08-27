@@ -33,12 +33,12 @@ public class RequestHandler implements IRequestHandler {
         }
     }
 
-    public void setReaderInputStream(InputStream in) {
-        reader.setInputStream(in);
+    public void setReaderInputStream() throws IOException {
+        reader.setInputStream(connection.getInputStream());
     }
 
-    public void setWriterOutputStream(OutputStream out) {
-        writer.setOutputStream(out);
+    public void setWriterOutputStream() throws IOException {
+        writer.setOutputStream(connection.getOutputStream());
     }
 
     public IResponseWriter getWriter() {

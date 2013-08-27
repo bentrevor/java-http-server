@@ -18,7 +18,7 @@ public class ThreadedRequestHandler implements IRequestHandler {
         executor.execute(handler);
     }
 
-    public void setReaderInputStream(InputStream in) {}
+    public void setReaderInputStream() {}
 
-    public void setWriterOutputStream(OutputStream out) {}
+    public void setWriterOutputStream() {}
 }

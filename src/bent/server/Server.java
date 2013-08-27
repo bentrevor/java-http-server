@@ -21,8 +21,8 @@ public class Server {
             while (!serverSocket.isClosed()) {
                 ISocket clientConnection = serverSocket.accept();
                 IRequestHandler requestHandler = handlerFactory.makeHandler(clientConnection);
-                requestHandler.setReaderInputStream(clientConnection.getInputStream());
-                requestHandler.setWriterOutputStream(clientConnection.getOutputStream());
+                requestHandler.setReaderInputStream();
+                requestHandler.setWriterOutputStream();
                 executor.execute(requestHandler);
                 clientConnection.close();
             }

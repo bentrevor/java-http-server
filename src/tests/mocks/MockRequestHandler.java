@@ -24,13 +24,11 @@ public class MockRequestHandler implements IRequestHandler {
         runCallCount++;
     }
 
-    public void setReaderInputStream(InputStream in) {
+    public void setReaderInputStream() {
         setReaderInputStreamCallCount++;
-        setReaderInputStreamArgument = in;
     }
 
-    public void setWriterOutputStream(OutputStream out) {
+    public void setWriterOutputStream() {
         setWriterOutputStreamCallCount++;
-        setWriterOutputStreamArgument = out;
     }
 }

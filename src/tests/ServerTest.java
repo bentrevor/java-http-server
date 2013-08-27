@@ -60,7 +60,6 @@ public class ServerTest {
         myServer.start();
 
         assertThat(fakeRequestHandler.setReaderInputStreamCallCount, is(3));
-        assertThat(fakeRequestHandler.setReaderInputStreamArgument, is(fakeClientConnection.fakeInputStream));
     }
 
     @Test
@@ -70,7 +69,6 @@ public class ServerTest {
         myServer.start();
 
         assertThat(fakeRequestHandler.setWriterOutputStreamCallCount, is(3));
-        assertThat(fakeRequestHandler.setWriterOutputStreamArgument, is(fakeClientConnection.fakeOutputStream));
     }
 
     @Test

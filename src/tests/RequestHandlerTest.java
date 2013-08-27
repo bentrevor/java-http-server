@@ -28,7 +28,6 @@ public class RequestHandlerTest {
     private MockResponseBuilder fakeResponseBuilder;
     private MockSocket fakeSocket;
     private RequestHandler handler;
-    private InputStream in;
 
     @Before
     public void setUp() throws IOException {
@@ -82,31 +81,33 @@ public class RequestHandlerTest {
     }
 
     @Test
-    public void itSetsTheClientConnectionForTheResponseWriter() throws IOException {
+    public void itSetsTheWriterOutputStreamFromItsConnection() throws IOException {
         OutputStream out = new ByteArrayOutputStream();
         assertThat(fakeResponseWriter.setOutputStreamCallCount, is(0));
 
-        handler.setWriterOutputStream(out);
-        handler.setWriterOutputStream(out);
-        handler.setWriterOutputStream(out);
+        handler.setWriterOutputStream();
+        handler.setWriterOutputStream();
+        handler.setWriterOutputStream();
 
         assertThat(fakeResponseWriter.setOutputStreamCallCount, is(3));
+        assertThat(fakeSocket.getOutputStreamCallCount, is(3));
     }
 
     @Test
-    public void itSetsTheInputStreamForTheRequestReader() throws IOException {
+    public void itSetsTheReaderInputStreamFromItsConnection() throws IOException {
         assertThat(fakeRequestReader.setInputStreamCallCount, is(0));
 
-        handler.setReaderInputStream(in);
-        handler.setReaderInputStream(in);
-        handler.setReaderInputStream(in);
+        handler.setReaderInputStream();
+        handler.setReaderInputStream();
+        handler.setReaderInputStream();
 
         assertThat(fakeRequestReader.setInputStreamCallCount, is(3));
+        assertThat(fakeSocket.getInputStreamCallCount, is(3));
     }
 
-    private void setInputStreamContent(String content) {
-        in = new ByteArrayInputStream(content.getBytes());
-        handler.setReaderInputStream(in);
+    private void setInputStreamContent(String content) throws IOException {
+        fakeSocket.fakeInputStream = new ByteArrayInputStream(content.getBytes());
+        handler.setReaderInputStream();
     }
 
     private void makeThreeRequests() throws IOException {
