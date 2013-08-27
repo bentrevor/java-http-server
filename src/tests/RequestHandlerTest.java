@@ -12,6 +12,7 @@ import org.junit.runners.JUnit4;
 import tests.mocks.MockRequestReader;
 import tests.mocks.MockResponseBuilder;
 import tests.mocks.MockResponseWriter;
+import tests.mocks.MockSocket;
 
 import java.io.*;
 
@@ -25,6 +26,7 @@ public class RequestHandlerTest {
     private MockResponseWriter fakeResponseWriter;
     private MockRequestReader fakeRequestReader;
     private MockResponseBuilder fakeResponseBuilder;
+    private MockSocket fakeSocket;
     private RequestHandler handler;
     private InputStream in;
 
@@ -33,8 +35,9 @@ public class RequestHandlerTest {
         fakeResponseWriter = new MockResponseWriter();
         fakeResponseBuilder = new MockResponseBuilder();
         fakeRequestReader = new MockRequestReader();
+        fakeSocket = new MockSocket();
 
-        handler = new RequestHandler(fakeRequestReader, fakeResponseBuilder, fakeResponseWriter);
+        handler = new RequestHandler(fakeSocket, fakeRequestReader, fakeResponseBuilder, fakeResponseWriter);
     }
 
     @Test

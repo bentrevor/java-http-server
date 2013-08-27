@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import tests.mocks.MockRouter;
+import tests.mocks.MockSocket;
+
+import java.net.Socket;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -25,18 +28,20 @@ public class HandlerFactoryTest {
 
     @Test
     public void itCreatesARequestHandler() {
-        RequestHandler rh = factory.makeHandler();
+        MockSocket fakeSocket = new MockSocket();
+        RequestHandler rh = factory.makeHandler(fakeSocket);
 
         assertThat(rh, is(instanceOf(RequestHandler.class)));
         assertThat(rh.getReader(), is(instanceOf(RequestReader.class)));
         assertThat(rh.getWriter(), is(instanceOf(ResponseWriter.class)));
         assertThat(rh.getBuilder(), is(instanceOf(ResponseBuilder.class)));
+        assertSame(rh.getSocket(), fakeSocket);
     }
 
     @Test
     public void itCreatesAFileSystemWithGivenRouter() {
         HandlerFactory factory = new HandlerFactory(fakeRouter);
-        RequestHandler handler = factory.makeHandler();
+        RequestHandler handler = factory.makeHandler(new MockSocket());
         IResponseBuilder builder = handler.getBuilder();
         IRouter router = builder.getRouter();
 

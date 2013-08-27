@@ -1,5 +1,7 @@
 package bent.server;
 
+import bent.server.sockets.ISocket;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,8 +10,13 @@ public class RequestHandler implements IRequestHandler {
     private IResponseWriter writer;
     private IResponseBuilder builder;
     private IRequestReader reader;
+    private ISocket connection;
 
-    public RequestHandler(IRequestReader requestReader, IResponseBuilder responseBuilder, IResponseWriter responseWriter) {
+    public RequestHandler(ISocket socket,
+                          IRequestReader requestReader, 
+                          IResponseBuilder responseBuilder,
+                          IResponseWriter responseWriter) {
+        connection = socket;
         reader = requestReader;
         builder = responseBuilder;
         writer = responseWriter;
@@ -44,5 +51,9 @@ public class RequestHandler implements IRequestHandler {
 
     public IRequestReader getReader() {
         return reader;
+    }
+
+    public ISocket getSocket() {
+        return connection;
     }
 }

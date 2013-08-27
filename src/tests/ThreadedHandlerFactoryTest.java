@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import tests.mocks.MockHandlerFactory;
 import tests.mocks.MockRouter;
+import tests.mocks.MockSocket;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -19,11 +20,12 @@ public class ThreadedHandlerFactoryTest {
     @Test
     public void itUsesAHandlerFactoryToCreateThreadedHandlers() {
         MockHandlerFactory nonThreadedFactory = new MockHandlerFactory();
+        MockSocket fakeSocket = new MockSocket();
         ThreadedHandlerFactory threadedFactory = new ThreadedHandlerFactory(nonThreadedFactory);
 
-        threadedFactory.makeHandler();
-        threadedFactory.makeHandler();
-        threadedFactory.makeHandler();
+        threadedFactory.makeHandler(fakeSocket);
+        threadedFactory.makeHandler(fakeSocket);
+        threadedFactory.makeHandler(fakeSocket);
 
         assertThat(nonThreadedFactory.makeHandlerCount, is(3));
     }

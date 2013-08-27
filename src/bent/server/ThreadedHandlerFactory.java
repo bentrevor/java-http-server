@@ -1,5 +1,7 @@
 package bent.server;
 
+import bent.server.sockets.ISocket;
+
 public class ThreadedHandlerFactory implements IHandlerFactory {
     private IHandlerFactory handlerFactory;
 
@@ -7,7 +9,7 @@ public class ThreadedHandlerFactory implements IHandlerFactory {
         handlerFactory = factory;
     }
 
-    public IRequestHandler makeHandler() {
-        return handlerFactory.makeHandler();
+    public IRequestHandler makeHandler(ISocket socket) {
+        return handlerFactory.makeHandler(socket);
     }
 }

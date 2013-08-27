@@ -1,5 +1,7 @@
 package bent.server;
 
+import bent.server.sockets.ISocket;
+
 public class HandlerFactory implements IHandlerFactory {
     private IRouter applicationRouter;
 
@@ -7,8 +9,9 @@ public class HandlerFactory implements IHandlerFactory {
         applicationRouter = router;
     }
 
-    public RequestHandler makeHandler() {
-        return new RequestHandler(new RequestReader(),
+    public RequestHandler makeHandler(ISocket socket) {
+        return new RequestHandler(socket,
+                                  new RequestReader(),
                                   new ResponseBuilder(applicationRouter),
                                   new ResponseWriter());
     }

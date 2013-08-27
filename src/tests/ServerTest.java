@@ -10,6 +10,7 @@ import tests.mocks.*;
 import java.io.*;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
@@ -88,6 +89,15 @@ public class ServerTest {
         myServer.start();
 
         assertThat(fakeExecutorService.executeCallCount, is(3));
+    }
+
+    @Test
+    public void itPassesTheCreatedConnectionToRequestHandlerFactory() {
+        fakeServerSocket.maxAccepts = 1;
+
+        myServer.start();
+
+        assertSame(fakeHandlerFactory.makeHandlerArgument, fakeServerSocket.createdClientConnection);
     }
 
     private void setUpFakeIO() {
