@@ -25,16 +25,4 @@ public class MockRequestHandler implements IRequestHandler {
     public void run() {
         runCallCount++;
     }
-
-    public void handleRequest() {
-        handleRequestCallCount++;
-    }
-
-    public void setReaderInputStream() {
-        setReaderInputStreamCallCount++;
-    }
-
-    public void setWriterOutputStream() {
-        setWriterOutputStreamCallCount++;
-    }
 }

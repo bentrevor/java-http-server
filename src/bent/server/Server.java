@@ -19,7 +19,7 @@ public class Server {
             while (!serverSocket.isClosed()) {
                 ISocket clientConnection = serverSocket.accept();
                 IRequestHandler requestHandler = handlerFactory.makeHandler(clientConnection);
-                requestHandler.handleRequest();
+                requestHandler.run();
             }
         } catch (IOException e) {
             System.out.println(e + " in Server.start()");

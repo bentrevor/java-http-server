@@ -8,6 +8,7 @@ import tests.mocks.MockExecutorService;
 import tests.mocks.MockRequestHandler;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
@@ -24,6 +25,6 @@ public class ThreadedRequestHandlerTest {
         handler.handleRequest();
 
         assertThat(fakeExecutorService.executeCallCount, is(3));
-        assertThat((MockRequestHandler) fakeExecutorService.executeArgument, is(fakeRequestHandler));
+        assertSame(fakeExecutorService.executeArgument, fakeRequestHandler);
     }
 }

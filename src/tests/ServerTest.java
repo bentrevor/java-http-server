@@ -5,7 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import tests.mocks.*;
+import tests.mocks.MockHandlerFactory;
+import tests.mocks.MockRequestHandler;
+import tests.mocks.MockServerSocket;
+import tests.mocks.MockSocket;
 
 import java.io.*;
 
@@ -17,7 +20,6 @@ import static org.junit.Assert.assertThat;
 public class ServerTest {
     private Server myServer;
     private MockServerSocket fakeServerSocket;
-    private MockSocket fakeClientConnection;
     private MockRequestHandler fakeRequestHandler;
     private MockHandlerFactory fakeHandlerFactory;
 
@@ -60,16 +62,16 @@ public class ServerTest {
     }
 
     @Test
-    public void itTellsTheRequestHandlerToHandleRequest() {
+    public void itTellsTheRequestHandlerToRun() {
         fakeServerSocket.maxAccepts = 3;
 
         myServer.start();
 
-        assertThat(fakeRequestHandler.handleRequestCallCount, is(3));
+        assertThat(fakeRequestHandler.runCallCount, is(3));
     }
 
     private void setUpFakeIO() {
-        fakeClientConnection = new MockSocket();
+        MockSocket fakeClientConnection = new MockSocket();
         OutputStream fakeOutputStream = new ByteArrayOutputStream();
         InputStream fakeInputStream = new ByteArrayInputStream("hello".getBytes());
         fakeClientConnection.fakeInputStream = fakeInputStream;

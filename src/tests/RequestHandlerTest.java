@@ -1,11 +1,8 @@
 package tests;
 
 import bent.server.HttpRequest;
-import bent.server.HttpResponse;
 import bent.server.RequestHandler;
-import bent.server.responses.RootResponse;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -14,12 +11,12 @@ import tests.mocks.MockResponseBuilder;
 import tests.mocks.MockResponseWriter;
 import tests.mocks.MockSocket;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.containsString;
 
 @RunWith(JUnit4.class)
 public class RequestHandlerTest {

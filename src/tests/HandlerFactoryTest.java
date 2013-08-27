@@ -9,7 +9,6 @@ import tests.mocks.MockRouter;
 import tests.mocks.MockSocket;
 
 import java.io.IOException;
-import java.net.Socket;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
