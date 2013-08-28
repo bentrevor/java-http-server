@@ -18,10 +18,6 @@ public class CobSpecRouter implements IRouter {
         return routes;
     }
 
-    public IFileManager getFileSystem() {
-        return fileSystem;
-    }
-
     private void initializeRoutes() {
         routes.put("/",           new RootResponse());
         routes.put("/redirect",   new RedirectResponse());
