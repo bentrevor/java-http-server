@@ -10,6 +10,7 @@ import org.junit.runners.JUnit4;
 import tests.mocks.MockFileManager;
 
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -108,8 +109,8 @@ public class FileResponseTest {
     public void itTrimsBodyAccordingToRangeHeader() throws FileNotFoundException {
         fakeFileSystem.addFile("partial_content.txt", "Contents of partial content file");
         request = new HttpRequest("GET /partial_content.txt HTTP/1.1\r\n" + 
-                                  "Range: bytes=0-4\r\n" +
-                                  "\r\n");
+                "Range: bytes=0-4\r\n" +
+                "\r\n");
         response = new FileResponse(fakeFileSystem, request.getRequestURI());
 
         response.buildResponse(request);
@@ -139,5 +140,15 @@ public class FileResponseTest {
         response.buildResponse(request);
 
         assertThat(fakeFileSystem.readFileCallCount, is(3));
+    }
+
+    @Test
+    public void itHasAFilePath() {
+        request = new HttpRequest("GET /image.jpeg HTTP/1.1\r\n\r\n");
+        FileResponse response = new FileResponse(fakeFileSystem, request.getRequestURI());
+
+        String filePath = response.getFilePath().toString();
+
+        assertThat(filePath, is("mockroot/public/image.jpeg"));
     }
 }

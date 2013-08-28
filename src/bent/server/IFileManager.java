@@ -7,4 +7,5 @@ public interface IFileManager {
     public File open(String fileName);
     public byte[] read(File file) throws IOException;
     public File getPublicDirectory();
+    public String[] getPublicFilenames();
 }

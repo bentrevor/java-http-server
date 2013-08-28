@@ -26,4 +26,8 @@ public class FileManager implements IFileManager {
     public File getPublicDirectory() {
         return new File(rootDirectory + "/public");
     }
+
+    public String[] getPublicFilenames() {
+        return getPublicDirectory().list();
+    }
 }

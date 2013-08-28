@@ -6,14 +6,18 @@ import bent.server.IFileManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileResponse extends HttpResponse {
     private File file;
     private IFileManager fileSystem;
+    private Path filePath;
 
     public FileResponse(IFileManager files, String fileName) {
         fileSystem = files;
         file = fileSystem.open(fileName);
+        filePath = Paths.get(files.getPublicDirectory() + fileName);
     }
 
     public void buildResponse(HttpRequest request) {
@@ -41,6 +45,10 @@ public class FileResponse extends HttpResponse {
             }
             setBody(body);
         }
+    }
+
+    public Path getFilePath() {
+        return filePath;
     }
 
     private void setImageContentType(String uri) {

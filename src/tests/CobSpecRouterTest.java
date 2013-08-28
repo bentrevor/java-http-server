@@ -19,11 +19,12 @@ import static org.junit.Assert.assertThat;
 @RunWith(JUnit4.class)
 public class CobSpecRouterTest {
     private Hashtable<String, HttpResponse> routes;
+    MockFileManager fakeFileSystem;
 
     @Before
     public void setUp() {
-        MockFileManager fakeFileSystem = new MockFileManager();
-        fakeFileSystem.addFile("yo", "mama");
+        fakeFileSystem = new MockFileManager();
+        addFiles();
         CobSpecRouter router = new CobSpecRouter(fakeFileSystem);
         routes = router.getRoutes();
     }
@@ -96,5 +97,14 @@ public class CobSpecRouterTest {
 
         assertThat(response, is(notNullValue()));
         assertThat(response, is(instanceOf(ParametersResponse.class)));
+    }
+
+    private void addFiles() {
+        fakeFileSystem.addFile("file2", "file 1 contents");
+        fakeFileSystem.addFile("image.jpeg", "jpeg contents");
+        fakeFileSystem.addFile("image.png", "png contents");
+        fakeFileSystem.addFile("image.gif", "gif contents");
+        fakeFileSystem.addFile("partial_content.txt", "partial content contents");
+        fakeFileSystem.addFile("text-file.txt", "text file contents");
     }
 }

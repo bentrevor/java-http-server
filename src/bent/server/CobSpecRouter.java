@@ -27,7 +27,8 @@ public class CobSpecRouter implements IRouter {
     }
 
     private void addFileRoutes() {
-        String[] filenames = fileSystem.getPublicDirectory().list();
+        String[] filenames = fileSystem.getPublicFilenames();
+
         for (String filename : filenames) {
             filename = "/" + filename;
             routes.put(filename, new FileResponse(fileSystem, filename));

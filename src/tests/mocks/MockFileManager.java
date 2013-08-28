@@ -4,6 +4,8 @@ import bent.server.IFileManager;
 
 import java.io.File;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 public class MockFileManager implements IFileManager {
     public int openFileCallCount = 0;
@@ -34,6 +36,18 @@ public class MockFileManager implements IFileManager {
     }
 
     public File getPublicDirectory() {
-        return new File(System.getProperty("user.dir") + "/public");
+        return new File("mockroot/public");
+    }
+
+    public String[] getPublicFilenames() {
+        String[] filenames = new String[files.size()];
+        int index = 0;
+
+        for (String filename : files.keySet()) {
+            filenames[index] = filename;
+            index++;
+        }
+
+        return filenames;
     }
 }
