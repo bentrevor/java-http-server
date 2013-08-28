@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
@@ -41,10 +42,10 @@ public class ThreadedHandlerFactoryTest {
         MockSocket fakeSocket = new MockSocket();
         ThreadedHandlerFactory threadedFactory = new ThreadedHandlerFactory(nonThreadedFactory, fakeExecutor);
 
-        IRequestHandler createdHandler = threadedFactory.makeHandler(fakeSocket);
+        ThreadedRequestHandler createdHandler = (ThreadedRequestHandler) threadedFactory.makeHandler(fakeSocket);
 
         assertThat(createdHandler, is(instanceOf(ThreadedRequestHandler.class)));
-//        assertThat(createdHandler.getExecutor(), is(fakeExecutor));
+        assertSame(createdHandler.getExecutor(), fakeExecutor);
     }
 }
 
