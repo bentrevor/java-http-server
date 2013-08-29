@@ -24,13 +24,4 @@ public class FileManagerTest {
         assertThat(publicDir, is(instanceOf(File.class)));
         assertThat(publicDir.getPath(), is("rootpath/public"));
     }
-
-    @Test
-    public void itOpensFilesFromPublicDirectory() {
-        fileManager = new FileManager("rootpath");
-
-        File someFile = fileManager.open("/some_file");
-
-        assertThat(someFile.getPath(), is("rootpath/public/some_file"));
-    }
 }

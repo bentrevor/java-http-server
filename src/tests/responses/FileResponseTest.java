@@ -10,7 +10,6 @@ import org.junit.runners.JUnit4;
 import tests.mocks.MockFileManager;
 
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

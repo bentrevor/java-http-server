@@ -16,7 +16,6 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)

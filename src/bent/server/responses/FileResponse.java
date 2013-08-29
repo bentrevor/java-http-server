@@ -4,7 +4,6 @@ import bent.server.HttpRequest;
 import bent.server.HttpResponse;
 import bent.server.IFileManager;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;

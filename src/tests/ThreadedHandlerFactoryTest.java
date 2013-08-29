@@ -1,7 +1,6 @@
 package tests;
 
 import bent.server.HandlerFactory;
-import bent.server.IRequestHandler;
 import bent.server.ThreadedHandlerFactory;
 import bent.server.ThreadedRequestHandler;
 import org.junit.Test;
