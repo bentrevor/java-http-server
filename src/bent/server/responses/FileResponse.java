@@ -10,13 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileResponse extends HttpResponse {
-    private File file;
-    private IFileManager fileSystem;
+    private IFileManager fileManager;
     private Path filePath;
 
     public FileResponse(IFileManager files, String fileName) {
-        fileSystem = files;
-        file = fileSystem.open(fileName);
+        fileManager = files;
         filePath = Paths.get(files.getPublicDirectory() + fileName);
     }
 
@@ -29,7 +27,7 @@ public class FileResponse extends HttpResponse {
             byte[] body = null;
 
             try {
-                body = fileSystem.read(file);
+                body = fileManager.read(filePath);
                 if (body != null) {
                     setContentLength(body.length);
                 }

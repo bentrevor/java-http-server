@@ -120,29 +120,6 @@ public class FileResponseTest {
     }
 
     @Test
-    public void itOpensANewFileAccordingToRequestURI() throws FileNotFoundException {
-        request = new HttpRequest("GET /image.jpeg HTTP/1.1\r\n\r\n");
-        response = new FileResponse(fakeFileSystem, request.getRequestURI());
-        response = new FileResponse(fakeFileSystem, request.getRequestURI());
-        response = new FileResponse(fakeFileSystem, request.getRequestURI());
-
-        assertThat(fakeFileSystem.openFileCallCount, is(3));
-        assertThat(fakeFileSystem.openFileArgument, is("/image.jpeg"));
-    }
-
-    @Test
-    public void itReadsTheFileFromTheFileSystemToBuildAResponse() throws FileNotFoundException {
-        request = new HttpRequest("GET /image.jpeg HTTP/1.1\r\n\r\n");
-        response = new FileResponse(fakeFileSystem, request.getRequestURI());
-
-        response.buildResponse(request);
-        response.buildResponse(request);
-        response.buildResponse(request);
-
-        assertThat(fakeFileSystem.readFileCallCount, is(3));
-    }
-
-    @Test
     public void itHasAFilePath() {
         request = new HttpRequest("GET /image.jpeg HTTP/1.1\r\n\r\n");
         FileResponse response = new FileResponse(fakeFileSystem, request.getRequestURI());
@@ -150,5 +127,21 @@ public class FileResponseTest {
         String filePath = response.getFilePath().toString();
 
         assertThat(filePath, is("mockroot/public/image.jpeg"));
+    }
+
+    @Test
+    public void itUsesFileManagerToReadFileFromPath() {
+        request = new HttpRequest("GET /image.jpeg HTTP/1.1\r\n\r\n");
+        response = new FileResponse(fakeFileSystem, request.getRequestURI());
+
+        response.buildResponse(request);
+        response.buildResponse(request);
+        response.buildResponse(request);
+
+        String readPath = fakeFileSystem.readFilePathArgument.toString();
+        String pathInFileManagerPublicDir = fakeFileSystem.getPublicDirectory() + "/image.jpeg";
+
+        assertThat(fakeFileSystem.readFilePathCallCount, is(3));
+        assertThat(readPath, is(pathInFileManagerPublicDir));
     }
 }

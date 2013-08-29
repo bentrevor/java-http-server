@@ -13,12 +13,12 @@ public class Main {
         RealServerSocket serverSocket = new RealServerSocket(socketOn5000);
 
         String rootDirectory = System.getProperty("user.dir");
-        IFileManager fileSystem = new FileManager(rootDirectory);
+        IFileManager fileManager = new FileManager(rootDirectory);
 
         ExecutorService service = Executors.newCachedThreadPool();
         IExecutorService executor = new RealExecutorService(service);
 
-        IRouter router = new CobSpecRouter(fileSystem);
+        IRouter router = new CobSpecRouter(fileManager);
         HandlerFactory factory = new HandlerFactory(router);
 
         ThreadedHandlerFactory tFactory = new ThreadedHandlerFactory(factory, executor);

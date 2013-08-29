@@ -3,6 +3,8 @@ package bent.server;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class FileManager implements IFileManager {
     private String rootDirectory;
@@ -12,7 +14,7 @@ public class FileManager implements IFileManager {
     }
 
     public File open(String fileName) {
-        return new File(rootDirectory + "/public" + fileName);
+        return new File(getPublicDirectory() + fileName);
     }
 
     public byte[] read(File file) throws IOException {
@@ -21,6 +23,10 @@ public class FileManager implements IFileManager {
         in.read(buffer);
         in.close();
         return buffer;
+    }
+
+    public byte[] read(Path path) throws IOException {
+        return Files.readAllBytes(path);
     }
 
     public File getPublicDirectory() {

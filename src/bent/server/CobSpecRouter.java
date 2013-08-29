@@ -6,10 +6,10 @@ import java.util.Hashtable;
 
 public class CobSpecRouter implements IRouter {
     private Hashtable<String, HttpResponse> routes;
-    private IFileManager fileSystem;
+    private IFileManager fileManager;
 
     public CobSpecRouter(IFileManager fs) {
-        fileSystem = fs;
+        fileManager = fs;
         routes = new Hashtable<>();
         initializeRoutes();
     }
@@ -27,11 +27,11 @@ public class CobSpecRouter implements IRouter {
     }
 
     private void addFileRoutes() {
-        String[] filenames = fileSystem.getPublicFilenames();
+        String[] filenames = fileManager.getPublicFilenames();
 
         for (String filename : filenames) {
             filename = "/" + filename;
-            routes.put(filename, new FileResponse(fileSystem, filename));
+            routes.put(filename, new FileResponse(fileManager, filename));
         }
     }
 }
